@@ -178,7 +178,21 @@ def create_meal_order():
     response = {"respCode": "1000", "respMsg": "success"}
     return response
 
-# 新增订餐明细接口
+"""
+更新订餐明细接口
+   接口入参：
+   employeeId|String|M|员工编号 --注意该值从cookie中去
+   quantity|String|M|数量
+   activity_detail_id|String|M|活动详情id
+   
+   接口出参：
+   respCode|String|M|响应码
+   respMsg|String|M|响应话术
+   
+   举例：
+   {"respCode":"1000","respMsg":"success"}
+   {"respCode":"9501","respMsg":"activity_detail_id is null"}
+"""
 @app.route('/activity/detail/update', methods=['POST'])
 def update_meal_order():
     eid = request.cookies.get('EID')
@@ -198,7 +212,7 @@ def update_meal_order():
 
     # 活动信息校验
     if is_str_empty(activity_detail_id):
-        response = {"respCode": "9501", "respMsg": "activity_id is null"}
+        response = {"respCode": "9501", "respMsg": "activity_detail_id is null"}
         return jsonify(response)
 
     # 订餐信息校验
@@ -217,7 +231,20 @@ def update_meal_order():
     response = {"respCode": "1000", "respMsg": "success"}
     return response
 
-# 新增订餐明细接口
+"""
+删除订餐明细接口
+   接口入参：
+   employeeId|String|M|员工编号 -- --注意该值从cookie中去
+   activity_detail_id|String|M|活动详情id
+
+   接口出参：
+   respCode|String|M|响应码
+   respMsg|String|M|响应话术
+
+   举例：
+   {"respCode":"1000","respMsg":"success"}
+   {"respCode":"9501","respMsg":"activity_detail_id is null"}
+"""
 @app.route('/activity/detail/delete', methods=['POST'])
 def delete_meal_order():
     eid = request.cookies.get('EID')
