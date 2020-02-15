@@ -10,7 +10,7 @@
         <meta http-equiv="Cache-Control" content="no-cache">
         <meta http-equiv="pragma" content="no-cache">
         <meta name="format-detection" content="telephone=no">
-        <link rel="shortcut icon" href="./favicon.ico">
+        <link rel="shortcut icon" href="{{ url_for('static', filename='base/favicon.ico') }}">
         <title>订餐助手</title>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='base/base.css') }}">
     {% endblock %}
@@ -19,5 +19,6 @@
 <div class="main-view">
     {% block page_content %}{% endblock %}
 </div>
+{% block page_cscript %}{% endblock %}
 </body>
 <html>

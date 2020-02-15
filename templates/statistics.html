@@ -1,13 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>点餐助手</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='statistics/statistics.css') }}"></head>
-</head>
-<body>
-<div class="view-statistics">
+{% extends "base.html" %}
 
+{% block head %}
+    {{ super() }}
+    <title>订餐助手</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='statistics/statistics.css') }}">
+{% endblock %}
+{% block page_content %}
+<div class="view-statistics">
     <!-- 底部tab按钮-->
     <div class="bottom-tab-bar">
         <a style="color:#93959D; text-decoration: none" href="{{ url_for('order') }}">
@@ -18,5 +17,4 @@
         </div>
     </div>
 </div>
-</body>
-</html>
+{% endblock %}
