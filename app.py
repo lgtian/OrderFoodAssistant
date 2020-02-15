@@ -196,22 +196,6 @@ def create_meal_order():
     response = {"respCode": "1000", "respMsg": "success"}
     return response
 
-"""
-更新订餐明细接口
-   接口入参：
-   employeeId|String|M|员工编号 --注意该值从cookie中去
-   quantity|String|M|数量
-   activity_detail_id|String|M|活动详情id
-   
-   接口出参：
-   respCode|String|M|响应码
-   respMsg|String|M|响应话术
-   
-   举例：
-   {"respCode":"1000","respMsg":"success"}
-   {"respCode":"9501","respMsg":"activity_detail_id is null"}
-"""
-
 # 查询订餐明细接口
 @app.route('/activity/detail/query', methods=['POST'])
 def query_meal_order():
