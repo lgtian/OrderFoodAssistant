@@ -6,14 +6,18 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='login/login.css') }}"></head>
 </head>
 <body>
-<div class="view-logo">
-    <img src="{{ url_for('static', filename='login/order.jpg') }}">
-    <img src="{{ url_for('static', filename='login/helper.jpg') }}">
-</div>
+<div class="view-top">
+    <div class="view-logo-wrap">
+        <div class="view-logo">
+            <span class="view-logo-text">订餐助手</span>
+            <img src="{{ url_for('static', filename='login/logo-food.jpg') }}">
+        </div>
+        <div class="view-logo-power-by">
+         Power by 门户组
+        </div>
+    </div>
 
-<div class="view-login">
-    <div class="label-login-title">请输入员编和密码进行登录</div>
-    <form method="post" action="login">
+    <form class="view-login" method="post" action="login">
         <div><input class="label-login-field" name="employeeId" type="text" maxlength="6" placeholder="员编"/></div>
         <div><input class="label-login-field" name="pwd" type="password" placeholder="密码"/></div>
 
@@ -26,8 +30,10 @@
         <div class="btn-login-wrap">
             <input class="btn-login" type="submit" value="登录"/>
         </div>
-    </div>
     </form>
+</div>
+<div class="view-bottom">
+    <span class="register-tips">如需注册，请联系XXX同学</span>
 </div>
 </body>
 </html>

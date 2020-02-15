@@ -1,50 +1,96 @@
+html {
+    height: 100%;
+}
+
 body {
     margin: 0;
-    background-color: #cccccc;
+    height: 100%;
 }
 
-.view-logo {
+.view-top {
+    margin: 10% auto 0;
     text-align: center;
-    margin-top: 10%;
+    width: 50%;
+    height: 60%;
 }
 
-.view-logo img {
-    width: 100px;
-    height: 100px;
+.view-bottom {
+    height: 40%;
+    background-color: #F5F6F9;
+    text-align: center;
+}
+
+.view-top .view-logo-wrap {
+    text-align: left;
+    margin-bottom: 10%;
+}
+
+.view-top .view-logo-wrap .view-logo{
+    display: flex;
+    align-items: center;
+}
+
+.view-top .view-logo-wrap .view-logo-text {
+    font-size: 3em;
+    font-weight: bold;
+}
+
+.view-top .view-logo-wrap img {
+    width: 3em;
+    height: 3em;
     border-radius: 50%;
+    margin-left: 10px;
+}
+
+.view-top  .view-logo-wrap .view-logo-power-by {
+     color: #BFC6DD;
+     font-size: 1em;
 }
 
 .view-login {
-    margin: 5% auto 0;
-    text-align: center;
-    width: 50%;
+
 }
 
-.view-login .label-login-field {
-    margin-top: 10px;
+.view-top .view-login .label-login-field {
+    margin-top: 3%;
     width: 100%;
-    font-size: 15px;
-    line-height: 30px;
+    height: 2em;
+    font-size: 1.2em;
+    line-height: 10px;
+    border: none;
+    border-bottom: 1px solid #BFC6DD;
 }
 
-.view-login .btn-login-wrap {
-    margin: 15px -3px 0;
+.view-top .view-login .btn-login-wrap {
+    margin: 50px -3px 0;
     border: none;
 }
 
-.view-login .btn-login-wrap .btn-login {
+.view-top .view-login .btn-login-wrap .btn-login {
     width: 100%;
-    background-color: #a172f3;
+    height: 50px;
+    line-height: 50px;
+    background-color: #a8aec1;
     font-size: 20px;
     font-weight: bold;
-    line-height: 30px;
     color: #ffffff;
     border-radius: 5px;
     border: none;
 }
 
-.view-login .warning-message {
+.view-top .view-login .warning-message {
     color: #8a6d3b;
     font-size: 13px;
     margin-top: 8px;
+}
+
+
+.view-bottom .register-tips {
+    color: #2B448E;
+    border-bottom: 1px solid #CDD1E2;
+    font-size: 1.2em;
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    transform: translate(-50%);
 }
