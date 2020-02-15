@@ -507,7 +507,7 @@ def gen_summary_title(prefix, date):
     return str(prefix) + " * " + str(date)
 
 
-
+#批量添加活动
 @app.route('/addActivity', methods=['POST', 'GET'])
 def addActivity():
     startDate = request.args.get("startDate")
