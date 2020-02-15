@@ -284,7 +284,8 @@ def query_meal_order():
         return jsonify(response)
 
     activity_id = int(activity_id)
-    activity_detail = query_activity_detail_by_eid_aid(employee_id, activity_id)
+    #activity_detail = query_activity_detail_by_eid_aid(employee_id, activity_id)
+    activity_detail = ''
     response = {"respCode": "1000", "respMsg": "success", "activityDetail": activity_detail}
     return jsonify(response)
 
@@ -292,6 +293,20 @@ def query_meal_order():
 # 修改订餐明细接口
 @app.route('/activity/detail/update', methods=['POST'])
 def update_meal_order():
+    """
+       接口入参：
+       employeeId|String|M|员工编号 --注意该值从cookie中去
+       quantity|String|M|数量
+       activity_detail_id|String|M|活动详情id
+
+       接口出参：
+       respCode|String|M|响应码
+       respMsg|String|M|响应话术
+
+       返回报文样例：
+       {"respCode":"1000","respMsg":"success"}
+       {"respCode":"9501","respMsg":"activity_detail_id is null"}
+    """
     eid = request.cookies.get('EID')
 
     if eid is None:
@@ -328,22 +343,22 @@ def update_meal_order():
     response = {"respCode": "1000", "respMsg": "success"}
     return response
 
-"""
-删除订餐明细接口
-   接口入参：
-   employeeId|String|M|员工编号 -- --注意该值从cookie中去
-   activity_detail_id|String|M|活动详情id
-
-   接口出参：
-   respCode|String|M|响应码
-   respMsg|String|M|响应话术
-
-   举例：
-   {"respCode":"1000","respMsg":"success"}
-   {"respCode":"9501","respMsg":"activity_detail_id is null"}
-"""
+#删除订餐明细接口
 @app.route('/activity/detail/delete', methods=['POST'])
 def delete_meal_order():
+    """
+       接口入参：
+       employeeId|String|M|员工编号 -- --注意该值从cookie中去
+       activity_detail_id|String|M|活动详情id
+
+       接口出参：
+       respCode|String|M|响应码
+       respMsg|String|M|响应话术
+
+       返回报文样例：
+       {"respCode":"1000","respMsg":"success"}
+       {"respCode":"9501","respMsg":"activity_detail_id is null"}
+    """
     eid = request.cookies.get('EID')
 
     if eid is None:
