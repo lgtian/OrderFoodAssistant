@@ -1,0 +1,48 @@
+body {
+    margin: 0;
+    background-color: #cccccc;
+}
+
+.view-logo {
+    text-align: center;
+    margin-top: 10%;
+}
+
+.view-logo img {
+    width: 100px;
+    height: 100px;
+}
+
+.view-login {
+    margin: 5% auto 0;
+    text-align: center;
+    width: 50%;
+}
+
+.view-login .label-login-field {
+    margin-top: 10px;
+    width: 100%;
+    font-size: 15px;
+    line-height: 30px;
+}
+
+.view-login .btn-login-wrap {
+    margin: 15px -3px 0;
+    border: none;
+}
+
+.view-login .btn-login-wrap .btn-login {
+    width: 100%;
+    background-color: #a172f3;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 30px;
+    color: #ffffff;
+    border-radius: 5px;
+}
+
+.view-login .warning-message {
+    color: #8a6d3b;
+    font-size: 13px;
+    margin-top: 8px;
+}
