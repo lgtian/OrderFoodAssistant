@@ -507,5 +507,19 @@ def gen_summary_title(prefix, date):
     return str(prefix) + " * " + str(date)
 
 
+#批量添加活动
+@app.route('/addActivity', methods=['POST', 'GET'])
+def addActivity():
+    startDate = request.args.get("startDate")
+    endDate = request.args.get("endDate")
+    groupName = request.args.get("groupName")
+
+    if startDate is None or endDate is None or groupName is None:
+        return "param error"
+    connection = db.engine.raw_connection()
+    cursor = connection.cursor()
+    cursor.callproc('sp_batch_create_actiity', [startDate, endDate, groupName])
+    return "success"
+
 if __name__ == '__main__':
     app.run(debug=True)
