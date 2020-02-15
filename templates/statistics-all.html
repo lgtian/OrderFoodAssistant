@@ -19,7 +19,11 @@
                     <div class="activity_order_info">{{ activity.summary }}</div>
                 </div>
                 <a class="deliveryman" href="{{ url_for("order_detail") }}">
-                    {{ activity.deliveryman }}
+                    {% if activity.deliveryman %}
+                        取餐人：{{ activity.deliveryman }}
+                    {% else %}
+                        未指定取餐人
+                    {% endif %}
                     <span style="color: #000"> > </span>
                 </a>
             </div>
