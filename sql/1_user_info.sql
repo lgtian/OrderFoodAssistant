@@ -1,4 +1,4 @@
-SET FOREIGN_KEY_CHECKS = 0;
+ÔªøSET FOREIGN_KEY_CHECKS = 0;
 
 DROP TABLE IF EXISTS  `user_info`;
 CREATE TABLE `user_info` (
@@ -9,7 +9,7 @@ CREATE TABLE `user_info` (
   `role` varchar(32) DEFAULT NULL,
   `createdAt` datetime DEFAULT NULL,
   `updatedAt` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='”√ªß–≈œ¢±Ì';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Áî®Êà∑‰ø°ÊÅØË°®';
 
 SET FOREIGN_KEY_CHECKS = 1;
 
