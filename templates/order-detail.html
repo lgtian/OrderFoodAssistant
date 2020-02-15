@@ -9,45 +9,78 @@
 {% endblock %}
 
 {% block page_content %}
-<div class="view-order-detail">
-    <div class="activity-title">
-        {{ activity.activityType }} · {{ activity.date }}
-        <div class="deliveryman">
-            {% if activity.deliveryman %}
-                取餐人：{{ activity.deliveryman }}
-            {% else %}
-                未指定取餐人
-            {% endif %}
+    <div class="view-order-detail">
+        <div class="activity-title">
+            {{ activity.activityType }} · {{ activity.date }}
+            <div class="deliveryman">
+                {% if activity.deliveryman %}
+                    取餐人：{{ activity.deliveryman }}
+                {% else %}
+                    未指定取餐人
+                {% endif %}
+            </div>
         </div>
-    </div>
 
-    <div class="member-list">
-        {% for member in activity.memberList %}
-            <div class="member_item flex flex-y-center flex-x-between">
-                <div class="member_id flex flex-y-center">
-                    {{ member.employeeId }}
-                    <img style="margin-left: 20px" src="{{ url_for('static', filename='order/assign.png') }}">
+        <div class="member-list">
+            {% for member in activity.memberList %}
+                <div class="member_item flex flex-y-center flex-x-between">
+                    <div class="member_id flex flex-y-center">
+                        {{ member.employeeId }}
+                        <img style="margin-left: 20px" src="{{ url_for('static', filename='order/assign.png') }}"
+                             onclick="openOrderDetailDialog({{ member.employeeId }})">
+                    </div>
+                    <div>{{ member.summary }}</div>
                 </div>
-                <div>{{ member.summary }}</div>
-            </div>
-        {% endfor %}
-    </div>
-
-    <div class="bottom-bar-statistic flex flex-y-center flex-x-between">
-        <div>
-            总计：<span class="total-price">¥{{ activity.totalPrice }}</span>
+            {% endfor %}
         </div>
-        <div class="flex flex-x-between">
-            <div>
-                <div>{{ activity.summaryList[0].desc }}</div>
-                <div class="total-price">¥{{ activity.summaryList[0].totalPrice }}</div>
+
+        <div class="bottom-bar-statistic flex flex-x-between flex-y-center">
+            <div class="bar-total">
+                总计：<span class="total-price">¥{{ activity.totalPrice }}</span>
             </div>
-            <div style="margin-left: 100px">
-                <div>{{ activity.summaryList[1].desc }}</div>
-                <div class="total-price">¥{{ activity.summaryList[1].totalPrice }}</div>
+            <div class="flex bar-type">
+                <div class="bar-type-item first">
+                    <div>{{ activity.summaryList[0].desc }}</div>
+                    <div class="total-price bottom">¥{{ activity.summaryList[0].totalPrice }}</div>
+                </div>
+                <div class="bar-type-item">
+                    <div>{{ activity.summaryList[1].desc }}</div>
+                    <div class="total-price bottom">¥{{ activity.summaryList[1].totalPrice }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="orderDetailDialogView" class="view-dialog-order-detail">
+            <div class="view flex flex-center-middle">
+                <div class="dialog-order-detail-body">
+                    <form action="order_detail">
+                        <div class="dialog-content"></div>
+                        <div class="dialog-btn flex">
+                            <div class="flex-1 btn-cancel" onclick="closeOrderDetailDialog()">取消</div>
+                            <button type="submit" class="flex-1 btn-confirm">确认</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
+{% endblock %}
+{% block page_script %}
+    <script>
+        function openOrderDetailDialog(employeeId) {
+            document.querySelector('#orderDetailDialogView').style.display = 'block';
+            setDialogContent('是否要指派[' + employeeId + ']为取餐人？');
+        }
 
-</div>
+        function closeOrderDetailDialog() {
+            document.querySelector('#orderDetailDialogView').style.display = 'none';
+            document.querySelector('#orderDetailDialogView form').reset();
+            setDialogContent('');
+        }
+
+        function setDialogContent(content) {
+            var dialogContent = document.querySelector('#orderDetailDialogView .dialog-content');
+            dialogContent.innerHTML = content || '';
+        }
+    </script>
 {% endblock %}
