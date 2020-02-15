@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{ super() }}
+    {% block title %}
+        <title>全部订单</title>
+    {% endblock %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='statistics/statistics.css') }}">
+{% endblock %}
+
+{% block page_content %}
+<div class="view-statistics">
+    <!-- 全部订单-->
+    <div class="activity-list">
+        {% for activity in activity_list %}
+            <div class="activity_item flex flex-y-center flex-x-between">
+                <div>
+                    <div class="activity_info">{{ activity.activityType }}·{{ activity.date }}</div>
+                    <div class="activity_order_info">{{ activity.summary }}</div>
+                </div>
+                <a class="deliveryman">{{ activity.deliveryman }}<span style="color: #000"> > </span></a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

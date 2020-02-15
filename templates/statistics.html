@@ -2,11 +2,61 @@
 
 {% block head %}
     {{ super() }}
-    <title>订餐助手</title>
+    {% block title %}
+        <title>订单汇总</title>
+    {% endblock %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='statistics/statistics.css') }}">
 {% endblock %}
 {% block page_content %}
 <div class="view-statistics">
+
+    <!-- 今日订单-->
+    <div>
+        <div class="activity-list-title">今日订单</div>
+        {% for activity in activity_list %}
+            <div class="activity_item flex flex-y-center flex-x-between">
+                <div>
+                    <div class="activity_info">{{ activity.activityType }}·{{ activity.date }}</div>
+                    <div class="activity_order_info">{{ activity.summary }}</div>
+                </div>
+                <a class="deliveryman" href="{{ url_for("order_detail") }}">
+                    {% if activity.deliveryman %}
+                        取餐人：{{ activity.deliveryman }}
+                    {% else %}
+                        未指定取餐人
+                    {% endif %}
+                    <span style="color: #000"> > </span>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- 本周订单-->
+    <div>
+        <div class="activity-list-title flex flex-x-between flex-y-center">
+            <div>本周订单</div>
+            <a href="{{ url_for('statistics_all') }}">查看全部订单</a>
+        </div>
+        <div class="activity-list">
+            {% for activity in activity_list %}
+                <div class="activity_item flex flex-y-center flex-x-between">
+                    <div>
+                        <div class="activity_info">{{ activity.activityType }}·{{ activity.date }}</div>
+                        <div class="activity_order_info">{{ activity.summary }}</div>
+                    </div>
+                    <a class="deliveryman" href="{{ url_for("order_detail") }}">
+                        {% if activity.deliveryman %}
+                            取餐人：{{ activity.deliveryman }}
+                        {% else %}
+                            未指定取餐人
+                        {% endif %}
+                        <span style="color: #000"> > </span>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
     <!-- 底部tab按钮-->
     <div class="bottom-tab-bar">
         <a style="color:#93959D; text-decoration: none" href="{{ url_for('order') }}">

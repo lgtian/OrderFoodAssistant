@@ -41,7 +41,6 @@ body {
 
 .activity-list {
     overflow: scroll;
-    height: 70%;
 }
 
 .activity_item {
