@@ -1,6 +1,8 @@
 from flask import Flask, request, render_template, redirect, url_for, Response
 from service.user_service import query_user_pwd
 from service.activity_detail_service import create_activity_detail
+from service.activity_detail_service import update_activity_detail
+from service.activity_detail_service import query_activity_detail_by_eid_aid
 from flask import jsonify
 from util.util import is_str_empty
 
@@ -157,6 +159,45 @@ def create_meal_order():
         return jsonify(response)
 
     create_activity_detail(activity_id, employee_id, quantity, created_by)
+
+    # 登录成功
+    response = {"respCode": "1000", "respMsg": "success"}
+    return response
+
+# 新增订餐明细接口
+@app.route('/activity/detail/update', methods=['POST'])
+def update_meal_order():
+    eid = request.cookies.get('EID')
+
+    if eid is None:
+        employee_id = request.form.get('employeeId')
+    else:
+        employee_id = eid
+
+    # 判断用户是否已登录
+    if eid is None and employee_id is None:
+        return render_template('login.html')
+
+    # 获取订餐信息
+    quantity = request.form.get('quantity')
+    activity_id = request.form.get('activityId')
+
+    # 活动信息校验
+    if is_str_empty(activity_id):
+        response = {"respCode": "9501", "respMsg": "incorrect activity_id"}
+        return jsonify(response)
+
+    # 订餐信息校验
+    if quantity is None or int(quantity) <= 0:
+        response = {"respCode": "9501", "respMsg": "incorrect quantity"}
+        return jsonify(response)
+
+    activity_detail = query_activity_detail_by_eid_aid(employee_id, activity_id)
+    if activity_detail is None:
+        response = {"respCode": "9501", "respMsg": "activity detail is not exist"}
+        return jsonify(response)
+
+    update_activity_detail(activity_id, employee_id, quantity)
 
     # 登录成功
     response = {"respCode": "1000", "respMsg": "success"}

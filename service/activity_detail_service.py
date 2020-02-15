@@ -58,6 +58,52 @@ def query_all_activity_detail_by_eid(employee_id):
     finally:
         db.close()
 
+#
+def query_activity_detail_by_eid_aid(employee_id, activity_id):
+
+    db = pymysql.connect(host=DB_HOST,
+                         user=DB_USER,
+                         password=DB_PWD,
+                         database="OrderFoodAssistant",
+                         charset="utf8")
+
+    try:
+        # 新建游标
+        with db.cursor() as cursor:
+            # 执行sql语句
+            sql = "SELECT * FROM activity_detail WHERE employeeId = %s and activityId = %s"
+            values = (employee_id, activity_id)
+            cursor.execute(sql, values)
+            # 取第一条
+            data = cursor.fetchone()
+            return data
+    finally:
+        db.close()
+
+# 更新活动明细
+def update_activity_detail(activity_id, employee_id, quantity):
+
+    db = pymysql.connect(host=DB_HOST,
+                         port=DB_PORT,
+                         user=DB_USER,
+                         password=DB_PWD,
+                         database="OrderFoodAssistant",
+                         charset="utf8")
+
+    try:
+        dt = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        # 新建游标
+        with db.cursor() as cursor:
+            # 执行sql语句
+            sql = "UPDATE activity_detail SET quantity = %s, updatedBy = %s, updatedAt = %s WHERE activityId = %s and  employeeId = %s"
+            values = (quantity, employee_id, dt, activity_id, employee_id)
+            cursor.execute(sql, values)
+            db.commit()
+            cursor.close()
+
+    finally:
+        db.close()
+
 
 # 以下是调试用的
 if __name__ == '__main__':
