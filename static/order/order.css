@@ -18,7 +18,6 @@ body {
     border-bottom: 1px solid #d7d8db;
     font-size: 0.9rem;
     line-height: 1.8rem;
-    height: 15%;
 }
 
 .view-order .activity_item .activity-type-lunch {
@@ -42,8 +41,9 @@ body {
 }
 
 .activity-list {
-    height: 75%;
-    overflow: scroll;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 5.5rem;
 }
 
 .activity_item {
@@ -81,11 +81,12 @@ body {
     position: fixed;
     bottom: 0;
     width: 100%;
-    height: 10%;
+    height: 4.2rem;
     background-color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: space-around;
+    box-shadow: 1px 1px 4px #b1bfe0;
 }
 
 .bottom-tab-bar .icon-order {
