@@ -178,6 +178,14 @@ body, html {
     -moz-flex-grow: 2
 }
 
-.text-right{
+.text-center {
+    text-align: center;
+}
+
+.text-right {
     text-align: right;
+}
+
+.hide{
+    display: none;
 }
