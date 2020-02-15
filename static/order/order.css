@@ -139,30 +139,72 @@ body {
     background-size: 1rem 1rem;
 }
 
-.view-dialog-order .dialog-order-body .dialog-order-content{
+.view-dialog-order .dialog-order-body .dialog-order-content {
     padding: 0 0.8rem;
 }
 
-.view-dialog-order .dialog-order-body .dialog-order-content .content-item{
+.view-dialog-order .dialog-order-body .dialog-order-content .content-item {
     margin-top: 2rem;
 }
 
-.view-dialog-order .dialog-order-body .dialog-order-content .content-label{
+.view-dialog-order .dialog-order-body .dialog-order-content .content-label {
     margin-right: 2rem;
     color: #a0a5b1;
     font-size: 1.1rem
 }
 
-.view-dialog-order .dialog-order-body .dialog-order-content .content-item .input-radio{
+.view-dialog-order .dialog-order-body .dialog-order-content .content-item .input-radio::after {
+    content: '';
+    display: block;
     width: 1.5rem;
     height: 1.5rem;
-    border: 1px solid #cccccc;
-    border-radius: 50%;
-    -webkit-appearance: radio;
-    margin-left: 2rem;
+    background: url('un-checked.png') no-repeat center;
+    background-size: 100% 100%;
 }
 
-.view-dialog-order .dialog-order-body .dialog-order-content .content-item .input-text{
+.view-dialog-order .dialog-order-body .dialog-order-content .content-item .input-radio[checked]:after {
+    background: url('checked.png') no-repeat center;
+    background-size: 100% 100%;
+}
+
+.chk{
+    display: none;
+}
+.chk + label {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    width: 60px;
+    height: 20px;
+    border-radius: 10px;
+    background-color: #bbb;
+}
+.chk:checked + label {
+    background: #aabbfd;
+}
+.view-dialog-order .dialog-order-body .dialog-order-content .content-item .input-radio {
+    display: none;
+}
+
+.view-dialog-order .dialog-order-body .dialog-order-content .content-item .input-radio-label {
+    margin-left: 2rem;
+    margin-right: 0.5rem;
+}
+
+.view-dialog-order .dialog-order-body .dialog-order-content .content-item .input-radio + label {
+    display: block;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: url('un-checked.png') no-repeat center;
+    background-size: 100% 100%;
+}
+
+.view-dialog-order .dialog-order-body .dialog-order-content .content-item .input-radio:checked + label {
+    background: url('checked.png') no-repeat center;
+    background-size: 100% 100%;
+}
+
+.view-dialog-order .dialog-order-body .dialog-order-content .content-item .input-text {
     width: 100%;
     font-size: 1.2em;
     line-height: 10px;
@@ -170,7 +212,7 @@ body {
     border-bottom: 1px solid #a0a5b1;
 }
 
-.view-dialog-order .dialog-order-body .dialog-order-content .content-btn{
+.view-dialog-order .dialog-order-body .dialog-order-content .content-btn {
     display: block;
     width: 100%;
     margin-top: 3rem;
