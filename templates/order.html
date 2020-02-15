@@ -7,16 +7,16 @@
 {% endblock %}
 {% block page_content %}
     <div class="view-order">
-        {% if order_this_week %}
+        {% if isNextWeek=='0' %}
             <div class="order-notice">
                 1）午餐需在前一日 15:00 之前预定<br>
                 2）晚餐可在当日的 15:00 之前预定<br>
                 3）周五15:00后可预定下周套餐
             </div>
         {% endif %}
-        {% if order_next_week %}
-            <div class="order-notice">
-                <span>本周预定已结束。。。</span>
+        {% if isNextWeek=='1' %}
+            <div class="order-notice" style="text-align: center">
+                <span style="color: #2B448E">本周预定已结束，当前可预定下周套餐</span>
             </div>
         {% endif %}
 
@@ -46,9 +46,9 @@
 
                     <!-- 操作按钮-->
                     {% if activity.ordered == '1' %}
-                        <div class="btn-modify">修改</div>
+                        <div class="btn-modify" onclick="openOrderDialog({{ activity.activityDetailId }})">修改</div>
                     {% else %}
-                        <div class="btn-order" onclick="openOrderDialog()">预定</div>
+                        <div class="btn-order" onclick="openOrderDialog({{ activity.activityId }})">预定</div>
                     {% endif %}
                 </div>
             {% endfor %}
@@ -75,7 +75,7 @@
                     <div class="header-close" onclick="closeOrderDialog()"></div>
                 </div>
                 <div class="dialog-order-content">
-                    <form action="order">
+                    <form action="order", method="post">
                         <div class="flex content-item">
                             <div class="content-label">套餐：</div>
                             <div class="flex-1 flex flex-x-end">
@@ -90,6 +90,7 @@
                                        name="order_type" type="radio" value="1"/>
                                 <label class="input-radio-label" for="order_type_16"></label>
                                 <label class="" for="order_type_16">16元套餐</label>
+                                <input id="activityId" type="text" name="activityId" style="display: none">
                             </div>
                         </div>
                         <div class="flex content-item">
@@ -108,11 +109,22 @@
 {% endblock %}
 {% block page_script %}
     <script>
-        function openOrderDialog() {
+        function openOrderDialog(activityId) {
             document.querySelector('#orderDialogView').style.display = 'block';
+            document.querySelector('#activityId').value = activityId;
         }
 
         function closeOrderDialog() {
+            document.querySelector('#orderDialogView').style.display = 'none';
+            document.querySelector('#orderDialogView form').reset();
+        }
+
+        function openUpdateDialog(activityDetailId) {
+            document.querySelector('#orderDialogView').style.display = 'block';
+            document.querySelector('#activityDetailId').value = activityDetailId;
+        }
+
+        function closeUpdateDialog() {
             document.querySelector('#orderDialogView').style.display = 'none';
             document.querySelector('#orderDialogView form').reset();
         }

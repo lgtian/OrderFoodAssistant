@@ -71,75 +71,75 @@ def statistics_all():
     return render_template('statistics-all.html', activity_list=activity_list)
 
 
-# @app.route('/order', methods=['GET', 'POST'])
-# def order():
-#     activity_list = [{
-#          "activityId": 11,
-#          "activityType": "午餐",
-#          "activitySubType": "11元套餐",
-#          "date": "2020-02-18 (周二)",
-#          "activityDetailId": 111,
-#          "total":"10",
-#          "ordered": "1"
-#         },
-#         {
-#          "activityType": "晚餐",
-#          "date": "2020-02-19 (周三)",
-#          "ordered": "0"
-#         },
-#         {
-#             "activityId": 11,
-#             "activityType": "午餐",
-#             "activitySubType": "11元套餐",
-#             "date": "2020-02-18 (周二)",
-#             "activityDetailId": 111,
-#             "total": "10",
-#             "ordered": "1"
-#         },
-#         {
-#             "activityType": "晚餐",
-#             "date": "2020-02-19 (周三)",
-#             "ordered": "0"
-#         },
-#         {
-#             "activityId": 11,
-#             "activityType": "午餐",
-#             "activitySubType": "11元套餐",
-#             "date": "2020-02-18 (周二)",
-#             "activityDetailId": 111,
-#             "total": "10",
-#             "ordered": "1"
-#         },
-#         {
-#             "activityType": "晚餐",
-#             "date": "2020-02-19 (周三)",
-#             "ordered": "0"
-#         },
-#         {
-#             "activityId": 11,
-#             "activityType": "午餐",
-#             "activitySubType": "11元套餐",
-#             "date": "2020-02-18 (周二)",
-#             "activityDetailId": 111,
-#             "total": "10",
-#             "ordered": "1"
-#         },
-#         {
-#             "activityType": "晚餐",
-#             "date": "2020-02-19 (周三)",
-#             "ordered": "0"
-#         },
-#         {
-#             "activityId": 11,
-#             "activityType": "午餐",
-#             "activitySubType": "11元套餐",
-#             "date": "2020-02-18 (周二)",
-#             "activityDetailId": 111,
-#             "total": "10",
-#             "ordered": "1"
-#         }
-#     ]
-#     return render_template('order.html', activity_list=activity_list, order_this_week=True)
+@app.route('/order', methods=['GET', 'POST'])
+def order():
+    activity_list = [{
+         "activityId": 11,
+         "activityType": "午餐",
+         "activitySubType": "11元套餐",
+         "date": "2020-02-18 (周二)",
+         "activityDetailId": 111,
+         "total":"10",
+         "ordered": "1"
+        },
+        {
+         "activityType": "晚餐",
+         "date": "2020-02-19 (周三)",
+         "ordered": "0"
+        },
+        {
+            "activityId": 11,
+            "activityType": "午餐",
+            "activitySubType": "11元套餐",
+            "date": "2020-02-18 (周二)",
+            "activityDetailId": 111,
+            "total": "10",
+            "ordered": "1"
+        },
+        {
+            "activityType": "晚餐",
+            "date": "2020-02-19 (周三)",
+            "ordered": "0"
+        },
+        {
+            "activityId": 11,
+            "activityType": "午餐",
+            "activitySubType": "11元套餐",
+            "date": "2020-02-18 (周二)",
+            "activityDetailId": 111,
+            "total": "10",
+            "ordered": "1"
+        },
+        {
+            "activityType": "晚餐",
+            "date": "2020-02-19 (周三)",
+            "ordered": "0"
+        },
+        {
+            "activityId": 11,
+            "activityType": "午餐",
+            "activitySubType": "11元套餐",
+            "date": "2020-02-18 (周二)",
+            "activityDetailId": 111,
+            "total": "10",
+            "ordered": "1"
+        },
+        {
+            "activityType": "晚餐",
+            "date": "2020-02-19 (周三)",
+            "ordered": "0"
+        },
+        {
+            "activityId": 11,
+            "activityType": "午餐",
+            "activitySubType": "11元套餐",
+            "date": "2020-02-18 (周二)",
+            "activityDetailId": 111,
+            "total": "10",
+            "ordered": "1"
+        }
+    ]
+    return render_template('order.html', activity_list=activity_list, isNextWeek='0')
 
 
 @app.route('/order_detail', methods=['GET', 'POST'])
@@ -453,103 +453,103 @@ def delete_meal_order():
     return response
 
 # 查询
-@app.route('/order', methods=['POST', 'GET'])
-def order():
-    """
-     可用活动查询接口
-
-    入参：
-        EID      当前登录人id，从cookie中取
-
-    出参：
-        isNextWeek 是否展示下周 1-是  0-否
-        activity_list 链表，包含以下元素
-            activityType 活动类型 如 午餐
-            date 活动日期 如 2020-02-18(周二)
-            ordered 是否已预订 1-已预订 0-未预订
-            activityId 活动id
-            activitySubType 活动子类型 如：11元套餐
-            activityDetailId 活动详情id
-            total 总数
-
-        实例报文：
-            {
-             'activity_list': [{
-             'activityType': '午餐',
-             'date': '2020-02-17(周一)',
-             'ordered': '1',
-             'activityId': 2,
-             'activitySubType': '16元套餐',
-             'activityDetailId': 1,
-             'total': 1
-             },
-             {
-             'activityType': '晚餐',
-             'date': '2020-02-21(周五)',
-             'ordered': '0'
-             }],
-             'isNextWeek': '1'
-             }
-    """
-    employee_id = request.cookies.get('EID')
-    # 判断用户是否已登录
-    if employee_id is None:
-        return render_template('login.html')
-
-    employee = UserInfo.query.filter(UserInfo.employeeId == employee_id).first()
-    if employee is None:
-        return render_template('login.html')
-
-    # 计算活动开始时间和结束时间
-    now = datetime.now()
-    start = now
-    this_week_end = now.date() + timedelta(days=7 - now.weekday())
-    this_week_friday = now.date() + timedelta(days=4 - now.weekday())
-    this_week_friday_15 = datetime(this_week_friday.year, this_week_friday.month, this_week_friday.day, 15)
-
-    isNextWeek = '0'
-    if now.timestamp() > this_week_friday_15.timestamp():
-        this_week_start = now.date() - timedelta(days=now.weekday())
-        start = this_week_start + timedelta(days=7)
-        this_week_end = this_week_end + timedelta(days=7)
-        isNextWeek = '1'
-
-    # 查询活动列表
-    activityInfos = ActivityInfo.query.filter(ActivityInfo.group == employee.group, ActivityInfo.expiredAt >= start,
-                                              ActivityInfo.expiredAt < this_week_end).order_by(ActivityInfo.date).all()
-
-    activityIds = []
-    for activityInfo in activityInfos:
-        activityIds.append(activityInfo.activityId)
-
-    # 查询活动详情列表
-    activityDetails = ActivityDetail.query.filter(ActivityDetail.employeeId == employee.employeeId,
-                                                  ActivityDetail.activityId.in_(activityIds)).all()
-
-    # 组装返回报文
-    orderdic = collections.OrderedDict()
-    for activityInfo in activityInfos:
-        orderKey = str(activityInfo.date) + activityInfo.activityType
-        if orderKey in orderdic:
-            row = orderdic[orderKey]
-        else:
-            row = {"activityType": constants.ACTIVITY_TYPE[activityInfo.activityType],
-                   "date": str(activityInfo.date) + "(" + constants.ISO_WEEK_DAY[activityInfo.date.isoweekday()] + ")",
-                   "ordered": "0"}
-        for activityDetail in activityDetails:
-            if activityInfo.activityId == activityDetail.activityId:
-                row["activityId"] = activityInfo.activityId
-                row["activitySubType"] = constants.ACTIVITY_SUB_TYPE[activityInfo.activitySubType]
-                row["activityDetailId"] = activityDetail.activityDetailId
-                row["total"] = activityDetail.quantity
-                row["ordered"] = "1"
-        orderdic[orderKey] = row
-
-    orderList = []
-    for v in orderdic.values():
-        orderList.append(v)
-
-    return render_template('order.html', activity_list=orderList, isNextWeek=isNextWeek)
+# @app.route('/order', methods=['POST', 'GET'])
+# def order():
+#     """
+#      可用活动查询接口
+#
+#     入参：
+#         EID      当前登录人id，从cookie中取
+#
+#     出参：
+#         isNextWeek 是否展示下周 1-是  0-否
+#         activity_list 链表，包含以下元素
+#             activityType 活动类型 如 午餐
+#             date 活动日期 如 2020-02-18(周二)
+#             ordered 是否已预订 1-已预订 0-未预订
+#             activityId 活动id
+#             activitySubType 活动子类型 如：11元套餐
+#             activityDetailId 活动详情id
+#             total 总数
+#
+#         实例报文：
+#             {
+#              'activity_list': [{
+#              'activityType': '午餐',
+#              'date': '2020-02-17(周一)',
+#              'ordered': '1',
+#              'activityId': 2,
+#              'activitySubType': '16元套餐',
+#              'activityDetailId': 1,
+#              'total': 1
+#              },
+#              {
+#              'activityType': '晚餐',
+#              'date': '2020-02-21(周五)',
+#              'ordered': '0'
+#              }],
+#              'isNextWeek': '1'
+#              }
+#     """
+#     employee_id = request.cookies.get('EID')
+#     # 判断用户是否已登录
+#     if employee_id is None:
+#         return render_template('login.html')
+#
+#     employee = UserInfo.query.filter(UserInfo.employeeId == employee_id).first()
+#     if employee is None:
+#         return render_template('login.html')
+#
+#     # 计算活动开始时间和结束时间
+#     now = datetime.now()
+#     start = now
+#     this_week_end = now.date() + timedelta(days=7 - now.weekday())
+#     this_week_friday = now.date() + timedelta(days=4 - now.weekday())
+#     this_week_friday_15 = datetime(this_week_friday.year, this_week_friday.month, this_week_friday.day, 15)
+#
+#     isNextWeek = '0'
+#     if now.timestamp() > this_week_friday_15.timestamp():
+#         this_week_start = now.date() - timedelta(days=now.weekday())
+#         start = this_week_start + timedelta(days=7)
+#         this_week_end = this_week_end + timedelta(days=7)
+#         isNextWeek = '1'
+#
+#     # 查询活动列表
+#     activityInfos = ActivityInfo.query.filter(ActivityInfo.group == employee.group, ActivityInfo.expiredAt >= start,
+#                                               ActivityInfo.expiredAt < this_week_end).order_by(ActivityInfo.date).all()
+#
+#     activityIds = []
+#     for activityInfo in activityInfos:
+#         activityIds.append(activityInfo.activityId)
+#
+#     # 查询活动详情列表
+#     activityDetails = ActivityDetail.query.filter(ActivityDetail.employeeId == employee.employeeId,
+#                                                   ActivityDetail.activityId.in_(activityIds)).all()
+#
+#     # 组装返回报文
+#     orderdic = collections.OrderedDict()
+#     for activityInfo in activityInfos:
+#         orderKey = str(activityInfo.date) + activityInfo.activityType
+#         if orderKey in orderdic:
+#             row = orderdic[orderKey]
+#         else:
+#             row = {"activityType": constants.ACTIVITY_TYPE[activityInfo.activityType],
+#                    "date": str(activityInfo.date) + "(" + constants.ISO_WEEK_DAY[activityInfo.date.isoweekday()] + ")",
+#                    "ordered": "0"}
+#         for activityDetail in activityDetails:
+#             if activityInfo.activityId == activityDetail.activityId:
+#                 row["activityId"] = activityInfo.activityId
+#                 row["activitySubType"] = constants.ACTIVITY_SUB_TYPE[activityInfo.activitySubType]
+#                 row["activityDetailId"] = activityDetail.activityDetailId
+#                 row["total"] = activityDetail.quantity
+#                 row["ordered"] = "1"
+#         orderdic[orderKey] = row
+#
+#     orderList = []
+#     for v in orderdic.values():
+#         orderList.append(v)
+#
+#     return render_template('order.html', activity_list=orderList, isNextWeek=isNextWeek)
 
 
 @app.route('/gatherActivities', methods=['GET', 'POST'])
