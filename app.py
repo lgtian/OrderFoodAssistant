@@ -5,12 +5,6 @@ from util.util import is_str_empty
 app = Flask(__name__)
 app.secret_key = '6789023yhfkjasd234'
 
-
-@app.route('/')
-def hello_world():
-    return 'Hello World!'
-
-
 # LOGIN BY COOKIE
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -51,6 +45,7 @@ def logout():
     response = redirect(url_for('login'))
     response.delete_cookie('EID')
     return response
+
 
 if __name__ == '__main__':
     app.run(debug=True)

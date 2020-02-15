@@ -17,12 +17,11 @@
         <div><input class="label-login-field" name="employeeId" type="text" maxlength="6" placeholder="员编"/></div>
         <div><input class="label-login-field" name="pwd" type="password" placeholder="密码"/></div>
 
-        <div class="warning">
-        {% for message in get_flashed_messages() %}
+        {% if message %}
             <div class="warning-message">
               {{ message }}
             </div>
-        {% endfor %}
+        {% endif %}
 
         <div class="btn-login-wrap">
             <input class="btn-login" type="submit" value="登录"/>
