@@ -1,5 +1,7 @@
 from flask import Flask, request, render_template, redirect, url_for, Response
 from service.user_service import query_user_pwd
+from service.activity_detail_service import create_activity_detail
+from flask import jsonify
 from util.util import is_str_empty
 from models import ActivityInfo, ActivityDetail, UserInfo
 from exts import db
@@ -17,9 +19,80 @@ SQLALCHEMY_TRACK_MODIFICATIONS = False
 db.init_app(app)
 
 
-# @app.route('/test', methods=['GET', 'POST'])
-# def test():
-#     return render_template('login.html')
+@app.route('/statistics', methods=['GET', 'POST'])
+def statistics():
+    return render_template('statistics.html')
+
+
+@app.route('/order', methods=['GET', 'POST'])
+def order():
+    activity_list = [{
+         "activityId": 11,
+         "activityType": "午餐",
+         "activitySubType": "11元套餐",
+         "date": "2020-02-18 (周二)",
+         "activityDetailId": 111,
+         "total":"10",
+         "ordered": "1"
+        },
+        {
+         "activityType": "晚餐",
+         "date": "2020-02-19 (周三)",
+         "ordered": "0"
+        },
+        {
+            "activityId": 11,
+            "activityType": "午餐",
+            "activitySubType": "11元套餐",
+            "date": "2020-02-18 (周二)",
+            "activityDetailId": 111,
+            "total": "10",
+            "ordered": "1"
+        },
+        {
+            "activityType": "晚餐",
+            "date": "2020-02-19 (周三)",
+            "ordered": "0"
+        },
+        {
+            "activityId": 11,
+            "activityType": "午餐",
+            "activitySubType": "11元套餐",
+            "date": "2020-02-18 (周二)",
+            "activityDetailId": 111,
+            "total": "10",
+            "ordered": "1"
+        },
+        {
+            "activityType": "晚餐",
+            "date": "2020-02-19 (周三)",
+            "ordered": "0"
+        },
+        {
+            "activityId": 11,
+            "activityType": "午餐",
+            "activitySubType": "11元套餐",
+            "date": "2020-02-18 (周二)",
+            "activityDetailId": 111,
+            "total": "10",
+            "ordered": "1"
+        },
+        {
+            "activityType": "晚餐",
+            "date": "2020-02-19 (周三)",
+            "ordered": "0"
+        },
+        {
+            "activityId": 11,
+            "activityType": "午餐",
+            "activitySubType": "11元套餐",
+            "date": "2020-02-18 (周二)",
+            "activityDetailId": 111,
+            "total": "10",
+            "ordered": "1"
+        }
+    ]
+    return render_template('order.html', activity_list=activity_list, order_this_week=True)
 
 
 # LOGIN BY COOKIE
@@ -61,6 +134,43 @@ def login():
 def logout():
     response = redirect(url_for('login'))
     response.delete_cookie('EID')
+    return response
+
+
+# 新增订餐明细接口
+@app.route('/activity/detail/add', methods=['POST'])
+def create_meal_order():
+    eid = request.cookies.get('EID')
+
+    if eid is None:
+        employee_id = request.form['employeeId']
+    else:
+        employee_id = eid
+
+    # 判断用户是否已登录
+    if eid is None and employee_id is None:
+        return render_template('login.html')
+
+    created_by = employee_id
+    # 获取订餐信息
+    quantity = request.form['quantity']
+    activity_id = request.form['activityId']
+
+    # 活动信息校验
+    if is_str_empty(activity_id):
+        response = {"respCode": "9501", "respMsg": "incorrect activity_id"}
+        return jsonify(response)
+
+    quantity = int(quantity)
+    # 订餐信息校验
+    if quantity is None or quantity <= 0:
+        response = {"respCode": "9501", "respMsg": "incorrect quantity"}
+        return jsonify(response)
+
+    create_activity_detail(activity_id, employee_id, quantity, created_by)
+
+    # 登录成功
+    response = {"respCode": "1000", "respMsg": "success"}
     return response
 
 
