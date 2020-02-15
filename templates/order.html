@@ -133,6 +133,7 @@
             document.querySelector('#activityId').value = activity.activityId;
             document.querySelector('#orderDialogView .header-title').innerHTML = activity.activityType + ' . ' + activity.date;
             document.querySelector('#orderDialogView .content-value').innerHTML = activity.activitySubType || '';
+            document.querySelector('#orderDialogView .input-text').value = 1;
         }
 
         function closeOrderDialog() {
