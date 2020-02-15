@@ -9,8 +9,9 @@
     <div class="view-order">
         {% if order_this_week %}
             <div class="order-notice">
-                午餐需在前一日 15:00 之前预定，晚餐可在当日 15:00 之前预定<br>
-                周五15:00后可预定下周套餐
+                1）午餐需在前一日 15:00 之前预定<br>
+                2）晚餐可在当日的 15:00 之前预定<br>
+                3）周五15:00后可预定下周套餐
             </div>
         {% endif %}
         {% if order_next_week %}
@@ -70,7 +71,7 @@
         <div class="view flex flex-center-middle">
             <div class="dialog-order-body">
                 <div class="dialog-order-header">
-                    <div class="header-title">午餐.2020-02-18（周二）</div>
+                    <div class="header-title">午餐 . 2020-02-18（周二）</div>
                     <div class="header-close" onclick="closeOrderDialog()"></div>
                 </div>
                 <div class="dialog-order-content">
@@ -78,14 +79,17 @@
                         <div class="flex content-item">
                             <div class="content-label">套餐：</div>
                             <div class="flex-1 flex flex-x-end">
-                                <label class="flex flex-y-center">
-                                    <input class="input-radio"
-                                           checked name="order_type" type="radio" value="0"/>11元套餐
-                                </label>
-                                <label class="flex flex-y-center">
-                                    <input class="input-radio"
-                                           name="order_type" type="radio" value="1"/>16元套餐
-                                </label>
+                                <input class="input-radio"
+                                       id="order_type_11"
+                                       checked name="order_type" type="radio" value="0"/>
+                                <label class="input-radio-label first" for="order_type_11"></label>
+                                <label class="" for="order_type_11">11元套餐</label>
+
+                                <input class="input-radio"
+                                       id="order_type_16"
+                                       name="order_type" type="radio" value="1"/>
+                                <label class="input-radio-label" for="order_type_16"></label>
+                                <label class="" for="order_type_16">16元套餐</label>
                             </div>
                         </div>
                         <div class="flex content-item">
@@ -110,6 +114,7 @@
 
         function closeOrderDialog() {
             document.querySelector('#orderDialogView').style.display = 'none';
+            document.querySelector('#orderDialogView form').reset();
         }
     </script>
 {% endblock %}
