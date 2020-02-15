@@ -1,11 +1,9 @@
 from flask import Flask, request, render_template, redirect, url_for, Response
-from service.user_service import query_user_pwd
 from service.activity_detail_service import create_activity_detail
 from service.activity_detail_service import update_activity_detail
 from service.activity_detail_service import query_activity_detail_by_aid
 from service.activity_detail_service import delete_activity_detail
 from flask import jsonify
-from util.util import is_str_empty
 from models import ActivityInfo, ActivityDetail, UserInfo
 from exts import db
 from config.config import DB_HOST, DB_USER, DB_PWD, DB_PORT
@@ -314,6 +312,7 @@ def order():
         orderList.append(v)
 
     return render_template('order.html', activity_list=orderList, isNextWeek=isNextWeek)
+
 
 @app.route('/gatherActivities', methods=['GET', 'POST'])
 def gather_activities():
