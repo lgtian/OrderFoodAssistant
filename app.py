@@ -245,7 +245,7 @@ def create_meal_order():
     eid = request.cookies.get('EID')
 
     if eid is None:
-        employee_id = request.form['employeeId']
+        employee_id = request.form.get('employeeId')
     else:
         employee_id = eid
 
@@ -255,8 +255,8 @@ def create_meal_order():
 
     created_by = employee_id
     # 获取订餐信息
-    quantity = request.form['quantity']
-    activity_id = request.form['activityId']
+    quantity = request.form.get('quantity')
+    activity_id = request.form.get('activityId')
 
     # 活动信息校验
     if is_str_empty(activity_id):
@@ -330,7 +330,7 @@ def query_meal_order():
     eid = request.cookies.get('EID')
 
     if eid is None:
-        employee_id = request.form['employeeId']
+        employee_id = request.form.get('employeeId')
     else:
         employee_id = eid
 
@@ -339,7 +339,7 @@ def query_meal_order():
         return render_template('login.html')
 
     # 获取订餐活动的id信息
-    activity_id = request.form['activityId']
+    activity_id = request.form.get('activityId')
 
     # 活动信息校验
     if is_str_empty(activity_id):
