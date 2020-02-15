@@ -1,0 +1,75 @@
+@media screen and (max-width: 10px) {
+    html {
+        font-size:10px!important
+    }
+}
+
+@media screen and (min-width: 10px) and (max-width:320px) {
+    html {
+        font-size:10px!important
+    }
+}
+
+@media screen and (min-width: 321px) and (max-width:375px) {
+    html {
+        font-size:13px!important
+    }
+}
+
+@media screen and (min-width: 376px) and (max-width:435px) {
+    html {
+        font-size:14px!important
+    }
+}
+
+@media screen and (min-width: 436px) and (max-width:600px) {
+    html {
+        font-size:15px!important
+    }
+}
+
+@media screen and (min-width: 601px) and (max-width:750px) {
+    html {
+        font-size:16px!important
+    }
+}
+
+@media screen and (min-width: 751px) and (max-width:1080px) {
+    html {
+        font-size:17px!important
+    }
+}
+
+@media screen and (min-width: 1081px) {
+    html {
+        font-size:18px!important
+    }
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    word-break: break-all;
+    -webkit-text-size-adjust: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+body,html {
+    font-family: PingFangSC-Regular,Arial,Microsoft YaHei,sans-serif;
+    height: 100%;
+    width: 100%;
+    -webkit-overflow-scrolling: touch
+}
+
+.main-view{
+    height: 100%;
+}
