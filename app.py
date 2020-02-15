@@ -245,7 +245,7 @@ def create_meal_order():
     eid = request.cookies.get('EID')
 
     if eid is None:
-        employee_id = request.form['employeeId']
+        employee_id = request.form.get('employeeId')
     else:
         employee_id = eid
 
@@ -255,8 +255,8 @@ def create_meal_order():
 
     created_by = employee_id
     # 获取订餐信息
-    quantity = request.form['quantity']
-    activity_id = request.form['activityId']
+    quantity = request.form.get('quantity')
+    activity_id = request.form.get('activityId')
 
     # 活动信息校验
     if is_str_empty(activity_id):
@@ -330,7 +330,7 @@ def query_meal_order():
     eid = request.cookies.get('EID')
 
     if eid is None:
-        employee_id = request.form['employeeId']
+        employee_id = request.form.get('employeeId')
     else:
         employee_id = eid
 
@@ -339,7 +339,7 @@ def query_meal_order():
         return render_template('login.html')
 
     # 获取订餐活动的id信息
-    activity_id = request.form['activityId']
+    activity_id = request.form.get('activityId')
 
     # 活动信息校验
     if is_str_empty(activity_id):
@@ -452,11 +452,12 @@ def delete_meal_order():
     response = {"respCode": "1000", "respMsg": "success"}
     return response
 
-# 查询
+
+# 订餐
 @app.route('/order', methods=['POST', 'GET'])
 def order():
     """
-     可用活动查询接口
+     订餐接口
 
     入参：
         EID      当前登录人id，从cookie中取
@@ -556,6 +557,110 @@ def order():
 def gather_activities():
     """
     订单汇总接口
+
+    入参：
+        EID      当前登录人id，从cookie中取
+
+    出参：
+        todayList 链表，包含以下元素
+            title 如 午餐-2020-02-15
+            summary 如 11元套餐 X11, 16元套餐 X10
+            mealDeliver 送餐人id
+        weekList 链表，包含以下元素
+            title 如 午餐-2020-02-15
+            summary 如 11元套餐 X11, 16元套餐 X10
+            mealDeliver 送餐人id
+    """
+
+    # employee_id = request.cookies.get('EID')
+    employee_id = request.values.get('EID')
+
+    # 登录校验
+    if employee_id is None:
+        return redirect(url_for('login'))
+
+    # 尚未登录
+    if is_str_empty(employee_id):
+        return render_template('login.html')
+
+    # 查询组信息
+    user_tuple = query_user(employee_id)
+    if user_tuple is None:
+        return render_template('login.html', message='incorrect employeeId')
+
+    group = user_tuple[USER_GROUP_IDX]
+
+    today_begin = datetime.now().date()
+    today_end = today_begin + timedelta(days=1)
+    today_list = do_gather_activity(today_begin, today_end, group)
+
+    week_begin = today_end
+    week_end = today_begin + timedelta(days=7 - today_begin.weekday())
+    week_list = do_gather_activity(week_begin, week_end, group)
+
+    return render_template('activity_summary_list.html', today_list=today_list, week_list=week_list)
+
+
+def do_gather_activity(from_date, end_date, group):
+    # 查询活动信息
+    activity_tuple_list = service.activity_service.query_activity_list(from_date, end_date, group)
+    if activity_tuple_list is None or len(activity_tuple_list) == 0:
+        activity_tuple_list = []
+
+    # 汇总每天的信息
+    res_dict = {}
+    for activity_tuple in activity_tuple_list:
+        activity_id = activity_tuple[service.activity_service.ACTIVITY_ID_IDX]
+
+        # 拼接title，如午餐 * 2020-02-15
+        title = gen_summary_title(activity_tuple[service.activity_service.ACTIVITY_TYPE_IDX]
+                                  , activity_tuple[service.activity_service.DATE_IDX])
+
+        # 查询详情信息
+        activity_detail_tuple_list = query_activity_detail_list(activity_id)
+
+        # 汇总当前订餐总数
+        activity_subtype_cnt = 0
+        if activity_detail_tuple_list is not None and len(activity_detail_tuple_list) > 0:
+            for activity_detail_tuple in activity_detail_tuple_list:
+                activity_subtype_cnt += int(activity_detail_tuple[QUANTITY_IDX])
+
+        # 判断记录是否已有
+        one_day_summary_dict = res_dict.get(title)
+        if one_day_summary_dict is None:
+            one_day_summary_dict = {'title': title}
+
+        # 记录subType及数量
+        one_day_summary_dict[activity_tuple[service.activity_service.ACTIVITY_SUBTYPE_IDX]] = activity_subtype_cnt
+
+        # 记录领餐人，没有才更新
+        meal_deliver = one_day_summary_dict.get('mealDeliver')
+        if meal_deliver is None or is_str_empty(meal_deliver):
+            one_day_summary_dict['mealDeliver'] = activity_tuple[service.activity_service.MEAL_DELIVER_IDX]
+
+        res_dict[title] = one_day_summary_dict
+
+    # 汇总信息排序
+    res_list = []
+    for activity_tuple in activity_tuple_list:
+        title = gen_summary_title(activity_tuple[service.activity_service.ACTIVITY_TYPE_IDX]
+                                  , activity_tuple[service.activity_service.DATE_IDX])
+        tmp_dict = res_dict.get(title)
+        # 格式化信息，防止重复数据
+        if tmp_dict is not None and tmp_dict.get('title') is not None:
+            format_dict = {
+                'title': tmp_dict.pop('title'),
+                'mealDeliver': tmp_dict.pop('mealDeliver'),
+                'summary': join_dict_elems(tmp_dict, ' X', ', ')
+            }
+            res_list.append(format_dict)
+    return res_list
+
+
+@app.route('/allActivities', methods=['GET', 'POST'])
+def all_activities():
+    """
+    全部订单接口
 
     入参：
         fromDate String|O| 开始查询时间
@@ -660,19 +765,19 @@ def gen_summary_title(prefix, date):
     return str(prefix) + " * " + str(date)
 
 
-#批量添加活动
-@app.route('/addActivity', methods=['POST', 'GET'])
-def addActivity():
-    startDate = request.args.get("startDate")
-    endDate = request.args.get("endDate")
-    groupName = request.args.get("groupName")
-
-    if startDate is None or endDate is None or groupName is None:
-        return "param error"
-    connection = db.engine.raw_connection()
-    cursor = connection.cursor()
-    cursor.callproc('sp_batch_create_actiity', [startDate, endDate, groupName])
-    return "success"
+# 批量添加活动接口，暂时不开放
+# @app.route('/addActivity', methods=['POST', 'GET'])
+# def addActivity():
+#     startDate = request.args.get("startDate")
+#     endDate = request.args.get("endDate")
+#     groupName = request.args.get("groupName")
+#
+#     if startDate is None or endDate is None or groupName is None:
+#         return "param error"
+#     connection = db.engine.raw_connection()
+#     cursor = connection.cursor()
+#     cursor.callproc('sp_batch_create_actiity', [startDate, endDate, groupName])
+#     return "success"
 
 if __name__ == '__main__':
     app.run(debug=True)
