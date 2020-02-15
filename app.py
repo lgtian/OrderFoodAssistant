@@ -71,75 +71,79 @@ def statistics_all():
     return render_template('statistics-all.html', activity_list=activity_list)
 
 
-# @app.route('/order', methods=['GET', 'POST'])
-# def order():
-#     activity_list = [{
-#          "activityId": 11,
-#          "activityType": "午餐",
-#          "activitySubType": "11元套餐",
-#          "date": "2020-02-18 (周二)",
-#          "activityDetailId": 111,
-#          "total":"10",
-#          "ordered": "1"
-#         },
-#         {
-#          "activityType": "晚餐",
-#          "date": "2020-02-19 (周三)",
-#          "ordered": "0"
-#         },
-#         {
-#             "activityId": 11,
-#             "activityType": "午餐",
-#             "activitySubType": "11元套餐",
-#             "date": "2020-02-18 (周二)",
-#             "activityDetailId": 111,
-#             "total": "10",
-#             "ordered": "1"
-#         },
-#         {
-#             "activityType": "晚餐",
-#             "date": "2020-02-19 (周三)",
-#             "ordered": "0"
-#         },
-#         {
-#             "activityId": 11,
-#             "activityType": "午餐",
-#             "activitySubType": "11元套餐",
-#             "date": "2020-02-18 (周二)",
-#             "activityDetailId": 111,
-#             "total": "10",
-#             "ordered": "1"
-#         },
-#         {
-#             "activityType": "晚餐",
-#             "date": "2020-02-19 (周三)",
-#             "ordered": "0"
-#         },
-#         {
-#             "activityId": 11,
-#             "activityType": "午餐",
-#             "activitySubType": "11元套餐",
-#             "date": "2020-02-18 (周二)",
-#             "activityDetailId": 111,
-#             "total": "10",
-#             "ordered": "1"
-#         },
-#         {
-#             "activityType": "晚餐",
-#             "date": "2020-02-19 (周三)",
-#             "ordered": "0"
-#         },
-#         {
-#             "activityId": 11,
-#             "activityType": "午餐",
-#             "activitySubType": "11元套餐",
-#             "date": "2020-02-18 (周二)",
-#             "activityDetailId": 111,
-#             "total": "10",
-#             "ordered": "1"
-#         }
-#     ]
-#     return render_template('order.html', activity_list=activity_list, isNextWeek='0')
+@app.route('/test/order', methods=['GET', 'POST'])
+def test_order():
+    activity_list = [{
+         "activityId": 11,
+         "activityType": "晚餐",
+         "activitySubType": "11元套餐",
+         "date": "2020-02-18 (周二)",
+         "activityDetailId": 111,
+         "total": "10",
+         "ordered": "1"
+        },
+        {
+         "activityType": "晚餐",
+         "activitySubType": "11元套餐",
+         "date": "2020-02-19 (周三)",
+         "ordered": "0"
+        },
+        {
+            "activityId": 11,
+            "activityType": "午餐",
+            "activitySubType": "16元套餐",
+            "date": "2020-02-18 (周二)",
+            "activityDetailId": 111,
+            "total": "10",
+            "ordered": "1"
+        },
+        {
+            "activityType": "晚餐",
+            "date": "2020-02-19 (周三)",
+            "activitySubType": "11元套餐",
+            "ordered": "0"
+        },
+        {
+            "activityId": 11,
+            "activityType": "午餐",
+            "activitySubType": "16元套餐",
+            "date": "2020-02-18 (周二)",
+            "activityDetailId": 111,
+            "total": "10",
+            "ordered": "1"
+        },
+        {
+            "activityType": "晚餐",
+            "date": "2020-02-19 (周三)",
+            "activitySubType": "11元套餐",
+            "ordered": "0"
+        },
+        {
+            "activityId": 11,
+            "activityType": "午餐",
+            "activitySubType": "11元套餐",
+            "date": "2020-02-18 (周二)",
+            "activityDetailId": 111,
+            "total": "10",
+            "ordered": "1"
+        },
+        {
+            "activityType": "晚餐",
+            "date": "2020-02-19 (周三)",
+            "activitySubType": "11元套餐",
+            "ordered": "0"
+        },
+        {
+            "activityId": 11,
+            "activityType": "晚餐",
+            "activitySubType": "11元套餐",
+            "date": "2020-02-18 (周二)",
+            "activityDetailId": 111,
+            "total": "10",
+            "ordered": "1"
+        }
+    ]
+    return render_template('order.html', activity_list=activity_list, isNextWeek='0')
 
 
 @app.route('/order_detail', methods=['GET', 'POST'])

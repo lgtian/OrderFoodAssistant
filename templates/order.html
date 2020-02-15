@@ -26,7 +26,7 @@
                 <div class="activity_item">
                     <div style="display: flex;align-items: center">
                         <!-- 菜单类型：午餐，晚餐-->
-                        {% if activity.activityType=='晚餐' %}
+                        {% if activity.activityType=='午餐' %}
                             <div class="activity-type-lunch">午</div>
                         {% else %}
                             <div class="activity-type-supper">晚</div>
@@ -39,7 +39,7 @@
                                 <div class="activity-ordered-info">{{ activity.activitySubType }}
                                     x{{ activity.total }}</div>
                             {% else %}
-                                <div class="activity-unordered-info">未预定</div>
+                                <div class="activity-unordered-info">{{ activity.activitySubType }}（未预定)</div>
                             {% endif %}
                         </div>
                     </div>
