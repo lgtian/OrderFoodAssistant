@@ -63,11 +63,14 @@
     </div>
 </div>
 
-<div id="dialog-order" class="view-dialog-order" onclick="closeOrderDialog()">
-    <div class="dialog-order-body">
-        <form action="statistics">
-            套餐 <input type="text">
-            份数 <input type="text">
+<div id="dialog-order" class="view-dialog-order"">
+    <div id="dialog-order-body" class="dialog-order-body">
+        <form action="order">
+            套餐：<div>
+                    <input checked type="radio" name="order_type" value='0'>11元套餐
+                    <input type="radio" name="order_type" value='1'>16元套餐
+                </div>
+            份数：<input class="" type="number" min="1" name="order_count">
             <input class="btn-login" type="submit" value="提交"/>
         </form>
     </div>
@@ -76,10 +79,10 @@
 </body>
 <script>
     function openOrderDialog() {
-        document.getElementById('dialog-order').style.display='block'
+        document.getElementById('dialog-order').style.display='block';
     }
     function closeOrderDialog() {
-        document.getElementById('dialog-order').style.display='none'
+        document.getElementById('dialog-order').style.display='none';
     }
 </script>
 </html>
