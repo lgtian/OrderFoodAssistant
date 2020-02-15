@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template, redirect, url_for, Response
 from service.activity_detail_service import create_activity_detail
+from service.activity_detail_service import query_activity_detail_by_eid_aid
 from service.activity_detail_service import query_all_activity_detail_by_eid
 from service.activity_detail_service import update_activity_detail
 from service.activity_detail_service import query_activity_detail_by_aid
@@ -284,8 +285,7 @@ def query_meal_order():
         return jsonify(response)
 
     activity_id = int(activity_id)
-    #activity_detail = query_activity_detail_by_eid_aid(employee_id, activity_id)
-    activity_detail = ''
+    activity_detail = query_activity_detail_by_eid_aid(employee_id, activity_id)
     response = {"respCode": "1000", "respMsg": "success", "activityDetail": activity_detail}
     return jsonify(response)
 
