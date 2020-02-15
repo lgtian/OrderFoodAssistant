@@ -49,6 +49,34 @@ def order():
             "activityDetailId": 111,
             "total": "10",
             "ordered": "1"
+        },
+        {
+            "activityType": "晚餐",
+            "date": "2020-02-19 (周三)",
+            "ordered": "0"
+        },
+        {
+            "activityId": 11,
+            "activityType": "午餐",
+            "activitySubType": "11元套餐",
+            "date": "2020-02-18 (周二)",
+            "activityDetailId": 111,
+            "total": "10",
+            "ordered": "1"
+        },
+        {
+            "activityType": "晚餐",
+            "date": "2020-02-19 (周三)",
+            "ordered": "0"
+        },
+        {
+            "activityId": 11,
+            "activityType": "午餐",
+            "activitySubType": "11元套餐",
+            "date": "2020-02-18 (周二)",
+            "activityDetailId": 111,
+            "total": "10",
+            "ordered": "1"
         }
     ]
     return render_template('order.html', activity_list=activity_list, order_this_week=True)

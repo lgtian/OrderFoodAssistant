@@ -8,6 +8,7 @@ body {
 }
 
 .view-order {
+    height: 100%;
     background-color: #F5F6F9;
 }
 
@@ -40,6 +41,7 @@ body {
 
 .activity-list {
     overflow: scroll;
+    height: 70%;
 }
 
 .activity_item {
