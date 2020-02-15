@@ -24,75 +24,75 @@ def statistics():
     return render_template('statistics.html')
 
 
-@app.route('/order', methods=['GET', 'POST'])
-def order():
-    activity_list = [{
-         "activityId": 11,
-         "activityType": "午餐",
-         "activitySubType": "11元套餐",
-         "date": "2020-02-18 (周二)",
-         "activityDetailId": 111,
-         "total":"10",
-         "ordered": "1"
-        },
-        {
-         "activityType": "晚餐",
-         "date": "2020-02-19 (周三)",
-         "ordered": "0"
-        },
-        {
-            "activityId": 11,
-            "activityType": "午餐",
-            "activitySubType": "11元套餐",
-            "date": "2020-02-18 (周二)",
-            "activityDetailId": 111,
-            "total": "10",
-            "ordered": "1"
-        },
-        {
-            "activityType": "晚餐",
-            "date": "2020-02-19 (周三)",
-            "ordered": "0"
-        },
-        {
-            "activityId": 11,
-            "activityType": "午餐",
-            "activitySubType": "11元套餐",
-            "date": "2020-02-18 (周二)",
-            "activityDetailId": 111,
-            "total": "10",
-            "ordered": "1"
-        },
-        {
-            "activityType": "晚餐",
-            "date": "2020-02-19 (周三)",
-            "ordered": "0"
-        },
-        {
-            "activityId": 11,
-            "activityType": "午餐",
-            "activitySubType": "11元套餐",
-            "date": "2020-02-18 (周二)",
-            "activityDetailId": 111,
-            "total": "10",
-            "ordered": "1"
-        },
-        {
-            "activityType": "晚餐",
-            "date": "2020-02-19 (周三)",
-            "ordered": "0"
-        },
-        {
-            "activityId": 11,
-            "activityType": "午餐",
-            "activitySubType": "11元套餐",
-            "date": "2020-02-18 (周二)",
-            "activityDetailId": 111,
-            "total": "10",
-            "ordered": "1"
-        }
-    ]
-    return render_template('order.html', activity_list=activity_list, order_this_week=True)
+# @app.route('/order', methods=['GET', 'POST'])
+# def order():
+#     activity_list = [{
+#          "activityId": 11,
+#          "activityType": "午餐",
+#          "activitySubType": "11元套餐",
+#          "date": "2020-02-18 (周二)",
+#          "activityDetailId": 111,
+#          "total":"10",
+#          "ordered": "1"
+#         },
+#         {
+#          "activityType": "晚餐",
+#          "date": "2020-02-19 (周三)",
+#          "ordered": "0"
+#         },
+#         {
+#             "activityId": 11,
+#             "activityType": "午餐",
+#             "activitySubType": "11元套餐",
+#             "date": "2020-02-18 (周二)",
+#             "activityDetailId": 111,
+#             "total": "10",
+#             "ordered": "1"
+#         },
+#         {
+#             "activityType": "晚餐",
+#             "date": "2020-02-19 (周三)",
+#             "ordered": "0"
+#         },
+#         {
+#             "activityId": 11,
+#             "activityType": "午餐",
+#             "activitySubType": "11元套餐",
+#             "date": "2020-02-18 (周二)",
+#             "activityDetailId": 111,
+#             "total": "10",
+#             "ordered": "1"
+#         },
+#         {
+#             "activityType": "晚餐",
+#             "date": "2020-02-19 (周三)",
+#             "ordered": "0"
+#         },
+#         {
+#             "activityId": 11,
+#             "activityType": "午餐",
+#             "activitySubType": "11元套餐",
+#             "date": "2020-02-18 (周二)",
+#             "activityDetailId": 111,
+#             "total": "10",
+#             "ordered": "1"
+#         },
+#         {
+#             "activityType": "晚餐",
+#             "date": "2020-02-19 (周三)",
+#             "ordered": "0"
+#         },
+#         {
+#             "activityId": 11,
+#             "activityType": "午餐",
+#             "activitySubType": "11元套餐",
+#             "date": "2020-02-18 (周二)",
+#             "activityDetailId": 111,
+#             "total": "10",
+#             "ordered": "1"
+#         }
+#     ]
+#     return render_template('order.html', activity_list=activity_list, order_this_week=True)
 
 
 # LOGIN BY COOKIE
@@ -175,9 +175,8 @@ def create_meal_order():
 
 
 # 查询
-@app.route('/orderList', methods=['POST', 'GET'])
-def orderList():
-
+@app.route('/order', methods=['POST', 'GET'])
+def order():
     employee_id = request.cookies.get('EID')
     # 判断用户是否已登录
     if employee_id is None:
@@ -187,7 +186,7 @@ def orderList():
     if employee is None:
         return render_template('login.html')
 
-    #计算活动开始时间和结束时间
+    # 计算活动开始时间和结束时间
     now = datetime.now()
     start = now
     this_week_end = now.date() + timedelta(days=7 - now.weekday())
@@ -201,24 +200,28 @@ def orderList():
         this_week_end = this_week_end + timedelta(days=7)
         isNextWeek = '1'
 
-    #查询活动列表
-    activityInfos = ActivityInfo.query.filter(ActivityInfo.group == employee.group, ActivityInfo.expiredAt >= start, ActivityInfo.expiredAt < this_week_end).order_by(ActivityInfo.date).all()
+    # 查询活动列表
+    activityInfos = ActivityInfo.query.filter(ActivityInfo.group == employee.group, ActivityInfo.expiredAt >= start,
+                                              ActivityInfo.expiredAt < this_week_end).order_by(ActivityInfo.date).all()
 
     activityIds = []
     for activityInfo in activityInfos:
         activityIds.append(activityInfo.activityId)
 
-    #查询活动详情列表
-    activityDetails = ActivityDetail.query.filter(ActivityDetail.employeeId == employee.employeeId, ActivityDetail.activityId.in_(activityIds)).all()
+    # 查询活动详情列表
+    activityDetails = ActivityDetail.query.filter(ActivityDetail.employeeId == employee.employeeId,
+                                                  ActivityDetail.activityId.in_(activityIds)).all()
 
-    #组装返回报文
+    # 组装返回报文
     orderdic = collections.OrderedDict()
     for activityInfo in activityInfos:
         orderKey = str(activityInfo.date) + activityInfo.activityType
         if orderKey in orderdic:
             row = orderdic[orderKey]
         else:
-            row = {"activityType": constants.ACTIVITY_TYPE[activityInfo.activityType], "date": str(activityInfo.date) + "(" + constants.ISO_WEEK_DAY[activityInfo.date.isoweekday()] + ")", "ordered": "0"}
+            row = {"activityType": constants.ACTIVITY_TYPE[activityInfo.activityType],
+                   "date": str(activityInfo.date) + "(" + constants.ISO_WEEK_DAY[activityInfo.date.isoweekday()] + ")",
+                   "ordered": "0"}
         for activityDetail in activityDetails:
             if activityInfo.activityId == activityDetail.activityId:
                 row["activityId"] = activityInfo.activityId
@@ -232,7 +235,7 @@ def orderList():
     for v in orderdic.values():
         orderList.append(v)
 
-    return {"list": orderList, "isNextWeek": isNextWeek}
+    return render_template('order.html', activity_list=orderList, isNextWeek=isNextWeek)
 
 if __name__ == '__main__':
     app.run(debug=True)
