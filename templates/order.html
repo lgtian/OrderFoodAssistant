@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='order/order.css') }}">
 {% endblock %}
 {% block page_content %}
-    <div class="view-order">
+    <div class="view-order flex-column">
         {% if isNextWeek=='0' %}
             <div class="order-notice">
                 1）午餐需在前一日 15:00 之前预定<br>
@@ -21,7 +21,7 @@
         {% endif %}
 
         <!-- 菜单列表-->
-        <div class="activity-list">
+        <div class="activity-list flex-1 ">
             {% for activity in activity_list %}
                 <div class="activity_item">
                     <div style="display: flex;align-items: center">
@@ -133,6 +133,7 @@
             document.querySelector('#activityId').value = activity.activityId;
             document.querySelector('#orderDialogView .header-title').innerHTML = activity.activityType + ' . ' + activity.date;
             document.querySelector('#orderDialogView .content-value').innerHTML = activity.activitySubType || '';
+            document.querySelector('#orderDialogView .input-text').value = 1;
         }
 
         function closeOrderDialog() {
