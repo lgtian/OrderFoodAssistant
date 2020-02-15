@@ -10,8 +10,10 @@ CREATE TABLE `activity_detail` (
   `createdAt` DATETIME NULL,
   `updatedBy` NVARCHAR(45) NULL,
   `updatedAt` DATETIME NULL,
-  PRIMARY KEY (`activityDetailId`))
+  PRIMARY KEY (`activityDetailId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='活动明细表';
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+
 

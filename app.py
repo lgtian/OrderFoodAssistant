@@ -5,6 +5,12 @@ from util.util import is_str_empty
 app = Flask(__name__)
 app.secret_key = '6789023yhfkjasd234'
 
+
+# @app.route('/test', methods=['GET', 'POST'])
+# def test():
+#     return render_template('login.html')
+
+
 # LOGIN BY COOKIE
 @app.route('/login', methods=['GET', 'POST'])
 def login():
