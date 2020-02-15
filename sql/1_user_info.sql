@@ -9,7 +9,7 @@ CREATE TABLE `user_info` (
   `role` varchar(32) DEFAULT NULL,
   `createdAt` datetime DEFAULT NULL,
   `updatedAt` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户信息表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='user info';
 
 SET FOREIGN_KEY_CHECKS = 1;
 
