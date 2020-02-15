@@ -13,6 +13,10 @@ from datetime import datetime
 from datetime import timedelta
 from constant import constants
 import collections
+from service.user_service import query_user_pwd, query_user, USER_GROUP_IDX
+from util.util import is_str_empty, join_dict_elems
+import service.activity_service
+from service.activity_detail_service import query_activity_detail_list, QUANTITY_IDX
 
 app = Flask(__name__)
 app.secret_key = '6789023yhfkjasd234'
@@ -133,7 +137,7 @@ def login():
     return response
 
 
-@app.route('/logout')
+@app.route('/logout', methods=['GET', 'POST'])
 def logout():
     response = redirect(url_for('login'))
     response.delete_cookie('EID')
@@ -310,6 +314,103 @@ def order():
         orderList.append(v)
 
     return render_template('order.html', activity_list=orderList, isNextWeek=isNextWeek)
+
+@app.route('/gatherActivities', methods=['GET', 'POST'])
+def gather_activities():
+    """
+    订单汇总接口
+
+    入参：
+        fromDate String|O| 开始查询时间
+        endDate  String|O| 结束查询时间
+        EID      当前登录人id，从cookie中取
+
+    出参：
+        summaryList 链表，包含以下元素
+            title 如 午餐-2020-02-15
+            summary 如 11元套餐 X11, 16元套餐 X10
+            mealDeliver 送餐人id
+    """
+
+    # employee_id = request.cookies.get('EID')
+    employee_id = request.values.get('EID')
+    from_date = request.values.get('fromDate')
+    end_date = request.values.get('endDate')
+
+    # 登录校验
+    if employee_id is None:
+        return redirect(url_for('login'))
+
+    # 尚未登录
+    if is_str_empty(employee_id):
+        return render_template('login.html')
+
+    # 查询组信息
+    user_tuple = query_user(employee_id)
+    if user_tuple is None:
+        return render_template('login.html', message='incorrect employeeId')
+
+    group = user_tuple[USER_GROUP_IDX]
+
+    # 查询活动信息
+    activity_tuple_list = service.activity_service.query_activity_list(from_date, end_date, group)
+    if activity_tuple_list is None or len(activity_tuple_list) == 0:
+        return render_template('activity_summary_list.html', message='no info')
+
+    # 汇总每天的信息
+    res_dict = {}
+    for activity_tuple in activity_tuple_list:
+        activity_id = activity_tuple[service.activity_service.ACTIVITY_ID_IDX]
+
+        # 拼接title，如午餐 * 2020-02-15
+        title = gen_summary_title(activity_tuple[service.activity_service.ACTIVITY_TYPE_IDX]
+                                  , activity_tuple[service.activity_service.DATE_IDX])
+
+        # 查询详情信息
+        activity_detail_tuple_list = query_activity_detail_list(activity_id)
+
+        # 汇总当前订餐总数
+        activity_subtype_cnt = 0
+        if activity_detail_tuple_list is not None and len(activity_detail_tuple_list) > 0:
+            for activity_detail_tuple in activity_detail_tuple_list:
+                activity_subtype_cnt += int(activity_detail_tuple[QUANTITY_IDX])
+
+        # 判断记录是否已有
+        one_day_summary_dict = res_dict.get(title)
+        if one_day_summary_dict is None:
+            one_day_summary_dict = {'title': title}
+
+        # 记录subType及数量
+        one_day_summary_dict[activity_tuple[service.activity_service.ACTIVITY_SUBTYPE_IDX]] = activity_subtype_cnt
+
+        # 记录领餐人，没有才更新
+        meal_deliver = one_day_summary_dict.get('mealDeliver')
+        if meal_deliver is None or is_str_empty(meal_deliver):
+            one_day_summary_dict['mealDeliver'] = activity_tuple[service.activity_service.MEAL_DELIVER_IDX]
+
+        res_dict[title] = one_day_summary_dict
+
+    # 汇总信息排序
+    res_list = []
+    for activity_tuple in activity_tuple_list:
+        title = gen_summary_title(activity_tuple[service.activity_service.ACTIVITY_TYPE_IDX]
+                                  , activity_tuple[service.activity_service.DATE_IDX])
+        tmp_dict = res_dict.get(title)
+        # 格式化信息，防止重复数据
+        if tmp_dict is not None and tmp_dict.get('title') is not None:
+            format_dict = {
+                'title': tmp_dict.pop('title'),
+                'mealDeliver': tmp_dict.pop('mealDeliver'),
+                'summary': join_dict_elems(tmp_dict, ' X', ', ')
+            }
+            res_list.append(format_dict)
+
+    return render_template('activity_summary_list.html', activity_summary_list=res_list)
+
+
+def gen_summary_title(prefix, date):
+    return str(prefix) + " * " + str(date)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

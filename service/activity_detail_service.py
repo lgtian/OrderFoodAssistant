@@ -3,6 +3,10 @@ import datetime
 from config.config import DB_HOST, DB_USER, DB_PWD, DB_PORT
 
 
+# 常量定义
+QUANTITY_IDX = 3
+
+
 # 新建活动明细
 def create_activity_detail(activity_id, employee_id, quantity, created_by):
 
@@ -131,3 +135,31 @@ def delete_activity_detail(activity_detail_id):
 # 以下是调试用的
 if __name__ == '__main__':
     query_all_activity_detail_by_eid("660001")
+
+def query_activity_detail_list(activity_id):
+    """
+    根据id查询活动详情
+
+    :param activity_id:
+    :return:
+    """
+
+    # 组装sql
+    sql = " select * from activity_detail where activityId = {0} ".format(activity_id)
+
+    db = pymysql.connect(host=DB_HOST,
+                         port=DB_PORT,
+                         user=DB_USER,
+                         password=DB_PWD,
+                         database="OrderFoodAssistant",
+                         charset="utf8")
+    try:
+        # 新建游标
+        with db.cursor() as cursor:
+            # 执行sql语句
+            cursor.execute(sql)
+            # 取第一条
+            data = cursor.fetchall()
+            return data
+    finally:
+        db.close()

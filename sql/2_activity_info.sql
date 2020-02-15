@@ -12,3 +12,6 @@ CREATE TABLE `activity_info` (
   PRIMARY KEY (`activityId`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8 COMMENT='活动表';
+
+ALTER TABLE activity_info
+ADD COLUMN mealDeliver nvarchar(20) null ;
