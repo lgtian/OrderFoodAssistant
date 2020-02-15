@@ -1,4 +1,6 @@
 from exts import db
+
+
 class ActivityInfo(db.Model):
     __tablename__='activity_info'
     activityId = db.Column(db.Integer, primary_key=True)
@@ -22,6 +24,7 @@ class ActivityDetail(db.Model):
     createdAt = db.Column(db.DateTime)
     updatedBy = db.Column(db.String)
     updatedAt = db.Column(db.DateTime)
+
 
 class UserInfo(db.Model):
     __tablename__='user_info'
