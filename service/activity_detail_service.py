@@ -50,13 +50,14 @@ def query_all_activity_detail_by_eid(employee_id):
             sql = "SELECT * FROM activity_detail WHERE employeeId = %s"
             values = (employee_id)
             cursor.execute(sql, values)
-            # 取第一条
+            # 取所有的
             data = cursor.fetchall()
             print(data)
             cursor.close()
             return data
     finally:
         db.close()
+
 
 #
 def query_activity_detail_by_eid_aid(employee_id, activity_id):

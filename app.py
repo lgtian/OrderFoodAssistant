@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, redirect, url_for, Response
 from service.user_service import query_user_pwd
 from service.activity_detail_service import create_activity_detail
+from service.activity_detail_service import query_all_activity_detail_by_eid
 from service.activity_detail_service import update_activity_detail
 from service.activity_detail_service import query_activity_detail_by_eid_aid
 from flask import jsonify
@@ -142,6 +143,22 @@ def logout():
 # 新增订餐明细接口
 @app.route('/activity/detail/add', methods=['POST'])
 def create_meal_order():
+    """
+    接口入参
+    employeeId  |string|O|员工编号
+    quantity    |int   |M|订餐数量
+    activityId  |int   |M|活动id
+
+    接口出参
+    respCode             |string|M|返回码
+    respMsg              |string|M|返回话术
+
+    返回报文样例
+    {
+        "respCode": "1000",
+        "respMsg": "success"
+    }
+    """
     eid = request.cookies.get('EID')
 
     if eid is None:
@@ -162,6 +179,7 @@ def create_meal_order():
     if is_str_empty(activity_id):
         response = {"respCode": "9501", "respMsg": "incorrect activity_id"}
         return jsonify(response)
+    activity_id = int(activity_id)
 
     quantity = int(quantity)
     # 订餐信息校验
@@ -176,7 +194,84 @@ def create_meal_order():
     return response
 
 
-# 新增订餐明细接口
+# 查询订餐明细接口
+@app.route('/activity/detail/query', methods=['POST'])
+def query_meal_order():
+    """
+    接口入参
+    employeeId  |string|O|员工编号
+    activityId  |int   |O|活动id
+
+    接口出参
+    respCode             |string|M|返回码
+    respMsg              |string|M|返回话术
+    activityDetail       |string|O|某个订餐明细，入参传activityId，则出现该字段
+    activityDetailList   |string|O|若干个订餐明细的集合，入参不传activityId，则出现该字段
+        activityDetailId        |int   |O|活动详情id
+        activityId              |int   |O|活动id
+        employeeId              |string|O|员工编号
+        quantity                |int   |O|订餐数量
+        createdBy               |string|O|创建者员工编号
+        createdAt               |string|O|创建时间
+        updatedBy               |string|O|更新者员工编号
+        updatedAt               |string|O|更新时间
+
+
+    返回报文样例
+    {
+    "activityDetailList": [
+        [
+            1,
+            1,
+            "660001",
+            1,
+            "660001",
+            "Sat, 15 Feb 2020 21:22:11 GMT",
+            "660001",
+            "Sat, 15 Feb 2020 21:22:11 GMT"
+        ],
+        [
+            2,
+            1,
+            "660001",
+            1,
+            "660001",
+            "Sat, 15 Feb 2020 21:30:41 GMT",
+            "660001",
+            "Sat, 15 Feb 2020 21:30:41 GMT"
+        ]
+    ],
+    "respCode": "1000",
+    "respMsg": "success"
+    }
+    """
+    eid = request.cookies.get('EID')
+
+    if eid is None:
+        employee_id = request.form['employeeId']
+    else:
+        employee_id = eid
+
+    # 判断用户是否已登录
+    if eid is None and employee_id is None:
+        return render_template('login.html')
+
+    # 获取订餐活动的id信息
+    activity_id = request.form['activityId']
+
+    # 活动信息校验
+    if is_str_empty(activity_id):
+        activity_detail_list = query_all_activity_detail_by_eid(employee_id)
+        response = {"respCode": "1000", "respMsg": "success", "activityDetailList": activity_detail_list}
+        return jsonify(response)
+
+    activity_id = int(activity_id)
+    activity_detail = query_activity_detail_by_eid_aid(employee_id, activity_id)
+    response = {"respCode": "1000", "respMsg": "success", "activityDetail": activity_detail}
+    return jsonify(response)
+
+
+# 修改订餐明细接口
 @app.route('/activity/detail/update', methods=['POST'])
 def update_meal_order():
     eid = request.cookies.get('EID')
@@ -211,7 +306,7 @@ def update_meal_order():
 
     update_activity_detail(activity_id, employee_id, quantity)
 
-    # 登录成功
+    # 更新成功
     response = {"respCode": "1000", "respMsg": "success"}
     return response
 
