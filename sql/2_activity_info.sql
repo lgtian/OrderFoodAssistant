@@ -1,4 +1,4 @@
-CREATE TABLE `orderassistant`.`activity_info` (
+CREATE TABLE `activity_info` (
   `activityId` INT NOT NULL AUTO_INCREMENT,
   `activityType` NVARCHAR(45) NULL,
   `activitySubType` NVARCHAR(45) NULL,
@@ -9,7 +9,9 @@ CREATE TABLE `orderassistant`.`activity_info` (
   `createdAt` DATETIME NULL,
   `updatedAt` DATETIME NULL,
 
-  PRIMARY KEY (`activityId`),
-  UNIQUE INDEX uni_idx_group_date(`group`,`date`))
+  PRIMARY KEY (`activityId`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8 COMMENT='活动表';
+
+ALTER TABLE activity_info
+ADD COLUMN mealDeliver nvarchar(20) null ;
