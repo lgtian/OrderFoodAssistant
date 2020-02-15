@@ -175,6 +175,7 @@ def create_meal_order():
     response = {"respCode": "1000", "respMsg": "success"}
     return response
 
+
 # 新增订餐明细接口
 @app.route('/activity/detail/update', methods=['POST'])
 def update_meal_order():

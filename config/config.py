@@ -7,4 +7,4 @@ DB_PORT = 3306
 # DB_USER = "lgtian_admin"
 DB_USER = "root"
 # DB_PWD = "LGtian12&1"
-DB_PWD = "1qaz@WSX"
+DB_PWD = "123654"
