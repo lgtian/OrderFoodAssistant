@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>点餐助手</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='statistics/statistics.css') }}"></head>
+</head>
+<body>
+<div class="view-statistics">
+
+    <!-- 底部tab按钮-->
+    <div class="bottom-tab-bar">
+        <a style="color:#93959D; text-decoration: none" href="{{ url_for('order') }}">
+            <div class="icon-order"></div>订餐
+        </a>
+        <div style="color:#84AFEF">
+            <div class="icon-statistics"></div>汇总
+        </div>
+    </div>
+</div>
+</body>
+</html>
