@@ -28,7 +28,47 @@ db.init_app(app)
 
 @app.route('/statistics', methods=['GET', 'POST'])
 def statistics():
-    return render_template('statistics.html')
+    activity_list = [{
+            "deliveryman": '232422',
+            "activityType": "午餐",
+            "activitySubType": "11元套餐",
+            "date": "2020-02-18 (周二)",
+            "total": "10",
+            "summary": "11元晚餐 x12份，16元晚餐 x12份"
+        },
+        {
+            "activityId": 11,
+            "activityType": "午餐",
+            "activitySubType": "11元套餐",
+            "date": "2020-02-18 (周二)",
+            "total": "10",
+            "summary": "11元晚餐 x12份，16元晚餐 x12份"
+        }
+    ]
+    return render_template('statistics.html', activity_list=activity_list)
+
+
+@app.route('/statistics_all', methods=['GET', 'POST'])
+def statistics_all():
+    activity_list = [{
+            "deliveryman": '232422',
+            "activityType": "午餐",
+            "activitySubType": "11元套餐",
+            "date": "2020-02-18 (周二)",
+            "total": "10",
+            "summary": "11元晚餐 x12份，16元晚餐 x12份"
+        },
+        {
+            "deliveryman": '2842402',
+            "activityId": 11,
+            "activityType": "午餐",
+            "activitySubType": "11元套餐",
+            "date": "2020-02-18 (周二)",
+            "total": "10",
+            "summary": "11元晚餐 x12份，16元晚餐 x12份"
+        }
+    ]
+    return render_template('statistics-all.html', activity_list=activity_list)
 
 
 # @app.route('/order', methods=['GET', 'POST'])
@@ -100,6 +140,45 @@ def statistics():
 #         }
 #     ]
 #     return render_template('order.html', activity_list=activity_list, order_this_week=True)
+
+
+@app.route('/order_detail', methods=['GET', 'POST'])
+def order_detail():
+    activity = {
+        "activityType": "午餐",
+        "date": "2020-02-18 (周二)",
+        "deliveryman": '232422',
+        "totalPrice": '40',
+        "summaryList": [
+            {
+                "totalPrice": '20',
+                "desc": '11元套餐 x2'
+            },
+            {
+                "totalPrice": '20',
+                "desc": '16元套餐 x2'
+            }
+        ],
+        "memberList": [{
+                "employeeId": "888888",
+                "summary": "11元套餐 x2"
+            },
+            {
+                "employeeId": "888888",
+                "summary": "11元套餐 x2"
+            },
+            {
+                "employeeId": "888888",
+                "summary": "16元套餐 x2"
+            },
+            {
+                "employeeId": "888888",
+                "summary": "11元套餐 x2"
+            }
+        ]
+    }
+
+    return render_template('order-detail.html', activity=activity)
 
 
 # LOGIN BY COOKIE

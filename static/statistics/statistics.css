@@ -9,6 +9,31 @@ body {
 
 .view-statistics {
     background-color: #F5F6F9;
+    height: 100%;
+}
+
+.view-statistics .activity-list-title {
+    padding: 20px;
+    color: #6D7B89;
+    border-bottom: 1px solid #d7d8db;
+}
+
+.view-statistics .activity_item {
+    background-color: #ffffff;
+    border-bottom: 1px solid #d7d8db;
+    padding: 15px 20px;
+    font-size: 1.2rem;
+}
+
+.view-statistics .activity_item .activity_order_info {
+    color: #B5B9C3;
+    font-size: 1rem;
+}
+
+.view-statistics .activity_item .delivery {
+    text-decoration:none;
+    color: #B5B9C3;
+    font-size: 1rem;
 }
 
 .view-statistics .bottom-tab-bar {

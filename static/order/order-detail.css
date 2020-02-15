@@ -1,0 +1,40 @@
+.view-order-detail {
+    background-color: #F5F6F9;
+    height: 100%;
+}
+
+.view-order-detail .activity-title {
+    padding: 20px;
+    font-size: 1.2rem;
+}
+
+.view-order-detail .activity-title .deliveryman {
+    color: #B5B9C3;
+    font-size: 1rem;
+}
+
+.view-order-detail .member-list {
+    height: 60%;
+    overflow: scroll;
+}
+
+.view-order-detail .member_item {
+    border-bottom: 1px solid #d7d8db;
+    padding: 15px 20px;
+    background-color: #ffffff;
+}
+
+.view-order-detail .bottom-bar-statistic {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #ffffff;
+    font-size: 1.2rem;
+    padding: 10px 20px;
+}
+
+.bottom-bar-statistic .total-price {
+    text-align: center;
+    color: #B5B9C3;
+    font-size: 1rem;
+}

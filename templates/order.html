@@ -1,88 +1,116 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+{% extends "base.html" %}
+
+{% block head %}
+    {{ super() }}
     <title>订餐助手</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='order/order.css') }}"></head>
-</head>
-<body>
-<div class="view-order">
-    {% if order_this_week %}
-        <div class="order-notice">
-            午餐需在前一日 15:00 之前预定，晚餐可在当日 15:00 之前预定<br>
-            周五15:00后可预定下周套餐
-        </div>
-    {% endif %}
-    {% if order_next_week %}
-        <div class="order-notice">
-            <span>本周预定已结束。。。</span>
-        </div>
-    {% endif %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='order/order.css') }}">
+{% endblock %}
+{% block page_content %}
+    <div class="view-order">
+        {% if order_this_week %}
+            <div class="order-notice">
+                午餐需在前一日 15:00 之前预定，晚餐可在当日 15:00 之前预定<br>
+                周五15:00后可预定下周套餐
+            </div>
+        {% endif %}
+        {% if order_next_week %}
+            <div class="order-notice">
+                <span>本周预定已结束。。。</span>
+            </div>
+        {% endif %}
 
-    <!-- 菜单列表-->
-    <div class="activity-list">
-        {% for activity in activity_list %}
-            <div class="activity_item">
-            <div style="display: flex;align-items: center">
-                <!-- 菜单类型：午餐，晚餐-->
-                {% if activity.activityType=='晚餐' %}
-                    <div class="activity-type-lunch">午</div>
-                {% else %}
-                    <div class="activity-type-supper">晚</div>
-                {% endif %}
+        <!-- 菜单列表-->
+        <div class="activity-list">
+            {% for activity in activity_list %}
+                <div class="activity_item">
+                    <div style="display: flex;align-items: center">
+                        <!-- 菜单类型：午餐，晚餐-->
+                        {% if activity.activityType=='晚餐' %}
+                            <div class="activity-type-lunch">午</div>
+                        {% else %}
+                            <div class="activity-type-supper">晚</div>
+                        {% endif %}
 
-                <!-- 菜单信息-->
-                <div class="activity-info">
-                    <div class="activity-date">{{ activity.date }}</div>
+                        <!-- 菜单信息-->
+                        <div class="activity-info">
+                            <div class="activity-date">{{ activity.date }}</div>
+                            {% if activity.ordered == '1' %}
+                                <div class="activity-ordered-info">{{ activity.activitySubType }}
+                                    x{{ activity.total }}</div>
+                            {% else %}
+                                <div class="activity-unordered-info">未预定</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- 操作按钮-->
                     {% if activity.ordered == '1' %}
-                        <div class="activity-ordered-info">{{ activity.activitySubType }} x{{ activity.total }}</div>
+                        <div class="btn-modify">修改</div>
                     {% else %}
-                         <div class="activity-unordered-info">未预定</div>
+                        <div class="btn-order" onclick="openOrderDialog()">预定</div>
                     {% endif %}
                 </div>
+            {% endfor %}
+        </div>
+
+        <!-- 底部tab按钮-->
+        <div class="bottom-tab-bar">
+            <div style="color:#84AFEF">
+                <div class="icon-order"></div>
+                订餐
             </div>
-
-            <!-- 操作按钮-->
-            {% if activity.ordered == '1' %}
-                 <div class="btn-modify">修改</div>
-            {% else %}
-                 <div class="btn-order" onclick="openOrderDialog()">预定</div>
-            {% endif %}
+            <a style="color:#93959D; text-decoration: none" href="{{ url_for('statistics') }}">
+                <div class="icon-statistics"></div>
+                汇总
+            </a>
         </div>
-        {% endfor %}
     </div>
 
-    <!-- 底部tab按钮-->
-    <div class="bottom-tab-bar">
-        <div style="color:#84AFEF">
-            <div class="icon-order"></div>订餐
-        </div>
-        <a style="color:#93959D; text-decoration: none" href="{{ url_for('statistics') }}">
-            <div class="icon-statistics"></div>汇总
-        </a>
-    </div>
-</div>
-
-<div id="dialog-order" class="view-dialog-order"">
-    <div id="dialog-order-body" class="dialog-order-body">
-        <form action="order">
-            套餐：<div>
-                    <input checked type="radio" name="order_type" value='0'>11元套餐
-                    <input type="radio" name="order_type" value='1'>16元套餐
+    <div id="orderDialogView" class="view-dialog-order">
+        <div class="view flex flex-center-middle">
+            <div class="dialog-order-body">
+                <div class="dialog-order-header">
+                    <div class="header-title">午餐.2020-02-18（周二）</div>
+                    <div class="header-close" onclick="closeOrderDialog()"></div>
                 </div>
-            份数：<input class="" type="number" min="1" name="order_count">
-            <input class="btn-login" type="submit" value="提交"/>
-        </form>
+                <div class="dialog-order-content">
+                    <form action="order">
+                        <div class="flex content-item">
+                            <div class="content-label">套餐：</div>
+                            <div class="flex-1 flex flex-x-end">
+                                <label class="flex flex-y-center">
+                                    <input class="input-radio"
+                                           checked name="order_type" type="radio" value="0"/>11元套餐
+                                </label>
+                                <label class="flex flex-y-center">
+                                    <input class="input-radio"
+                                           name="order_type" type="radio" value="1"/>16元套餐
+                                </label>
+                            </div>
+                        </div>
+                        <div class="flex content-item">
+                            <div class="content-label">份数：</div>
+                            <div class="flex-1">
+                                <input class="input-text text-right" type="number" min="1" name="order_count">
+                            </div>
+                        </div>
+                        <input class="content-btn" type="submit" value="提交"/>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
 
-</body>
-<script>
-    function openOrderDialog() {
-        document.getElementById('dialog-order').style.display='block';
-    }
-    function closeOrderDialog() {
-        document.getElementById('dialog-order').style.display='none';
-    }
-</script>
+{% endblock %}
+{% block page_script %}
+    <script>
+        function openOrderDialog() {
+            document.querySelector('#orderDialogView').style.display = 'block';
+        }
+
+        function closeOrderDialog() {
+            document.querySelector('#orderDialogView').style.display = 'none';
+        }
+    </script>
+{% endblock %}
 </html>
