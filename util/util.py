@@ -20,3 +20,23 @@ def join_dict_elems(elem_dict, key_val_separator, elem_separator):
         res = res + elem_separator + (str(key) + key_val_separator + str(val))
 
     return res
+
+
+def get_week_day(date):
+    """
+    判断星期几
+
+    :param date:
+    :return:
+    """
+    week_day_dict = {
+        0: '星期一',
+        1: '星期二',
+        2: '星期三',
+        3: '星期四',
+        4: '星期五',
+        5: '星期六',
+        6: '星期天',
+    }
+    day = date.weekday()
+    return week_day_dict[day]

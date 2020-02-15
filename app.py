@@ -14,7 +14,7 @@ from datetime import timedelta
 from constant import constants
 import collections
 from service.user_service import query_user_pwd, query_user, USER_GROUP_IDX
-from util.util import is_str_empty, join_dict_elems
+from util.util import is_str_empty, join_dict_elems, get_week_day
 import service.activity_service
 from service.activity_detail_service import query_activity_detail_list, QUANTITY_IDX
 
@@ -531,6 +531,14 @@ def gather_activities():
             title 如 午餐-2020-02-15
             summary 如 11元套餐 X11, 16元套餐 X10
             mealDeliver 送餐人id
+
+    入参样例：
+        EID:1
+        //fromDate:2020-02-15
+        endDate:2020-02-20
+
+    返回样例：
+        activity_summary_list:[{'title': '午餐 * 2020-02-15(星期六)', 'mealDeliver': '111', 'summary': ', 11元套餐 x4, 16元套餐 x1'}, {'title': '晚餐 * 2020-02-15(星期六)', 'mealDeliver': None, 'summary': ', 11元套餐 x0, 16元套餐 x0'}]
     """
 
     # employee_id = request.cookies.get('EID')
@@ -584,6 +592,9 @@ def gather_activities():
         # 记录subType及数量
         one_day_summary_dict[activity_tuple[service.activity_service.ACTIVITY_SUBTYPE_IDX]] = activity_subtype_cnt
 
+        # 记录日期
+        one_day_summary_dict['date'] = activity_tuple[service.activity_service.DATE_IDX]
+
         # 记录领餐人，没有才更新
         meal_deliver = one_day_summary_dict.get('mealDeliver')
         if meal_deliver is None or is_str_empty(meal_deliver):
@@ -600,9 +611,9 @@ def gather_activities():
         # 格式化信息，防止重复数据
         if tmp_dict is not None and tmp_dict.get('title') is not None:
             format_dict = {
-                'title': tmp_dict.pop('title'),
+                'title': tmp_dict.pop('title') + '(' + get_week_day(tmp_dict.pop('date')) + ')',
                 'mealDeliver': tmp_dict.pop('mealDeliver'),
-                'summary': join_dict_elems(tmp_dict, ' X', ', ')
+                'summary': join_dict_elems(tmp_dict, ' x', ', ')
             }
             res_list.append(format_dict)
 
