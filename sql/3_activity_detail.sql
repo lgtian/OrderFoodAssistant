@@ -3,7 +3,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS  `activity_detail`;
 CREATE TABLE `activity_detail` (
   `activityDetailId` INT NOT NULL AUTO_INCREMENT,
-  `activityId` NVARCHAR(32) NOT NULL,
+  `activityId` INT NOT NULL,
   `employeeId` NVARCHAR(45) NOT NULL,
   `quantity` INT NULL,
   `createdBy` NVARCHAR(45) NULL,
