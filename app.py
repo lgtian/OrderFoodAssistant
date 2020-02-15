@@ -455,6 +455,42 @@ def delete_meal_order():
 # 查询
 @app.route('/order', methods=['POST', 'GET'])
 def order():
+    """
+     可用活动查询接口
+
+    入参：
+        EID      当前登录人id，从cookie中取
+
+    出参：
+        isNextWeek 是否展示下周 1-是  0-否
+        activity_list 链表，包含以下元素
+            activityType 活动类型 如 午餐
+            date 活动日期 如 2020-02-18(周二)
+            ordered 是否已预订 1-已预订 0-未预订
+            activityId 活动id
+            activitySubType 活动子类型 如：11元套餐
+            activityDetailId 活动详情id
+            total 总数
+
+        实例报文：
+            {
+             'activity_list': [{
+             'activityType': '午餐',
+             'date': '2020-02-17(周一)',
+             'ordered': '1',
+             'activityId': 2,
+             'activitySubType': '16元套餐',
+             'activityDetailId': 1,
+             'total': 1
+             },
+             {
+             'activityType': '晚餐',
+             'date': '2020-02-21(周五)',
+             'ordered': '0'
+             }],
+             'isNextWeek': '1'
+             }
+    """
     employee_id = request.cookies.get('EID')
     # 判断用户是否已登录
     if employee_id is None:
