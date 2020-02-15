@@ -1,57 +1,44 @@
-html {
+.login-view {
     height: 100%;
-}
-
-body {
-    margin: 0;
-    height: 100%;
-}
-
-.view-top {
-    margin: 10% auto 0;
-    text-align: center;
-    width: 50%;
-    height: 60%;
-}
-
-.view-bottom {
-    height: 40%;
     background-color: #F5F6F9;
-    text-align: center;
 }
 
-.view-top .view-logo-wrap {
+.login-view-content {
+    text-align: center;
+    background-color: #ffffff;
+    padding: 2rem 2rem 4rem 2rem;
+}
+
+
+.login-view-content .view-logo-wrap {
     text-align: left;
     margin-bottom: 10%;
+
 }
 
-.view-top .view-logo-wrap .view-logo{
+.login-view-content .view-logo-wrap .view-logo {
     display: flex;
     align-items: center;
 }
 
-.view-top .view-logo-wrap .view-logo-text {
+.login-view-content .view-logo-wrap .view-logo-text {
     font-size: 3em;
     font-weight: bold;
 }
 
-.view-top .view-logo-wrap img {
+.login-view-content .view-logo-wrap img {
     width: 3em;
     height: 3em;
     border-radius: 50%;
     margin-left: 10px;
 }
 
-.view-top  .view-logo-wrap .view-logo-power-by {
-     color: #BFC6DD;
-     font-size: 1em;
+.login-view-content .view-logo-wrap .view-logo-power-by {
+    color: #BFC6DD;
+    font-size: 1em;
 }
 
-.view-login {
-
-}
-
-.view-top .view-login .label-login-field {
+.login-view-content .view-login .label-login-field {
     margin-top: 3%;
     width: 100%;
     height: 2em;
@@ -61,12 +48,12 @@ body {
     border-bottom: 1px solid #BFC6DD;
 }
 
-.view-top .view-login .btn-login-wrap {
+.login-view-content .view-login .btn-login-wrap {
     margin: 50px -3px 0;
     border: none;
 }
 
-.view-top .view-login .btn-login-wrap .btn-login {
+.login-view-content .view-login .btn-login-wrap .btn-login {
     width: 100%;
     height: 50px;
     line-height: 50px;
@@ -85,7 +72,12 @@ body {
 }
 
 
-.view-bottom .register-tips {
+.login-view-tip {
+    height: 40%;
+    text-align: center;
+}
+
+.login-view-tip .register-tips {
     color: #2B448E;
     border-bottom: 1px solid #CDD1E2;
     font-size: 1.2em;
