@@ -37,6 +37,29 @@ def create_activity_detail(activity_id, employee_id, quantity, created_by):
         db.close()
 
 
+# 查询用户参与某活动的订餐明细
+def query_activity_detail_by_eid_aid(employee_id, activity_id):
+
+    db = pymysql.connect(host=DB_HOST,
+                         user=DB_USER,
+                         password=DB_PWD,
+                         database="OrderFoodAssistant",
+                         charset="utf8")
+
+    try:
+        # 新建游标
+        with db.cursor() as cursor:
+            # 执行sql语句
+            sql = "SELECT * FROM activity_detail WHERE employeeId = %s and activityId = %s"
+            values = (employee_id, activity_id)
+            cursor.execute(sql, values)
+            # 取第一条
+            data = cursor.fetchone()
+            return data
+    finally:
+        db.close()
+
+
 # 查询用户所有的订餐明细
 def query_all_activity_detail_by_eid(employee_id):
 
