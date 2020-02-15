@@ -33,8 +33,72 @@
     padding: 10px 20px;
 }
 
+.view-order-detail .bottom-bar-statistic .bar-total {
+    width: 10rem;
+}
+
 .bottom-bar-statistic .total-price {
     text-align: center;
     color: #B5B9C3;
     font-size: 1rem;
+}
+
+.bottom-bar-statistic .total-price.bottom {
+    margin-top: 0.3rem;
+}
+
+.view-order-detail .bottom-bar-statistic .bar-type .bar-type-item.first {
+    margin-left: 0;
+}
+
+.view-order-detail .bottom-bar-statistic .bar-type .bar-type-item {
+    font-size: 0.9rem;
+    margin-left: 2rem;
+    height: 100%;
+    padding: 0 0.8rem;
+}
+
+.view-dialog-order-detail {
+    display: none;
+    left: 0;
+    top: 0;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .35);
+    z-index: 9999;
+}
+
+.view-dialog-order-detail .dialog-order-detail-body {
+    width: 18rem;
+    border-radius: 12px;
+    background-color: #ffffff;
+}
+
+.view-dialog-order-detail .dialog-order-detail-body .dialog-content {
+    padding: 2rem 1.2rem;
+    font-size: 1rem;
+    text-align: center;
+    color: #333333;
+    font-weight: bold;
+    line-height: 1.6rem;
+    border-bottom: 1px solid #DFDFDF;
+}
+
+.view-dialog-order-detail .dialog-order-detail-body .dialog-btn .btn-cancel {
+    color: #cccccc;
+    height: 3rem;
+    line-height: 3rem;
+    text-align: center;
+}
+
+.view-dialog-order-detail .dialog-order-detail-body .dialog-btn .btn-confirm {
+    color: #4A9DF7;
+    height: 3rem;
+    line-height: 3rem;
+    text-align: center;
+    border: none;
+    border-left: 1px solid #DFDFDF;
+    background-color: #ffffff;
+    border-bottom-right-radius: 12px;
 }
