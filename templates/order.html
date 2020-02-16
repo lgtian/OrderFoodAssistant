@@ -7,18 +7,10 @@
 {% endblock %}
 {% block page_content %}
     <div class="view-order flex-column">
-        {% if isNextWeek=='0' %}
-            <div class="order-notice">
-                <span>午餐需在前一日 15:00 之前预定</span><br/>
-                <span>晚餐可在当日的 15:00 之前预定</span>
-            </div>
-        {% endif %}
-        {% if isNextWeek=='1' %}
-            <div class="order-notice text-center">
-                <span class="order-notice-title">本周预定已结束，当前可预订下周套餐</span><br/>
-                <span>周五 15:00 后可预定下周套餐</span>
-            </div>
-        {% endif %}
+        <div class="order-notice">
+            <span>午餐需在前一日 15:00 之前预定</span><br/>
+            <span>晚餐可在当日的 15:00 之前预定</span>
+        </div>
 
         <!-- 菜单列表-->
         <div class="activity-list flex-1 ">
