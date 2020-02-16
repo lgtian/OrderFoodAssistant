@@ -8,61 +8,59 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='statistics/statistics.css') }}">
 {% endblock %}
 {% block page_content %}
-    <div class="view-statistics">
-
+    <div class="flex-column view-statistics">
         <!-- 今日订单-->
-        <div>
-            <div class="activity-list-title">今日订单</div>
-            {% if today_list|length == 0 %}
-                <div class="activity-item-null">暂无今日订单~</div>
+        <div class="activity-list-title">今日订单</div>
+        {% if today_list|length == 0 %}
+            <div class="activity-item-null">暂无今日订单~</div>
+        {% endif %}
+        {% for activity in today_list %}
+            <div class="activity_item flex flex-y-center flex-x-between">
+                <div>
+                    <div class="activity_info">{{ activity.title }}</div>
+                    <div class="activity_order_info">{{ activity.summary }}</div>
+                </div>
+                <a class="flex flex-y-center deliveryman"
+                   href="{{ url_for("order_detail", activityType=activity.activityType, date=activity.date) }}">
+                    {% if activity.mealDeliver %}
+                        取餐人：{{ activity.mealDeliver }}
+                    {% else %}
+                        未指定取餐人
+                    {% endif %}
+                    <span class="arrow-right"></span>
+                </a>
+            </div>
+        {% endfor %}
+
+        <!-- 未来订单-->
+        <div class="activity-list-title flex flex-x-between flex-y-center">
+            <div>未来订单</div>
+            <a class="statistics-view-all" href="{{ url_for('all_activities') }}">查看全部订单</a>
+        </div>
+        <div class="flex-1 activity-list">
+            {% if week_list|length == 0 %}
+                <div class="activity-item-null">暂无未来订单~</div>
             {% endif %}
-            {% for activity in today_list %}
-                <div class="activity_item flex flex-y-center flex-x-between">
+            {% for activity in week_list %}
+                <a class="activity_item flex flex-y-center flex-x-between"
+                   href="{{ url_for("order_detail", activityType=activity.activityType, date=activity.date) }}">
                     <div>
                         <div class="activity_info">{{ activity.title }}</div>
                         <div class="activity_order_info">{{ activity.summary }}</div>
                     </div>
-                    <a class="flex flex-y-center deliveryman"
-                       href="{{ url_for("order_detail", activityType=activity.activityType, date=activity.date) }}">
-                        {% if activity.mealDeliver %}
+                    <div class="flex flex-y-center deliveryman">
+                        {% if activity.deliveryman %}
                             取餐人：{{ activity.mealDeliver }}
                         {% else %}
                             未指定取餐人
                         {% endif %}
                         <span class="arrow-right"></span>
-                    </a>
-                </div>
+                    </div>
+                </a>
             {% endfor %}
-        </div>
-
-        <!-- 未来订单-->
-        <div style="height: inherit">
-            <div class="activity-list-title flex flex-x-between flex-y-center">
-                <div>未来订单</div>
-                <a class="statistics-view-all" href="{{ url_for('all_activities') }}">查看全部订单</a>
-            </div>
-            <div class="activity-list">
-                {% if week_list|length == 0 %}
-                    <div class="activity-item-null">暂无未来订单~</div>
-                {% endif %}
-                {% for activity in week_list %}
-                    <a class="activity_item flex flex-y-center flex-x-between"
-                       href="{{ url_for("order_detail", activityType=activity.activityType, date=activity.date) }}">
-                        <div>
-                            <div class="activity_info">{{ activity.title }}</div>
-                            <div class="activity_order_info">{{ activity.summary }}</div>
-                        </div>
-                        <div class="flex flex-y-center deliveryman">
-                            {% if activity.deliveryman %}
-                                取餐人：{{ activity.mealDeliver }}
-                            {% else %}
-                                未指定取餐人
-                            {% endif %}
-                            <span class="arrow-right"></span>
-                        </div>
-                    </a>
-                {% endfor %}
-            </div>
+            {% if week_list|length >6 %}
+                <div class="activity-item-load-all">没有更多咯~~</div>
+            {% endif %}
         </div>
 
         <!-- 底部tab按钮-->
