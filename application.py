@@ -16,6 +16,7 @@ from service.user_service import query_user_pwd, query_user, USER_GROUP_IDX
 from util.util import is_str_empty, join_dict_elems, get_week_day
 import service.activity_service
 from service.activity_detail_service import query_activity_detail_list, QUANTITY_IDX
+import collections
 
 app = Flask(__name__)
 
@@ -113,11 +114,13 @@ def order_detail():
         if member_elem is None:
             member_elem = {
                 "employeeId": detail.employeeId,
-                "summary": [constants.ACTIVITY_SUB_TYPE[activity_info.activitySubType] + " x" + str(detail.quantity)]
+                "summary": [gen_summary_elem(constants.ACTIVITY_SUB_TYPE[activity_info.activitySubType],
+                                             detail.quantity)]
             }
         else:
             summary = member_elem.get("summary")
-            summary.append(constants.ACTIVITY_SUB_TYPE[activity_info.activitySubType] + " x" + str(detail.quantity))
+            summary.append(gen_summary_elem(constants.ACTIVITY_SUB_TYPE[activity_info.activitySubType],
+                                             detail.quantity))
 
         member_dict[detail.employeeId] = member_elem
         activity_id_total_cnt_dict[activity_info.activityId] += detail.quantity
@@ -130,7 +133,7 @@ def order_detail():
         activity_total_price = total_cnt * int(activity_info.activitySubType)
         summary_list.append({
             "totalPrice": str(activity_total_price),
-            "desc": constants.ACTIVITY_SUB_TYPE[activity_info.activitySubType] + " x" + str(total_cnt)
+            "desc": constants.ACTIVITY_SUB_TYPE[activity_info.activitySubType] + " x " + str(total_cnt)
         })
         total_price += activity_total_price
 
@@ -732,6 +735,13 @@ def all_activities():
 
 def gen_summary_title(prefix, date):
     return str(prefix) + " · " + str(date) + ' （' + get_week_day(date) + '） '
+
+
+def gen_summary_elem(prefix, quantity):
+    if quantity >= 0:
+        return prefix + " x " + str(quantity)
+    else:
+        return ''
 
 
 # 批量添加活动接口，暂时不开放
