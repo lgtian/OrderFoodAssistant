@@ -17,7 +17,7 @@ def query_user_pwd(eid):
         # 新建游标
         with db.cursor() as cursor:
             # 执行sql语句
-            sql = "select password from user_info where employeeId = {0}".format(eid)
+            sql = "select password from user_info where employeeId = '{0}'".format(eid)
             cursor.execute(sql)
             # 取第一条
             data = cursor.fetchone()
@@ -38,7 +38,7 @@ def query_user(eid):
         # 新建游标
         with db.cursor() as cursor:
             # 执行sql语句
-            sql = "select * from user_info where employeeId = {0}".format(eid)
+            sql = "select * from user_info where employeeId = '{0}'".format(eid)
             cursor.execute(sql)
             # 取第一条
             data = cursor.fetchone()
