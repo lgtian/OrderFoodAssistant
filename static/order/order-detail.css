@@ -34,6 +34,10 @@
     background-color: #ffffff;
 }
 
+.view-order-detail .member_item .member_id{
+     width: 10rem;
+}
+
 .view-order-detail .member_item .delivery-man-icon {
     margin-left: 1.2rem;
 }
@@ -50,7 +54,7 @@
 }
 
 .view-order-detail .bottom-bar-statistic .bar-total {
-    width: 8rem;
+    width: 10rem;
 }
 
 .bottom-bar-statistic .total-price {
@@ -63,15 +67,10 @@
     margin-top: 0.4rem;
 }
 
-.view-order-detail .bottom-bar-statistic .bar-type .bar-type-item.first {
-    margin-left: 0;
-}
-
 .view-order-detail .bottom-bar-statistic .bar-type .bar-type-item {
     font-size: 0.9rem;
-    margin-left: 1.6rem;
     height: 100%;
-    padding: 0 0.8rem;
+    text-align: center;
 }
 
 .view-dialog-order-detail {

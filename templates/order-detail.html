@@ -26,27 +26,30 @@
                 <div class="member-list-null">还没有人订餐哦~</div>
             {% endif %}
             {% for member in activity.memberList %}
-                <div class="member_item flex flex-y-center flex-x-between">
+                <div class="member_item flex flex-y-center">
                     <div class="member_id flex flex-y-center">
                         {{ member.employeeId }}
                         <img class="delivery-man-icon" src="{{ url_for('static', filename='order/assign.png') }}"
                              onclick="openOrderDetailDialog({{ member }})">
                     </div>
-                    <div>{{ member.summary }}</div>
+                    <div class="flex-1 flex">
+{#                        <div class="flex-1 text-center">{{ member.summary[0].desc }}</div>#}
+{#                        <div class="flex-1 text-center">{{ member.summary[1].desc }}</div>#}
+                    </div>
                 </div>
             {% endfor %}
         </div>
 
-        <div class="bottom-bar-statistic flex flex-x-between flex-y-center">
+        <div class="bottom-bar-statistic flex flex-y-center">
             <div class="bar-total">
                 总计：<span class="total-price">¥{{ activity.totalPrice }}</span>
             </div>
-            <div class="flex bar-type">
-                <div class="bar-type-item first">
+            <div class="flex-1 flex bar-type">
+                <div class="flex-1 bar-type-item first">
                     <div>{{ activity.summaryList[0].desc }}</div>
                     <div class="total-price bottom">¥{{ activity.summaryList[0].totalPrice }}</div>
                 </div>
-                <div class="bar-type-item">
+                <div class="flex-1 bar-type-item">
                     <div>{{ activity.summaryList[1].desc }}</div>
                     <div class="total-price bottom">¥{{ activity.summaryList[1].totalPrice }}</div>
                 </div>
