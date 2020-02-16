@@ -353,6 +353,7 @@ def create_meal_order():
     # 登录成功
     return redirect(url_for('order'))
 
+
 # 查询订餐明细接口
 @app.route('/activity/detail/query', methods=['POST'])
 def query_meal_order():
