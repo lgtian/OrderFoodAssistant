@@ -46,8 +46,6 @@
     font-size: 1.2em;
     border: none;
     border-bottom: 1px solid #BFC6DD;
-    user-select: text;
-    -webkit-user-select: text;
 }
 
 .login-view-content .view-login .btn-login-wrap {

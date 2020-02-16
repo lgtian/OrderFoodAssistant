@@ -66,6 +66,10 @@
 /*ios输入框*/
 input {
     border-radius: 0;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
 }
 
 body, html {
