@@ -6,7 +6,7 @@ from service.activity_detail_service import update_activity_detail
 from service.activity_detail_service import query_activity_detail_by_aid
 from service.activity_detail_service import delete_activity_detail
 from flask import jsonify
-from models import ActivityInfo, ActivityDetail, UserInfo
+from models import ActivityInfo, ActivityDetail, UserInfo, ProduceInfo
 from exts import db
 from config.config import DB_HOST, DB_USER, DB_PWD, DB_PORT
 from datetime import datetime
@@ -148,6 +148,10 @@ def test_order():
 
 @app.route('/order_detail', methods=['GET', 'POST'])
 def order_detail():
+    """
+    获取订单详情
+
+    返回样例：
     activity = {
         "activityType": "午餐",
         "date": "2020-02-18 (周二)",
@@ -180,6 +184,76 @@ def order_detail():
                 "summary": "11元套餐 x2"
             }
         ]
+    }
+    """
+    # employee_id = request.cookies.get('EID')
+    employee_id = request.values.get('EID')
+
+    # 登录校验
+    if is_str_empty(employee_id):
+        return render_template('login.html')
+
+    # 查询组信息
+    employee = UserInfo.query.filter(UserInfo.employeeId == employee_id).first()
+    if employee is None:
+        return render_template('login.html')
+
+    activity_type = request.values.get('activityType')
+    date = request.values.get('date')
+
+    # 查询活动信息
+    activity_infos = ActivityInfo.query.filter(ActivityInfo.group == employee.group,
+                                               ActivityInfo.date == date,
+                                               ActivityInfo.activityType == activity_type).all()
+
+    activity_id_info_dict = {}
+    # 每种子活动的数量
+    activity_id_total_cnt_dict = {}
+    activity_id_product_dict = {}
+    deliver_man = ''
+    for activity_info in activity_infos:
+        activity_id_info_dict[activity_info.activityId] = activity_info
+        activity_id_total_cnt_dict[activity_info.activityId] = 0
+        product_info = ProduceInfo.query.filter(ProduceInfo.productType == activity_info.activityType,
+                                                ProduceInfo.productSubType == activity_info.activitySubType).first()
+        activity_id_product_dict[activity_info.activityId] = product_info
+        if is_str_empty(deliver_man) and not is_str_empty(activity_info.mealDeliver):
+            deliver_man = activity_info.mealDeliver
+
+    # 查询活动详情列表
+    activity_details = ActivityDetail.query.filter(ActivityDetail.activityId.in_(activity_id_info_dict.keys())).all()
+
+    member_list = []
+    for detail in activity_details:
+        # 对应活动
+        activity_info = activity_id_info_dict[int(detail.activityId)]
+        member_list.append({
+            "employeeId": detail.employeeId,
+            "summary": activity_info.activitySubType + " x" + str(detail.quantity)
+        })
+        activity_id_total_cnt_dict[activity_info.activityId] += detail.quantity
+
+    summary_list = []
+    total_price = 0
+    for activity_id, total_cnt in activity_id_total_cnt_dict.items():
+        product_info = activity_id_product_dict[activity_id]
+        activity_info = activity_id_info_dict[activity_id]
+        activity_total_price = total_cnt * int(product_info.productPrice)
+        summary_list.append({
+            "totalPrice": str(activity_total_price),
+            "desc": activity_info.activitySubType + " x" + str(total_cnt)
+        })
+        total_price += activity_total_price
+
+    date_obj = datetime.strptime(date, '%Y-%m-%d').date()
+    # 组装返回
+    activity = {
+        "activityType": activity_type,
+        "date": date + "(" + get_week_day(date_obj) + ")",
+        "deliveryman": deliver_man,
+        "totalPrice": str(total_price),
+        "summaryList": summary_list,
+        "memberList": member_list
     }
 
     return render_template('order-detail.html', activity=activity)
