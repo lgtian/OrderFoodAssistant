@@ -38,16 +38,16 @@ class UserInfo(db.Model):
     updatedAt = db.Column(db.DateTime)
 
 
-class ProduceInfo(db.Model):
-    __tablename__ = 'product_info'
-    productId = db.Column(db.BIGINT, primary_key=True)
-    productType = db.Column(db.String)
-    productSubType = db.Column(db.String)
-    productPrice = db.Column(db.String)
-    beginTime = db.Column(db.String)
-    expireTime = db.Column(db.String)
-    createdAt = db.Column(db.DateTime)
-    updatedAt = db.Column(db.DateTime)
+# class ProduceInfo(db.Model):
+#     __tablename__ = 'product_info'
+#     productId = db.Column(db.BIGINT, primary_key=True)
+#     productType = db.Column(db.String)
+#     productSubType = db.Column(db.String)
+#     productPrice = db.Column(db.String)
+#     beginTime = db.Column(db.String)
+#     expireTime = db.Column(db.String)
+#     createdAt = db.Column(db.DateTime)
+#     updatedAt = db.Column(db.DateTime)
 
 
 
