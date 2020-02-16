@@ -22,6 +22,9 @@
         </div>
 
         <div class="flex-1 member-list">
+            {% if activity.memberList|length == 0 %}
+                <div class="member-list-null">还没有人订餐哦~</div>
+            {% endif %}
             {% for member in activity.memberList %}
                 <div class="member_item flex flex-y-center flex-x-between">
                     <div class="member_id flex flex-y-center">

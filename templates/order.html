@@ -19,7 +19,7 @@
             {% endif %}
             {% for activity in activity_list %}
                 <div class="activity_item">
-                    <div style="display: flex;align-items: center">
+                    <div class="flex flex-y-center">
                         <!-- 菜单类型：午餐，晚餐-->
                         {% if activity.activityType=='午餐' %}
                             <div class="activity-type-lunch">午</div>
@@ -47,6 +47,9 @@
                     {% endif %}
                 </div>
             {% endfor %}
+            {% if activity_list|length > 6 %}
+                <div class="activity-item-load-all">没有更多咯~~</div>
+            {% endif %}
         </div>
 
         <!-- 底部tab按钮-->

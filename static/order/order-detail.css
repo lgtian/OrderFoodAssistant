@@ -21,6 +21,13 @@
     background-color: #ffffff;
 }
 
+.view-order-detail .member-list .member-list-null {
+    color: #cccccc;
+    font-size: 1.15rem;
+    margin-top: 6rem;
+    text-align: center;
+}
+
 .view-order-detail .member_item {
     border-bottom: 1px solid #d7d8db;
     padding: 1.1rem 1.6rem;
