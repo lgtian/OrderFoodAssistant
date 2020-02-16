@@ -475,7 +475,7 @@ def order():
     orderList = []
     for activityInfo in activityInfos:
         row = {"activityType": activityInfo.activityType,
-                   "date": str(activityInfo.date) + "(" + constants.ISO_WEEK_DAY[activityInfo.date.isoweekday()] + ")",
+                   "date": str(activityInfo.date) + "（" + constants.ISO_WEEK_DAY[activityInfo.date.isoweekday()] + "）",
                    "ordered": "0", "activitySubType": constants.ACTIVITY_SUB_TYPE[activityInfo.activitySubType],
                    "activityId": activityInfo.activityId}
         for activityDetail in activityDetails:
@@ -537,7 +537,7 @@ def gather_activities():
     today_list = do_gather_activity(today_begin, today_end, group)
 
     future_begin = today_end
-    future_end = today_end + timedelta(days=7)
+    future_end = today_begin + timedelta(days=7)
     future_list = do_gather_activity(future_begin, future_end, group)
 
     return render_template('statistics.html', today_list=today_list, week_list=future_list)
