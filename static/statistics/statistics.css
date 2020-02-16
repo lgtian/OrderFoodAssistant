@@ -89,7 +89,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-around;
-    box-shadow: 1px 1px 4px #b1bfe0;
+    box-shadow: 1px 1px 6px #b1bfe0;
 }
 
 .view-statistics .bottom-tab-bar .icon-order {
