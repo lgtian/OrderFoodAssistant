@@ -19,12 +19,6 @@
 </head>
 <body>
 <div class="main-view">
-    <div class="header">
-        {% if session['user-id'] %}
-            Hello， {{ session['user-id'] }}
-            <a href="{{ url_for('logout') }}">注销</a>
-        {% endif %}
-    </div>
     {% block page_content %}{% endblock %}
 </div>
 {% block page_script %}{% endblock %}
