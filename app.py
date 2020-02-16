@@ -731,7 +731,7 @@ def do_gather_activity(from_date, end_date, group):
             format_dict = {
                 'title': tmp_dict.pop('title') + '(' + get_week_day(tmp_dict.get('date')) + ')',
                 'mealDeliver': tmp_dict.pop('mealDeliver'),
-                'date': tmp_dict.pop('date'),
+                'date': datetime.strftime(tmp_dict.pop('date'), "%Y-%m-%d"),
                 'activityType': tmp_dict.pop('activityType'),
                 'summary': join_dict_elems(tmp_dict, ' X', ', ')
             }
@@ -842,7 +842,7 @@ def all_activities():
             format_dict = {
                 'title': tmp_dict.pop('title') + '(' + get_week_day(tmp_dict.get('date')) + ')',
                 'mealDeliver': tmp_dict.pop('mealDeliver'),
-                'date': tmp_dict.pop('date'),
+                'date': datetime.strftime(tmp_dict.pop('date'), "%Y-%m-%d"),
                 'activityType': tmp_dict.pop('activityType'),
                 'summary': join_dict_elems(tmp_dict, ' x', ', ')
             }
