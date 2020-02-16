@@ -22,7 +22,7 @@
                         <div class="activity_order_info">{{ activity.summary }}</div>
                     </div>
                     <a class="flex flex-y-center deliveryman" href="{{ url_for("order_detail") }}">
-                        {% if activity.deliveryman %}
+                        {% if activity.mealDeliver %}
                             取餐人：{{ activity.mealDeliver }}
                         {% else %}
                             未指定取餐人

@@ -6,144 +6,22 @@ from service.activity_detail_service import update_activity_detail
 from service.activity_detail_service import query_activity_detail_by_aid
 from service.activity_detail_service import delete_activity_detail
 from flask import jsonify
-from models import ActivityInfo, ActivityDetail, UserInfo, ProduceInfo
+from models import ActivityInfo, ActivityDetail, UserInfo
 from exts import db
 from config.config import DB_HOST, DB_USER, DB_PWD, DB_PORT
 from datetime import datetime
 from datetime import timedelta
 from constant import constants
-import collections
 from service.user_service import query_user_pwd, query_user, USER_GROUP_IDX
 from util.util import is_str_empty, join_dict_elems, get_week_day
 import service.activity_service
 from service.activity_detail_service import query_activity_detail_list, QUANTITY_IDX
 
 app = Flask(__name__)
-app.secret_key = '6789023yhfkjasd234'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://'+ DB_USER+':'+DB_PWD+'@'+ DB_HOST + ':' + str(DB_PORT)+'/OrderFoodAssistant'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 db.init_app(app)
-
-
-@app.route('/statistics', methods=['GET', 'POST'])
-def statistics():
-    activity_list = [{
-            "deliveryman": '232422',
-            "activityType": "午餐",
-            "activitySubType": "11元套餐",
-            "date": "2020-02-18 (周二)",
-            "total": "10",
-            "summary": "11元晚餐 x12份，16元晚餐 x12份"
-        },
-        {
-            "activityId": 11,
-            "activityType": "午餐",
-            "activitySubType": "11元套餐",
-            "date": "2020-02-18 (周二)",
-            "total": "10",
-            "summary": "11元晚餐 x12份，16元晚餐 x12份"
-        }
-    ]
-    return render_template('statistics.html', activity_list=activity_list)
-
-
-@app.route('/statistics_all', methods=['GET', 'POST'])
-def statistics_all():
-    activity_list = [{
-            "deliveryman": '232422',
-            "activityType": "午餐",
-            "activitySubType": "11元套餐",
-            "date": "2020-02-18 (周二)",
-            "total": "10",
-            "summary": "11元晚餐 x12份，16元晚餐 x12份"
-        },
-        {
-            "deliveryman": '2842402',
-            "activityId": 11,
-            "activityType": "午餐",
-            "activitySubType": "11元套餐",
-            "date": "2020-02-18 (周二)",
-            "total": "10",
-            "summary": "11元晚餐 x12份，16元晚餐 x12份"
-        }
-    ]
-    return render_template('statistics-all.html', activity_list=activity_list)
-
-
-@app.route('/test/order', methods=['GET', 'POST'])
-def test_order():
-    activity_list = [{
-         "activityId": 11,
-         "activityType": "晚餐",
-         "activitySubType": "11元套餐",
-         "date": "2020-02-18 (周二)",
-         "activityDetailId": 111,
-         "total": "10",
-         "ordered": "1"
-        },
-        {
-         "activityType": "晚餐",
-         "activitySubType": "11元套餐",
-         "date": "2020-02-19 (周三)",
-         "ordered": "0"
-        },
-        {
-            "activityId": 11,
-            "activityType": "午餐",
-            "activitySubType": "16元套餐",
-            "date": "2020-02-18 (周二)",
-            "activityDetailId": 111,
-            "total": "10",
-            "ordered": "1"
-        },
-        {
-            "activityType": "晚餐",
-            "date": "2020-02-19 (周三)",
-            "activitySubType": "11元套餐",
-            "ordered": "0"
-        },
-        {
-            "activityId": 11,
-            "activityType": "午餐",
-            "activitySubType": "16元套餐",
-            "date": "2020-02-18 (周二)",
-            "activityDetailId": 111,
-            "total": "10",
-            "ordered": "1"
-        },
-        {
-            "activityType": "晚餐",
-            "date": "2020-02-19 (周三)",
-            "activitySubType": "11元套餐",
-            "ordered": "0"
-        },
-        {
-            "activityId": 11,
-            "activityType": "午餐",
-            "activitySubType": "11元套餐",
-            "date": "2020-02-18 (周二)",
-            "activityDetailId": 111,
-            "total": "10",
-            "ordered": "1"
-        },
-        {
-            "activityType": "晚餐",
-            "date": "2020-02-19 (周三)",
-            "activitySubType": "11元套餐",
-            "ordered": "0"
-        },
-        {
-            "activityId": 11,
-            "activityType": "晚餐",
-            "activitySubType": "11元套餐",
-            "date": "2020-02-18 (周二)",
-            "activityDetailId": 111,
-            "total": "10",
-            "ordered": "1"
-        }
-    ]
-    return render_template('order.html', activity_list=activity_list, isNextWeek='0')
 
 
 @app.route('/order_detail', methods=['GET', 'POST'])
@@ -187,7 +65,7 @@ def order_detail():
     }
     """
     employee_id = request.cookies.get('EID')
-    # employee_id = request.values.get('EID')
+    # employee_id = request.values.get('EID')K
 
     # 登录校验
     if is_str_empty(employee_id):
@@ -214,8 +92,8 @@ def order_detail():
     for activity_info in activity_infos:
         activity_id_info_dict[activity_info.activityId] = activity_info
         activity_id_total_cnt_dict[activity_info.activityId] = 0
-        product_info = ProduceInfo.query.filter(ProduceInfo.productType == activity_info.activityType,
-                                                ProduceInfo.productSubType == activity_info.activitySubType).first()
+        # product_info = ProduceInfo.query.filter(ProduceInfo.productType == activity_info.activityType,
+        #                                         ProduceInfo.productSubType == activity_info.activitySubType).first()
         # activity_id_product_dict[activity_info.activityId] = product_info
         if is_str_empty(deliver_man) and not is_str_empty(activity_info.mealDeliver):
             deliver_man = activity_info.mealDeliver
@@ -483,7 +361,6 @@ def update_meal_order():
     # 更新成功
     return redirect(url_for('order'))
 
-
 #删除订餐明细接口
 @app.route('/activity/detail/delete', methods=['POST'])
 def delete_meal_order():
@@ -670,7 +547,7 @@ def gather_activities():
     today_list = do_gather_activity(today_begin, today_end, group)
 
     week_begin = today_end
-    week_end = today_begin + timedelta(days=7 - today_begin.weekday())
+    week_end = today_begin + timedelta(days=7)
     week_list = do_gather_activity(week_begin, week_end, group)
 
     return render_template('statistics.html', today_list=today_list, week_list=week_list)
@@ -730,11 +607,11 @@ def do_gather_activity(from_date, end_date, group):
         # 格式化信息，防止重复数据
         if tmp_dict is not None and tmp_dict.get('title') is not None:
             format_dict = {
-                'title': tmp_dict.pop('title'),
+                'title': tmp_dict.pop('title') + '(' + get_week_day(tmp_dict.get('date')) + ')',
                 'mealDeliver': tmp_dict.pop('mealDeliver'),
-                'date': tmp_dict.pop('date'),
+                'date': datetime.strftime(tmp_dict.pop('date'), "%Y-%m-%d"),
                 'activityType': tmp_dict.pop('activityType'),
-                'summary': join_dict_elems(tmp_dict, ' X', ', ')
+                'summary': join_dict_elems(tmp_dict, ' x', ', ')
             }
             res_list.append(format_dict)
     return res_list
@@ -843,7 +720,7 @@ def all_activities():
             format_dict = {
                 'title': tmp_dict.pop('title') + '(' + get_week_day(tmp_dict.get('date')) + ')',
                 'mealDeliver': tmp_dict.pop('mealDeliver'),
-                'date': tmp_dict.pop('date'),
+                'date': datetime.strftime(tmp_dict.pop('date'), "%Y-%m-%d"),
                 'activityType': tmp_dict.pop('activityType'),
                 'summary': join_dict_elems(tmp_dict, ' x', ', ')
             }
