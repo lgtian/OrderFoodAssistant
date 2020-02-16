@@ -597,7 +597,7 @@ def do_gather_activity(from_date, end_date, group):
         # 格式化信息，防止重复数据
         if tmp_dict is not None and tmp_dict.get('title') is not None:
             format_dict = {
-                'title': tmp_dict.pop('title') + '(' + get_week_day(tmp_dict.get('date')) + ')',
+                'title': tmp_dict.pop('title'),
                 'mealDeliver': tmp_dict.pop('mealDeliver'),
                 'date': datetime.strftime(tmp_dict.pop('date'), "%Y-%m-%d"),
                 'activityType': tmp_dict.pop('activityType'),
@@ -708,7 +708,7 @@ def all_activities():
         # 格式化信息，防止重复数据
         if tmp_dict is not None and tmp_dict.get('title') is not None:
             format_dict = {
-                'title': tmp_dict.pop('title') + '(' + get_week_day(tmp_dict.get('date')) + ')',
+                'title': tmp_dict.pop('title'),
                 'mealDeliver': tmp_dict.pop('mealDeliver'),
                 'date': datetime.strftime(tmp_dict.pop('date'), "%Y-%m-%d"),
                 'activityType': tmp_dict.pop('activityType'),
@@ -720,7 +720,7 @@ def all_activities():
 
 
 def gen_summary_title(prefix, date):
-    return str(prefix) + " · " + str(date)
+    return str(prefix) + " · " + str(date) + ' （' + get_week_day(date) + '） '
 
 
 # 批量添加活动接口，暂时不开放
