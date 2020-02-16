@@ -6,7 +6,7 @@ from service.activity_detail_service import update_activity_detail
 from service.activity_detail_service import query_activity_detail_by_aid
 from service.activity_detail_service import delete_activity_detail
 from flask import jsonify
-from models import ActivityInfo, ActivityDetail, UserInfo, ProduceInfo
+from models import ActivityInfo, ActivityDetail, UserInfo
 from exts import db
 from config.config import DB_HOST, DB_USER, DB_PWD, DB_PORT
 from datetime import datetime
@@ -214,8 +214,8 @@ def order_detail():
     for activity_info in activity_infos:
         activity_id_info_dict[activity_info.activityId] = activity_info
         activity_id_total_cnt_dict[activity_info.activityId] = 0
-        product_info = ProduceInfo.query.filter(ProduceInfo.productType == activity_info.activityType,
-                                                ProduceInfo.productSubType == activity_info.activitySubType).first()
+        # product_info = ProduceInfo.query.filter(ProduceInfo.productType == activity_info.activityType,
+        #                                         ProduceInfo.productSubType == activity_info.activitySubType).first()
         # activity_id_product_dict[activity_info.activityId] = product_info
         if is_str_empty(deliver_man) and not is_str_empty(activity_info.mealDeliver):
             deliver_man = activity_info.mealDeliver
