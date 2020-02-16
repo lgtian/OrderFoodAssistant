@@ -22,31 +22,36 @@
         </div>
 
         <div class="flex-1 member-list">
+            {% if activity.memberList|length == 0 %}
+                <div class="member-list-null">还没有人订餐哦~</div>
+            {% endif %}
             {% for member in activity.memberList %}
-                <div class="member_item flex flex-y-center flex-x-between">
+                <div class="member_item flex flex-y-center">
                     <div class="member_id flex flex-y-center">
                         {{ member.employeeId }}
-                        <img style="margin-left: 20px" src="{{ url_for('static', filename='order/assign.png') }}"
-                             onclick="openOrderDetailDialog({{ member.employeeId }})">
+                        <img class="delivery-man-icon" src="{{ url_for('static', filename='order/assign.png') }}"
+                             onclick="openOrderDetailDialog({{ member }})">
                     </div>
-                    <div>{{ member.summary }}</div>
+                    <div class="flex-1 flex">
+                        {% for desc in member.summary %}
+                            <div class="flex-1 text-center">{{ desc }}</div>
+                        {% endfor %}
+                    </div>
                 </div>
             {% endfor %}
         </div>
 
-        <div class="bottom-bar-statistic flex flex-x-between flex-y-center">
+        <div class="bottom-bar-statistic flex flex-y-center">
             <div class="bar-total">
                 总计：<span class="total-price">¥{{ activity.totalPrice }}</span>
             </div>
-            <div class="flex bar-type">
-                <div class="bar-type-item first">
-                    <div>{{ activity.summaryList[0].desc }}</div>
-                    <div class="total-price bottom">¥{{ activity.summaryList[0].totalPrice }}</div>
-                </div>
-                <div class="bar-type-item">
-                    <div>{{ activity.summaryList[1].desc }}</div>
-                    <div class="total-price bottom">¥{{ activity.summaryList[1].totalPrice }}</div>
-                </div>
+            <div class="flex-1 flex bar-type">
+                {% for summary in activity.summaryList %}
+                    <div class="flex-1 bar-type-item">
+                        <div>{{ summary.desc }}</div>
+                        <div class="total-price bottom">¥{{ summary.totalPrice }}</div>
+                    </div>
+                {% endfor %}
             </div>
         </div>
 
@@ -67,9 +72,9 @@
 {% endblock %}
 {% block page_script %}
     <script>
-        function openOrderDetailDialog(employeeId) {
+        function openOrderDetailDialog(member) {
             document.querySelector('#orderDetailDialogView').style.display = 'block';
-            setDialogContent('是否要指派[' + employeeId + ']为取餐人？');
+            setDialogContent('是否要指派[ ' + member.employeeId + ' ]为取餐人？');
         }
 
         function closeOrderDetailDialog() {

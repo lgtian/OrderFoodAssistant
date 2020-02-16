@@ -50,14 +50,21 @@ body {
 .activity-list {
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
-    padding-bottom: 5.5rem;
-    background-color: #ffffff;
+    padding-bottom: 5rem;
+    background-color: #F5F6F9;
 }
 
 .activity-list .activity-item-null {
     text-align: center;
     margin-top: 8rem;
     font-size: 1rem;
+    color: #cccccc;
+}
+
+.activity-list .activity-item-load-all {
+    text-align: center;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
     color: #cccccc;
 }
 
