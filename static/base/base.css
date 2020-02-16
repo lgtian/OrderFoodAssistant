@@ -63,6 +63,15 @@
     -webkit-appearance: none;
 }
 
+/*ios输入框*/
+input {
+    border-radius: 0;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
 body, html {
     font-family: PingFangSC-Regular, Arial, Microsoft YaHei, sans-serif;
     height: 100%;
@@ -187,6 +196,6 @@ body, html {
     text-align: right;
 }
 
-.hide{
+.hide {
     display: none;
 }

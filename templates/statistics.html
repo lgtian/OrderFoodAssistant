@@ -22,13 +22,14 @@
                         <div class="activity_info">{{ activity.title }}</div>
                         <div class="activity_order_info">{{ activity.summary }}</div>
                     </div>
-                    <a class="deliveryman" href="{{ url_for("order_detail", activityType=activity.activityType, date=activity.date) }}">
-                        {% if activity.deliveryman %}
+                    <a class="flex flex-y-center deliveryman"
+                       href="{{ url_for("order_detail", activityType=activity.activityType, date=activity.date) }}">
+                        {% if activity.mealDeliver %}
                             取餐人：{{ activity.mealDeliver }}
                         {% else %}
                             未指定取餐人
                         {% endif %}
-                        <span style="color: #000"> > </span>
+                        <span class="arrow-right"></span>
                     </a>
                 </div>
             {% endfor %}
@@ -38,9 +39,7 @@
         <div style="height: inherit">
             <div class="activity-list-title flex flex-x-between flex-y-center">
                 <div>本周订单</div>
-                {% if week_list|length > 0 %}
-                    <a class="statistics-view-all" href="{{ url_for('all_activities') }}">查看全部订单</a>
-                {% endif %}
+                <a class="statistics-view-all" href="{{ url_for('all_activities') }}">查看全部订单</a>
             </div>
             <div class="activity-list">
                 {% if week_list|length == 0 %}
@@ -52,13 +51,14 @@
                             <div class="activity_info">{{ activity.title }}</div>
                             <div class="activity_order_info">{{ activity.summary }}</div>
                         </div>
-                        <a class="deliveryman" href="{{ url_for("order_detail", activityType=activity.activityType, date=activity.date) }}">
+                        <a class="flex flex-y-center deliveryman"
+                           href="{{ url_for("order_detail", activityType=activity.activityType, date=activity.date) }}">
                             {% if activity.deliveryman %}
                                 取餐人：{{ activity.mealDeliver }}
                             {% else %}
                                 未指定取餐人
                             {% endif %}
-                            <span style="color: #000"> > </span>
+                           <span class="arrow-right"></span>
                         </a>
                     </div>
                 {% endfor %}
