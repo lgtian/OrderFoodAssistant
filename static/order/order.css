@@ -66,12 +66,17 @@ body {
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid #d7d8db;
-    padding: 15px 20px;
+    padding: 1.1rem 1.6rem;
     background-color: #ffffff;
 }
 
 .activity_item .activity-info {
-    margin-left: 20px;
+    margin-left: 1.8rem;
+}
+
+.activity_item .activity-info .activity-date {
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
 }
 
 .activity_item .btn-modify {

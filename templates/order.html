@@ -7,18 +7,10 @@
 {% endblock %}
 {% block page_content %}
     <div class="view-order flex-column">
-        {% if isNextWeek=='0' %}
-            <div class="order-notice">
-                <span>午餐需在前一日 15:00 之前预定</span><br/>
-                <span>晚餐可在当日的 15:00 之前预定</span>
-            </div>
-        {% endif %}
-        {% if isNextWeek=='1' %}
-            <div class="order-notice text-center">
-                <span class="order-notice-title">本周预定已结束，当前可预订下周套餐</span><br/>
-                <span>周五 15:00 后可预定下周套餐</span>
-            </div>
-        {% endif %}
+        <div class="order-notice">
+            <span>午餐需在前一日 15:00 之前预定</span><br/>
+            <span>晚餐可在当日的 15:00 之前预定</span>
+        </div>
 
         <!-- 菜单列表-->
         <div class="activity-list flex-1 ">
@@ -40,7 +32,7 @@
                             <div class="activity-date">{{ activity.date }}</div>
                             {% if activity.ordered == '1' %}
                                 <div class="activity-ordered-info">{{ activity.activitySubType }}
-                                    x{{ activity.total }}</div>
+                                    x {{ activity.total }}</div>
                             {% else %}
                                 <div class="activity-unordered-info">{{ activity.activitySubType }}（未预定)</div>
                             {% endif %}
@@ -105,7 +97,7 @@
                     <div class="header-close" onclick="closeUpdateDialog()"></div>
                 </div>
                 <div class="dialog-order-content">
-                    <form action="activity/detail/update" , method="post">
+                    <form class="update-form" action="activity/detail/update" , method="post">
                         <input class="hide" id="activityDetailId" type="text" name="activityDetailId">
                         <div class="flex content-item">
                             <div class="content-label">套餐：</div>
@@ -119,8 +111,8 @@
                         </div>
                         <input class="content-btn" type="submit" value="修改预定"/>
                     </form>
-                    <form action="order" , method="post">
-                        <input class="hide" id="activityId" type="text" name="activityId">
+                    <form class="delete-form" action="activity/detail/delete" , method="post">
+                        <input class="hide" id="deleteActivityId" type="text" name="activityDetailId">
                         <input class="content-btn cancel-btn" type="submit" value="取消预定"/>
                     </form>
                 </div>
@@ -147,6 +139,7 @@
         function openUpdateDialog(activity) {
             document.querySelector('#orderUpdateDialogView').style.display = 'block';
             document.querySelector('#activityDetailId').value = activity.activityDetailId;
+            document.querySelector('#deleteActivityId').value = activity.activityDetailId;
             document.querySelector('#orderUpdateDialogView .header-title').innerHTML = activity.activityType + ' . ' + activity.date;
             document.querySelector('#orderUpdateDialogView .content-value').innerHTML = activity.activitySubType || '';
             document.querySelector('#orderUpdateDialogView .input-text').value = activity.total || 1;
@@ -154,7 +147,8 @@
 
         function closeUpdateDialog() {
             document.querySelector('#orderUpdateDialogView').style.display = 'none';
-            document.querySelector('#orderUpdateDialogView form').reset();
+            document.querySelector('#orderUpdateDialogView .update-form').reset();
+            document.querySelector('#orderUpdateDialogView .delete-form').reset();
         }
     </script>
 {% endblock %}

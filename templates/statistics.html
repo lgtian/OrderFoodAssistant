@@ -35,15 +35,15 @@
             {% endfor %}
         </div>
 
-        <!-- 本周订单-->
+        <!-- 未来订单-->
         <div style="height: inherit">
             <div class="activity-list-title flex flex-x-between flex-y-center">
-                <div>本周订单</div>
+                <div>未来订单</div>
                 <a class="statistics-view-all" href="{{ url_for('all_activities') }}">查看全部订单</a>
             </div>
             <div class="activity-list">
                 {% if week_list|length == 0 %}
-                    <div class="activity-item-null">暂无本周订单~</div>
+                    <div class="activity-item-null">暂无未来订单~</div>
                 {% endif %}
                 {% for activity in week_list %}
                     <div class="activity_item flex flex-y-center flex-x-between">
