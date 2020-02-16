@@ -44,13 +44,10 @@
     <script>
         function init() {
             // 固定页面高度，避免软键盘弹出时将底部元素向上挤压
+            let originalWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
             let originalHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-                $('body').height(originalHeight);
-                $(window).resize(function () {
-                $('body').height(originalHeight);
-            });
+            window.resizeTo(originalWidth, originalHeight);
         }
         init();
-
     </script>
 {% endblock %}
