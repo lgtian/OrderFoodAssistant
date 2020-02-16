@@ -483,6 +483,7 @@ def update_meal_order():
     # 更新成功
     return redirect(url_for('order'))
 
+
 #删除订餐明细接口
 @app.route('/activity/detail/delete', methods=['POST'])
 def delete_meal_order():
