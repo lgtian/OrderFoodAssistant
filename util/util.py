@@ -24,19 +24,19 @@ def join_dict_elems(elem_dict, key_val_separator, elem_separator):
 
 def get_week_day(date):
     """
-    判断星期几
+    判断周几
 
     :param date:
     :return:
     """
     week_day_dict = {
-        0: '星期一',
-        1: '星期二',
-        2: '星期三',
-        3: '星期四',
-        4: '星期五',
-        5: '星期六',
-        6: '星期天',
+        0: '周一',
+        1: '周二',
+        2: '周三',
+        3: '周四',
+        4: '周五',
+        5: '周六',
+        6: '周日',
     }
     day = date.weekday()
     return week_day_dict[day]
