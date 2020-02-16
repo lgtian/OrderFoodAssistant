@@ -33,8 +33,9 @@
                              onclick="openOrderDetailDialog({{ member }})">
                     </div>
                     <div class="flex-1 flex">
-{#                        <div class="flex-1 text-center">{{ member.summary[0].desc }}</div>#}
-{#                        <div class="flex-1 text-center">{{ member.summary[1].desc }}</div>#}
+                        {% for desc in member.summary %}
+                            <div class="flex-1 text-center">{{ desc }}</div>
+                        {% endfor %}
                     </div>
                 </div>
             {% endfor %}
@@ -45,14 +46,12 @@
                 总计：<span class="total-price">¥{{ activity.totalPrice }}</span>
             </div>
             <div class="flex-1 flex bar-type">
-                <div class="flex-1 bar-type-item first">
-                    <div>{{ activity.summaryList[0].desc }}</div>
-                    <div class="total-price bottom">¥{{ activity.summaryList[0].totalPrice }}</div>
-                </div>
-                <div class="flex-1 bar-type-item">
-                    <div>{{ activity.summaryList[1].desc }}</div>
-                    <div class="total-price bottom">¥{{ activity.summaryList[1].totalPrice }}</div>
-                </div>
+                {% for summary in activity.summaryList %}
+                    <div class="flex-1 bar-type-item">
+                        <div>{{ summary.desc }}</div>
+                        <div class="total-price bottom">¥{{ summary.totalPrice }}</div>
+                    </div>
+                {% endfor %}
             </div>
         </div>
 
