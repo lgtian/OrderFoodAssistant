@@ -9,14 +9,14 @@
     <div class="view-order flex-column">
         {% if isNextWeek=='0' %}
             <div class="order-notice">
-                1）午餐需在前一日 15:00 之前预定<br>
-                2）晚餐可在当日的 15:00 之前预定<br>
-                3）周五15:00后可预定下周套餐
+                <span>午餐需在前一日 15:00 之前预定</span><br/>
+                <span>晚餐可在当日的 15:00 之前预定</span>
             </div>
         {% endif %}
         {% if isNextWeek=='1' %}
             <div class="order-notice text-center">
-                <span style="color: #2B448E">本周预定已结束，周五15:00后可预定下周套餐</span>
+                <span class="order-notice-title">本周预定已结束，当前可预订下周套餐</span><br/>
+                <span>周五15:00后可预定下周套餐</span>
             </div>
         {% endif %}
 

@@ -13,11 +13,18 @@ body {
 }
 
 .view-order .order-notice {
+    text-align: center;
     padding: 0.5rem 1.5rem;
     color: #6D7B89;
     border-bottom: 1px solid #d7d8db;
     font-size: 0.9rem;
-    line-height: 1.8rem;
+    line-height: 1.6rem;
+}
+
+.view-order .order-notice .order-notice-title {
+    font-size: 1.1rem;
+    line-height: 2rem;
+    color: #334C99;
 }
 
 .view-order .activity_item .activity-type-lunch {
