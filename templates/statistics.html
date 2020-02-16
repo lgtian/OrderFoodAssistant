@@ -22,7 +22,7 @@
                         <div class="activity_info">{{ activity.title }}</div>
                         <div class="activity_order_info">{{ activity.summary }}</div>
                     </div>
-                    <a class="deliveryman" href="{{ url_for("order_detail", activityType=activity.activityType, date=activity.dateK) }}">
+                    <a class="deliveryman" href="{{ url_for("order_detail", activityType=activity.activityType, date=activity.date) }}">
                         {% if activity.deliveryman %}
                             取餐人：{{ activity.mealDeliver }}
                         {% else %}
