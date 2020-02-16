@@ -478,7 +478,9 @@ def order():
     end = now + timedelta(days=7)
     # 查询7天活动列表
     activityInfos = ActivityInfo.query.filter(ActivityInfo.group == employee.group, ActivityInfo.expiredAt >= start,
-                                              ActivityInfo.expiredAt < end).order_by(ActivityInfo.date).all()
+                                              ActivityInfo.expiredAt < end).order_by(ActivityInfo.date,
+                                                                                     ActivityInfo.activityType,
+                                                                                     ActivityInfo.activitySubType).all()
 
     activityIds = []
     for activityInfo in activityInfos:
