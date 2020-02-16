@@ -30,7 +30,7 @@
                     <div class="member_id flex flex-y-center">
                         {{ member.employeeId }}
                         <img class="delivery-man-icon" src="{{ url_for('static', filename='order/assign.png') }}"
-                             onclick="openOrderDetailDialog({{ member.employeeId }})">
+                             onclick="openOrderDetailDialog({{ member }})">
                     </div>
                     <div>{{ member.summary }}</div>
                 </div>
@@ -70,9 +70,9 @@
 {% endblock %}
 {% block page_script %}
     <script>
-        function openOrderDetailDialog(employeeId) {
+        function openOrderDetailDialog(member) {
             document.querySelector('#orderDetailDialogView').style.display = 'block';
-            setDialogContent('是否要指派[' + employeeId + ']为取餐人？');
+            setDialogContent('是否要指派[ ' + member.employeeId + ' ]为取餐人？');
         }
 
         function closeOrderDetailDialog() {
