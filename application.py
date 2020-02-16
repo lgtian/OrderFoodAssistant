@@ -82,7 +82,8 @@ def order_detail():
     # 查询活动信息
     activity_infos = ActivityInfo.query.filter(ActivityInfo.group == employee.group,
                                                ActivityInfo.date == date,
-                                               ActivityInfo.activityType == activity_type).all()
+                                               ActivityInfo.activityType == activity_type).\
+        order_by(ActivityInfo.activityId).all()
 
     activity_id_info_dict = {}
     # 每种子活动的数量
@@ -99,16 +100,26 @@ def order_detail():
             deliver_man = activity_info.mealDeliver
 
     # 查询活动详情列表
-    activity_details = ActivityDetail.query.filter(ActivityDetail.activityId.in_(activity_id_info_dict.keys())).all()
+    activity_details = ActivityDetail.query.filter(ActivityDetail.activityId.in_(activity_id_info_dict.keys()))\
+        .order_by(ActivityDetail.activityId).all()
 
-    member_list = []
+    member_dict = {}
     for detail in activity_details:
         # 对应活动
         activity_info = activity_id_info_dict[int(detail.activityId)]
-        member_list.append({
-            "employeeId": detail.employeeId,
-            "summary": constants.ACTIVITY_SUB_TYPE[activity_info.activitySubType] + " x" + str(detail.quantity)
-        })
+
+        # 对同一用户的多种活动进行组合
+        member_elem = member_dict.get(detail.employeeId)
+        if member_elem is None:
+            member_elem = {
+                "employeeId": detail.employeeId,
+                "summary": [constants.ACTIVITY_SUB_TYPE[activity_info.activitySubType] + " x" + str(detail.quantity)]
+            }
+        else:
+            summary = member_elem.get("summary")
+            summary.append(constants.ACTIVITY_SUB_TYPE[activity_info.activitySubType] + " x" + str(detail.quantity))
+
+        member_dict[detail.employeeId] = member_elem
         activity_id_total_cnt_dict[activity_info.activityId] += detail.quantity
 
     summary_list = []
@@ -131,7 +142,7 @@ def order_detail():
         "deliveryman": deliver_man,
         "totalPrice": str(total_price),
         "summaryList": summary_list,
-        "memberList": member_list
+        "memberList": member_dict.values()
     }
 
     return render_template('order-detail.html', activity=activity)
