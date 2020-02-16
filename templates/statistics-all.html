@@ -15,12 +15,12 @@
         {% for activity in activity_list %}
             <div class="activity_item flex flex-y-center flex-x-between">
                 <div>
-                    <div class="activity_info">{{ activity.activityType }}·{{ activity.date }}</div>
+                    <div class="activity_info">{{ activity.title }}</div>
                     <div class="activity_order_info">{{ activity.summary }}</div>
                 </div>
                 <a class="deliveryman" href="{{ url_for("order_detail") }}">
                     {% if activity.deliveryman %}
-                        取餐人：{{ activity.deliveryman }}
+                        取餐人：{{ activity.mealDeliver }}
                     {% else %}
                         未指定取餐人
                     {% endif %}

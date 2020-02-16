@@ -16,7 +16,7 @@
         {% endif %}
         {% if isNextWeek=='1' %}
             <div class="order-notice text-center">
-                <span style="color: #2B448E">本周预定已结束，当前可预定下周套餐</span>
+                <span style="color: #2B448E">本周预定已结束，周五15:00后可预定下周套餐</span>
             </div>
         {% endif %}
 
@@ -60,7 +60,7 @@
                 <div class="icon-order"></div>
                 订餐
             </div>
-            <a style="color:#93959D; text-decoration: none" href="{{ url_for('statistics') }}">
+            <a style="color:#93959D; text-decoration: none" href="{{ url_for('gather_activities') }}">
                 <div class="icon-statistics"></div>
                 汇总
             </a>
@@ -75,7 +75,7 @@
                     <div class="header-close" onclick="closeOrderDialog()"></div>
                 </div>
                 <div class="dialog-order-content">
-                    <form action="order" , method="post">
+                    <form action="activity/detail/add", method="post">
                         <input class="hide" id="activityId" type="text" name="activityId">
                         <div class="flex content-item">
                             <div class="content-label">套餐：</div>
@@ -84,7 +84,7 @@
                         <div class="flex content-item">
                             <div class="content-label">份数：</div>
                             <div class="flex-1">
-                                <input class="input-text text-right" type="number" min="1" name="order_count">
+                                <input class="input-text text-right" type="number" min="1" name="quantity">
                             </div>
                         </div>
                         <input class="content-btn" type="submit" value="提交"/>
@@ -102,8 +102,8 @@
                     <div class="header-close" onclick="closeUpdateDialog()"></div>
                 </div>
                 <div class="dialog-order-content">
-                    <form action="order" , method="post">
-                        <input class="hide" id="activityDetailId" type="text" name="activityId">
+                    <form action="activity/detail/update", method="post">
+                        <input class="hide" id="activityDetailId" type="text" name="activityDetailId">
                         <div class="flex content-item">
                             <div class="content-label">套餐：</div>
                             <div class="content-value flex-1 text-right"></div>
@@ -111,7 +111,7 @@
                         <div class="flex content-item">
                             <div class="content-label">份数：</div>
                             <div class="flex-1">
-                                <input class="input-text text-right" type="number" min="1" name="order_count">
+                                <input class="input-text text-right" type="number" min="1" name="quantity">
                             </div>
                         </div>
                         <input class="content-btn" type="submit" value="修改预定"/>

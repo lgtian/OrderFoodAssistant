@@ -192,7 +192,7 @@ def login():
         employee_id = request.cookies.get('EID')
         # 判断用户是否已登录
         if employee_id is not None:
-            return redirect(url_for('home'))
+            return redirect(url_for('order'))
         else:
             return render_template('login.html')
 
@@ -201,21 +201,21 @@ def login():
     pwd = request.form['pwd']
 
     if is_str_empty(employee_id) or is_str_empty(pwd):
-        return render_template('login.html', message='incorrect employeeId')
+        return render_template('login.html', message='员编错误或未注册')
 
     # 登录校验
     pwd_tuple = query_user_pwd(employee_id)
     if pwd_tuple is None:
-        return render_template('login.html', message='incorrect employeeId')
+        return render_template('login.html', message='员编错误或未注册')
 
     # 获取数据库密码
     db_password = pwd_tuple[0]
     # 密码判断
     if db_password != pwd:
-        return render_template('login.html', message='incorrect password')
+        return render_template('login.html', message='密码错误')
 
     # 登录成功
-    response = Response(render_template('home.html', employeeId=employee_id))
+    response = redirect(url_for('login'))
     response.set_cookie('EID', employee_id, max_age=600)
     return response
 
@@ -277,8 +277,7 @@ def create_meal_order():
     create_activity_detail(activity_id, employee_id, quantity, created_by)
 
     # 登录成功
-    response = {"respCode": "1000", "respMsg": "success"}
-    return response
+    return redirect(url_for('order'))
 
 # 查询订餐明细接口
 @app.route('/activity/detail/query', methods=['POST'])
@@ -407,8 +406,7 @@ def update_meal_order():
     update_activity_detail(activity_detail_id, employee_id, quantity)
 
     # 更新成功
-    response = {"respCode": "1000", "respMsg": "success"}
-    return response
+    return redirect(url_for('order'))
 
 #删除订餐明细接口
 @app.route('/activity/detail/delete', methods=['POST'])
@@ -453,8 +451,7 @@ def delete_meal_order():
     delete_activity_detail(activity_detail_id)
 
     # 登录成功
-    response = {"respCode": "1000", "respMsg": "success"}
-    return response
+    return redirect(url_for('order'))
 
 
 # 订餐
@@ -557,7 +554,7 @@ def order():
     return render_template('order.html', activity_list=orderList, isNextWeek=isNextWeek)
 
 
-@app.route('/gatherActivities', methods=['GET', 'POST'])
+@app.route('/gather_activities', methods=['GET', 'POST'])
 def gather_activities():
     """
     订单汇总接口
@@ -576,8 +573,8 @@ def gather_activities():
             mealDeliver 送餐人id
     """
 
-    # employee_id = request.cookies.get('EID')
-    employee_id = request.values.get('EID')
+    employee_id = request.cookies.get('EID')
+    # employee_id = request.values.get('EID')
 
     # 登录校验
     if employee_id is None:
@@ -602,7 +599,7 @@ def gather_activities():
     week_end = today_begin + timedelta(days=7 - today_begin.weekday())
     week_list = do_gather_activity(week_begin, week_end, group)
 
-    return render_template('activity_summary_list.html', today_list=today_list, week_list=week_list)
+    return render_template('statistics.html', today_list=today_list, week_list=week_list)
 
 
 def do_gather_activity(from_date, end_date, group):
@@ -686,8 +683,8 @@ def all_activities():
         activity_summary_list:[{'title': '午餐 * 2020-02-15(星期六)', 'mealDeliver': '111', 'summary': ', 11元套餐 x4, 16元套餐 x1'}, {'title': '晚餐 * 2020-02-15(星期六)', 'mealDeliver': None, 'summary': ', 11元套餐 x0, 16元套餐 x0'}]
     """
 
-    # employee_id = request.cookies.get('EID')
-    employee_id = request.values.get('EID')
+    employee_id = request.cookies.get('EID')
+    # employee_id = request.values.get('EID')
     from_date = request.values.get('fromDate')
     end_date = request.values.get('endDate')
 
@@ -762,7 +759,7 @@ def all_activities():
             }
             res_list.append(format_dict)
 
-    return render_template('activity_summary_list.html', activity_summary_list=res_list)
+    return render_template('statistics-all.html', activity_list=res_list)
 
 
 def gen_summary_title(prefix, date):

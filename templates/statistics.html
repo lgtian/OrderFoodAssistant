@@ -13,15 +13,15 @@
     <!-- 今日订单-->
     <div>
         <div class="activity-list-title">今日订单</div>
-        {% for activity in activity_list %}
+        {% for activity in today_list %}
             <div class="activity_item flex flex-y-center flex-x-between">
                 <div>
-                    <div class="activity_info">{{ activity.activityType }}·{{ activity.date }}</div>
+                    <div class="activity_info">{{ activity.title }}</div>
                     <div class="activity_order_info">{{ activity.summary }}</div>
                 </div>
                 <a class="deliveryman" href="{{ url_for("order_detail") }}">
                     {% if activity.deliveryman %}
-                        取餐人：{{ activity.deliveryman }}
+                        取餐人：{{ activity.mealDeliver }}
                     {% else %}
                         未指定取餐人
                     {% endif %}
@@ -35,18 +35,18 @@
     <div style="height: inherit">
         <div class="activity-list-title flex flex-x-between flex-y-center">
             <div>本周订单</div>
-            <a href="{{ url_for('statistics_all') }}">查看全部订单</a>
+            <a href="{{ url_for('all_activities') }}">查看全部订单</a>
         </div>
         <div class="activity-list">
-            {% for activity in activity_list %}
+            {% for activity in week_list %}
                 <div class="activity_item flex flex-y-center flex-x-between">
                     <div>
-                        <div class="activity_info">{{ activity.activityType }}·{{ activity.date }}</div>
+                        <div class="activity_info">{{ activity.title }}</div>
                         <div class="activity_order_info">{{ activity.summary }}</div>
                     </div>
                     <a class="deliveryman" href="{{ url_for("order_detail") }}">
                         {% if activity.deliveryman %}
-                            取餐人：{{ activity.deliveryman }}
+                            取餐人：{{ activity.mealDeliver }}
                         {% else %}
                             未指定取餐人
                         {% endif %}
