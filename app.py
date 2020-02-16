@@ -607,10 +607,11 @@ def order():
     for activityInfo in activityInfos:
         row = {"activityType": constants.ACTIVITY_TYPE[activityInfo.activityType],
                    "date": str(activityInfo.date) + "(" + constants.ISO_WEEK_DAY[activityInfo.date.isoweekday()] + ")",
-                   "ordered": "0", "activitySubType": constants.ACTIVITY_SUB_TYPE[activityInfo.activitySubType]}
+                   "ordered": "0", "activitySubType": constants.ACTIVITY_SUB_TYPE[activityInfo.activitySubType],
+                   "activityId": activityInfo.activityId}
         for activityDetail in activityDetails:
             if activityInfo.activityId == activityDetail.activityId:
-                row["activityId"] = activityInfo.activityId
+                #row["activityId"] = activityInfo.activityId
                 #row["activitySubType"] = constants.ACTIVITY_SUB_TYPE[activityInfo.activitySubType]
                 row["activityDetailId"] = activityDetail.activityDetailId
                 row["total"] = activityDetail.quantity
