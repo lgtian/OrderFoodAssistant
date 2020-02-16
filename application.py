@@ -12,7 +12,6 @@ from config.config import DB_HOST, DB_USER, DB_PWD, DB_PORT
 from datetime import datetime
 from datetime import timedelta
 from constant import constants
-import collections
 from service.user_service import query_user_pwd, query_user, USER_GROUP_IDX
 from util.util import is_str_empty, join_dict_elems, get_week_day
 import service.activity_service
@@ -612,7 +611,7 @@ def do_gather_activity(from_date, end_date, group):
                 'mealDeliver': tmp_dict.pop('mealDeliver'),
                 'date': datetime.strftime(tmp_dict.pop('date'), "%Y-%m-%d"),
                 'activityType': tmp_dict.pop('activityType'),
-                'summary': join_dict_elems(tmp_dict, ' X', ', ')
+                'summary': join_dict_elems(tmp_dict, ' x', ', ')
             }
             res_list.append(format_dict)
     return res_list
