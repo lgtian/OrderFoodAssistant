@@ -458,20 +458,10 @@ def order():
     # 计算活动开始时间和结束时间
     now = datetime.now()
     start = now
-    this_week_end = now.date() + timedelta(days=7 - now.weekday())
-    this_week_friday = now.date() + timedelta(days=4 - now.weekday())
-    this_week_friday_15 = datetime(this_week_friday.year, this_week_friday.month, this_week_friday.day, 15)
-
-    isNextWeek = '0'
-    if now.timestamp() > this_week_friday_15.timestamp():
-        this_week_start = now.date() - timedelta(days=now.weekday())
-        start = this_week_start + timedelta(days=7)
-        this_week_end = this_week_end + timedelta(days=7)
-        isNextWeek = '1'
-
-    # 查询活动列表
+    end = now + timedelta(days=7)
+    # 查询7天活动列表
     activityInfos = ActivityInfo.query.filter(ActivityInfo.group == employee.group, ActivityInfo.expiredAt >= start,
-                                              ActivityInfo.expiredAt < this_week_end).order_by(ActivityInfo.date).all()
+                                              ActivityInfo.expiredAt < end).order_by(ActivityInfo.date).all()
 
     activityIds = []
     for activityInfo in activityInfos:
@@ -497,7 +487,7 @@ def order():
                 row["ordered"] = "1"
         orderList.append(row)
 
-    return render_template('order.html', activity_list=orderList, isNextWeek=isNextWeek)
+    return render_template('order.html', activity_list=orderList)
 
 
 @app.route('/gather_activities', methods=['GET', 'POST'])
