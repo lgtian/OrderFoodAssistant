@@ -66,7 +66,7 @@ def order_detail():
     }
     """
     employee_id = request.cookies.get('EID')
-    # employee_id = request.values.get('EID')
+    # employee_id = request.values.get('EID')K
 
     # 登录校验
     if is_str_empty(employee_id):
