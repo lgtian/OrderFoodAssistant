@@ -536,11 +536,11 @@ def gather_activities():
     today_end = today_begin + timedelta(days=1)
     today_list = do_gather_activity(today_begin, today_end, group)
 
-    week_begin = today_end
-    week_end = today_begin + timedelta(days=7)
-    week_list = do_gather_activity(week_begin, week_end, group)
+    future_begin = today_end
+    future_end = today_end + timedelta(days=7)
+    future_list = do_gather_activity(future_begin, future_end, group)
 
-    return render_template('statistics.html', today_list=today_list, week_list=week_list)
+    return render_template('statistics.html', today_list=today_list, week_list=future_list)
 
 
 def do_gather_activity(from_date, end_date, group):
