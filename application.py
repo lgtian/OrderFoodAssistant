@@ -458,20 +458,10 @@ def order():
     # 计算活动开始时间和结束时间
     now = datetime.now()
     start = now
-    this_week_end = now.date() + timedelta(days=7 - now.weekday())
-    this_week_friday = now.date() + timedelta(days=4 - now.weekday())
-    this_week_friday_15 = datetime(this_week_friday.year, this_week_friday.month, this_week_friday.day, 15)
-
-    isNextWeek = '0'
-    if now.timestamp() > this_week_friday_15.timestamp():
-        this_week_start = now.date() - timedelta(days=now.weekday())
-        start = this_week_start + timedelta(days=7)
-        this_week_end = this_week_end + timedelta(days=7)
-        isNextWeek = '1'
-
-    # 查询活动列表
+    end = now + timedelta(days=7)
+    # 查询7天活动列表
     activityInfos = ActivityInfo.query.filter(ActivityInfo.group == employee.group, ActivityInfo.expiredAt >= start,
-                                              ActivityInfo.expiredAt < this_week_end).order_by(ActivityInfo.date).all()
+                                              ActivityInfo.expiredAt < end).order_by(ActivityInfo.date).all()
 
     activityIds = []
     for activityInfo in activityInfos:
@@ -497,7 +487,7 @@ def order():
                 row["ordered"] = "1"
         orderList.append(row)
 
-    return render_template('order.html', activity_list=orderList, isNextWeek=isNextWeek)
+    return render_template('order.html', activity_list=orderList)
 
 
 @app.route('/gather_activities', methods=['GET', 'POST'])
@@ -546,11 +536,11 @@ def gather_activities():
     today_end = today_begin + timedelta(days=1)
     today_list = do_gather_activity(today_begin, today_end, group)
 
-    week_begin = today_end
-    week_end = today_begin + timedelta(days=7)
-    week_list = do_gather_activity(week_begin, week_end, group)
+    future_begin = today_end
+    future_end = today_end + timedelta(days=7)
+    future_list = do_gather_activity(future_begin, future_end, group)
 
-    return render_template('statistics.html', today_list=today_list, week_list=week_list)
+    return render_template('statistics.html', today_list=today_list, week_list=future_list)
 
 
 def do_gather_activity(from_date, end_date, group):
