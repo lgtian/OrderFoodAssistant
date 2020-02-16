@@ -61,8 +61,8 @@
                     <form action="order_detail">
                         <div class="dialog-content"></div>
                         <div class="dialog-btn flex">
-                            <div class="flex-1 btn-cancel" onclick="closeOrderDetailDialog()">取消</div>
-                            <button type="submit" class="flex-1 btn-confirm">确认</button>
+                            <div class="flex-1 btn-cancel" onclick="closeOrderDetailDialog()">确认</div>
+                            {#<button type="submit" class="flex-1 btn-confirm">确认</button>#}
                         </div>
                     </form>
                 </div>
@@ -74,7 +74,8 @@
     <script>
         function openOrderDetailDialog(member) {
             document.querySelector('#orderDetailDialogView').style.display = 'block';
-            setDialogContent('是否要指派[ ' + member.employeeId + ' ]为取餐人？');
+            {#setDialogContent('是否要指派[ ' + member.employeeId + ' ]为取餐人？');#}
+            setDialogContent('敬请期待');
         }
 
         function closeOrderDetailDialog() {
