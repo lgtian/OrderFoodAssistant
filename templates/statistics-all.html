@@ -9,25 +9,28 @@
 {% endblock %}
 
 {% block page_content %}
-<div class="view-statistics">
-    <!-- 全部订单-->
-    <div class="activity-list">
-        {% for activity in activity_list %}
-            <div class="activity_item flex flex-y-center flex-x-between">
-                <div>
-                    <div class="activity_info">{{ activity.title }}</div>
-                    <div class="activity_order_info">{{ activity.summary }}</div>
+    <div class="view-statistics">
+        <!-- 全部订单-->
+        <div class="activity-list">
+            {% if activity_list|length == 0 %}
+                <div class="activity-all-item-null">暂无订单信息~</div>
+            {% endif %}
+            {% for activity in activity_list %}
+                <div class="activity_item flex flex-y-center flex-x-between">
+                    <div>
+                        <div class="activity_info">{{ activity.title }}</div>
+                        <div class="activity_order_info">{{ activity.summary }}</div>
+                    </div>
+                    <a class="deliveryman" href="{{ url_for("order_detail") }}">
+                        {% if activity.deliveryman %}
+                            取餐人：{{ activity.mealDeliver }}
+                        {% else %}
+                            未指定取餐人
+                        {% endif %}
+                        <span style="color: #000"> > </span>
+                    </a>
                 </div>
-                <a class="deliveryman" href="{{ url_for("order_detail") }}">
-                    {% if activity.deliveryman %}
-                        取餐人：{{ activity.mealDeliver }}
-                    {% else %}
-                        未指定取餐人
-                    {% endif %}
-                    <span style="color: #000"> > </span>
-                </a>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
     </div>
-</div>
 {% endblock %}
