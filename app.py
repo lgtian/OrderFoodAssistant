@@ -789,7 +789,7 @@ def all_activities():
     # 查询活动信息
     activity_tuple_list = service.activity_service.query_activity_list(from_date, end_date, group)
     if activity_tuple_list is None or len(activity_tuple_list) == 0:
-        return render_template('activity_summary_list.html', message='no info')
+        return render_template('statistics-all.html', message='no info')
 
     # 汇总每天的信息
     res_dict = {}
