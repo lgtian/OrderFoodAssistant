@@ -548,7 +548,7 @@ def gather_activities():
     today_list = do_gather_activity(today_begin, today_end, group)
 
     week_begin = today_end
-    week_end = today_begin + timedelta(days=7 - today_begin.weekday())
+    week_end = today_begin + timedelta(days=7)
     week_list = do_gather_activity(week_begin, week_end, group)
 
     return render_template('statistics.html', today_list=today_list, week_list=week_list)
