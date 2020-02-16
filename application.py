@@ -730,7 +730,7 @@ def all_activities():
 
 
 def gen_summary_title(prefix, date):
-    return str(prefix) + " * " + str(date)
+    return str(prefix) + " · " + str(date)
 
 
 # 批量添加活动接口，暂时不开放
