@@ -46,21 +46,21 @@
                     <div class="activity-item-null">暂无未来订单~</div>
                 {% endif %}
                 {% for activity in week_list %}
-                    <div class="activity_item flex flex-y-center flex-x-between">
+                    <a class="activity_item flex flex-y-center flex-x-between"
+                       href="{{ url_for("order_detail", activityType=activity.activityType, date=activity.date) }}">
                         <div>
                             <div class="activity_info">{{ activity.title }}</div>
                             <div class="activity_order_info">{{ activity.summary }}</div>
                         </div>
-                        <a class="flex flex-y-center deliveryman"
-                           href="{{ url_for("order_detail", activityType=activity.activityType, date=activity.date) }}">
+                        <div class="flex flex-y-center deliveryman">
                             {% if activity.deliveryman %}
                                 取餐人：{{ activity.mealDeliver }}
                             {% else %}
                                 未指定取餐人
                             {% endif %}
-                           <span class="arrow-right"></span>
-                        </a>
-                    </div>
+                            <span class="arrow-right"></span>
+                        </div>
+                    </a>
                 {% endfor %}
             </div>
         </div>
