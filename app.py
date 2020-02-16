@@ -483,7 +483,6 @@ def update_meal_order():
     # 更新成功
     return redirect(url_for('order'))
 
-
 #删除订餐明细接口
 @app.route('/activity/detail/delete', methods=['POST'])
 def delete_meal_order():
@@ -730,7 +729,7 @@ def do_gather_activity(from_date, end_date, group):
         # 格式化信息，防止重复数据
         if tmp_dict is not None and tmp_dict.get('title') is not None:
             format_dict = {
-                'title': tmp_dict.pop('title'),
+                'title': tmp_dict.pop('title') + '(' + get_week_day(tmp_dict.get('date')) + ')',
                 'mealDeliver': tmp_dict.pop('mealDeliver'),
                 'date': tmp_dict.pop('date'),
                 'activityType': tmp_dict.pop('activityType'),
