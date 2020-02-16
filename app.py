@@ -606,27 +606,19 @@ def order():
                                                   ActivityDetail.activityId.in_(activityIds)).all()
 
     # 组装返回报文
-    orderdic = collections.OrderedDict()
+    orderList = []
     for activityInfo in activityInfos:
-        orderKey = str(activityInfo.date) + activityInfo.activityType
-        if orderKey in orderdic:
-            row = orderdic[orderKey]
-        else:
-            row = {"activityType": constants.ACTIVITY_TYPE[activityInfo.activityType],
+        row = {"activityType": constants.ACTIVITY_TYPE[activityInfo.activityType],
                    "date": str(activityInfo.date) + "(" + constants.ISO_WEEK_DAY[activityInfo.date.isoweekday()] + ")",
-                   "ordered": "0"}
+                   "ordered": "0", "activitySubType": constants.ACTIVITY_SUB_TYPE[activityInfo.activitySubType]}
         for activityDetail in activityDetails:
             if activityInfo.activityId == activityDetail.activityId:
                 row["activityId"] = activityInfo.activityId
-                row["activitySubType"] = constants.ACTIVITY_SUB_TYPE[activityInfo.activitySubType]
+                #row["activitySubType"] = constants.ACTIVITY_SUB_TYPE[activityInfo.activitySubType]
                 row["activityDetailId"] = activityDetail.activityDetailId
                 row["total"] = activityDetail.quantity
                 row["ordered"] = "1"
-        orderdic[orderKey] = row
-
-    orderList = []
-    for v in orderdic.values():
-        orderList.append(v)
+        orderList.append(row)
 
     return render_template('order.html', activity_list=orderList, isNextWeek=isNextWeek)
 
