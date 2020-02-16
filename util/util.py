@@ -19,7 +19,7 @@ def join_dict_elems(elem_dict, key_val_separator, elem_separator):
     for key, val in elem_dict.items():
         res = res + elem_separator + (str(key) + key_val_separator + str(val))
 
-    return res
+    return res[1:len(res)]
 
 
 def get_week_day(date):

@@ -209,14 +209,14 @@ def order_detail():
     activity_id_info_dict = {}
     # 每种子活动的数量
     activity_id_total_cnt_dict = {}
-    activity_id_product_dict = {}
+    # activity_id_product_dict = {}
     deliver_man = ''
     for activity_info in activity_infos:
         activity_id_info_dict[activity_info.activityId] = activity_info
         activity_id_total_cnt_dict[activity_info.activityId] = 0
         product_info = ProduceInfo.query.filter(ProduceInfo.productType == activity_info.activityType,
                                                 ProduceInfo.productSubType == activity_info.activitySubType).first()
-        activity_id_product_dict[activity_info.activityId] = product_info
+        # activity_id_product_dict[activity_info.activityId] = product_info
         if is_str_empty(deliver_man) and not is_str_empty(activity_info.mealDeliver):
             deliver_man = activity_info.mealDeliver
 
@@ -229,19 +229,19 @@ def order_detail():
         activity_info = activity_id_info_dict[int(detail.activityId)]
         member_list.append({
             "employeeId": detail.employeeId,
-            "summary": activity_info.activitySubType + " x" + str(detail.quantity)
+            "summary": constants.ACTIVITY_SUB_TYPE[activity_info.activitySubType] + " x" + str(detail.quantity)
         })
         activity_id_total_cnt_dict[activity_info.activityId] += detail.quantity
 
     summary_list = []
     total_price = 0
     for activity_id, total_cnt in activity_id_total_cnt_dict.items():
-        product_info = activity_id_product_dict[activity_id]
+        # product_info = activity_id_product_dict[activity_id]
         activity_info = activity_id_info_dict[activity_id]
-        activity_total_price = total_cnt * int(product_info.productPrice)
+        activity_total_price = total_cnt * int(activity_info.activitySubType)
         summary_list.append({
             "totalPrice": str(activity_total_price),
-            "desc": activity_info.activitySubType + " x" + str(total_cnt)
+            "desc": constants.ACTIVITY_SUB_TYPE[activity_info.activitySubType] + " x" + str(total_cnt)
         })
         total_price += activity_total_price
 
@@ -636,10 +636,15 @@ def gather_activities():
             title 如 午餐-2020-02-15
             summary 如 11元套餐 X11, 16元套餐 X10
             mealDeliver 送餐人id
+            date
+            activityType
+
         weekList 链表，包含以下元素
             title 如 午餐-2020-02-15
             summary 如 11元套餐 X11, 16元套餐 X10
             mealDeliver 送餐人id
+            date
+            activityType
     """
 
     employee_id = request.cookies.get('EID')
@@ -701,12 +706,18 @@ def do_gather_activity(from_date, end_date, group):
             one_day_summary_dict = {'title': title}
 
         # 记录subType及数量
-        one_day_summary_dict[activity_tuple[service.activity_service.ACTIVITY_SUBTYPE_IDX]] = activity_subtype_cnt
+        subtype_desc = constants.ACTIVITY_SUB_TYPE[activity_tuple[service.activity_service.ACTIVITY_SUBTYPE_IDX]]
+        one_day_summary_dict[subtype_desc] = activity_subtype_cnt
 
         # 记录领餐人，没有才更新
         meal_deliver = one_day_summary_dict.get('mealDeliver')
         if meal_deliver is None or is_str_empty(meal_deliver):
             one_day_summary_dict['mealDeliver'] = activity_tuple[service.activity_service.MEAL_DELIVER_IDX]
+
+        # 设置日期
+        one_day_summary_dict['date'] = activity_tuple[service.activity_service.DATE_IDX]
+        # 设置类型
+        one_day_summary_dict['activityType'] = activity_tuple[service.activity_service.ACTIVITY_TYPE_IDX]
 
         res_dict[title] = one_day_summary_dict
 
@@ -721,6 +732,8 @@ def do_gather_activity(from_date, end_date, group):
             format_dict = {
                 'title': tmp_dict.pop('title'),
                 'mealDeliver': tmp_dict.pop('mealDeliver'),
+                'date': tmp_dict.pop('date'),
+                'activityType': tmp_dict.pop('activityType'),
                 'summary': join_dict_elems(tmp_dict, ' X', ', ')
             }
             res_list.append(format_dict)
@@ -742,6 +755,8 @@ def all_activities():
             title 如 午餐-2020-02-15
             summary 如 11元套餐 X11, 16元套餐 X10
             mealDeliver 送餐人id
+            date
+            activityType
 
     入参样例：
         EID:1
@@ -801,7 +816,8 @@ def all_activities():
             one_day_summary_dict = {'title': title}
 
         # 记录subType及数量
-        one_day_summary_dict[activity_tuple[service.activity_service.ACTIVITY_SUBTYPE_IDX]] = activity_subtype_cnt
+        subtype_desc = constants.ACTIVITY_SUB_TYPE[activity_tuple[service.activity_service.ACTIVITY_SUBTYPE_IDX]]
+        one_day_summary_dict[subtype_desc] = activity_subtype_cnt
 
         # 记录日期
         one_day_summary_dict['date'] = activity_tuple[service.activity_service.DATE_IDX]
@@ -810,6 +826,9 @@ def all_activities():
         meal_deliver = one_day_summary_dict.get('mealDeliver')
         if meal_deliver is None or is_str_empty(meal_deliver):
             one_day_summary_dict['mealDeliver'] = activity_tuple[service.activity_service.MEAL_DELIVER_IDX]
+
+        # 设置类型
+        one_day_summary_dict['activityType'] = activity_tuple[service.activity_service.ACTIVITY_TYPE_IDX]
 
         res_dict[title] = one_day_summary_dict
 
@@ -822,8 +841,10 @@ def all_activities():
         # 格式化信息，防止重复数据
         if tmp_dict is not None and tmp_dict.get('title') is not None:
             format_dict = {
-                'title': tmp_dict.pop('title') + '(' + get_week_day(tmp_dict.pop('date')) + ')',
+                'title': tmp_dict.pop('title') + '(' + get_week_day(tmp_dict.get('date')) + ')',
                 'mealDeliver': tmp_dict.pop('mealDeliver'),
+                'date': tmp_dict.pop('date'),
+                'activityType': tmp_dict.pop('activityType'),
                 'summary': join_dict_elems(tmp_dict, ' x', ', ')
             }
             res_list.append(format_dict)
