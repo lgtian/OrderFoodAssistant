@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block page_content %}
-    <div class="view-order-detail">
+    <div class="flex-column view-order-detail">
         <div class="activity-title">
             {{ activity.activityType }} · {{ activity.date }}
             <div class="deliveryman">
@@ -21,7 +21,7 @@
             </div>
         </div>
 
-        <div class="member-list">
+        <div class="flex-1 member-list">
             {% for member in activity.memberList %}
                 <div class="member_item flex flex-y-center flex-x-between">
                     <div class="member_id flex flex-y-center">
