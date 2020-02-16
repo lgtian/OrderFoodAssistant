@@ -71,7 +71,12 @@ body {
 }
 
 .activity_item .activity-info {
-    margin-left: 20px;
+    margin-left: 1.8rem;
+}
+
+.activity_item .activity-info .activity-date {
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
 }
 
 .activity_item .btn-modify {
