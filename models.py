@@ -12,12 +12,13 @@ class ActivityInfo(db.Model):
     createdBy = db.Column(db.String)
     createdAt = db.Column(db.DateTime)
     updatedAt = db.Column(db.DateTime)
+    mealDeliver = db.Column(db.String)
 
 
 class ActivityDetail(db.Model):
     __tablename__='activity_detail'
     activityDetailId = db.Column(db.Integer, primary_key=True)
-    activityId = db.Column(db.String)
+    activityId = db.Column(db.Integer)
     employeeId = db.Column(db.String)
     quantity = db.Column(db.String)
     createdBy = db.Column(db.String)
@@ -35,6 +36,19 @@ class UserInfo(db.Model):
     role = db.Column(db.String)
     createdAt = db.Column(db.DateTime)
     updatedAt = db.Column(db.DateTime)
+
+
+class ProduceInfo(db.Model):
+    __tablename__ = 'product_info'
+    productId = db.Column(db.BIGINT, primary_key=True)
+    productType = db.Column(db.String)
+    productSubType = db.Column(db.String)
+    productPrice = db.Column(db.String)
+    beginTime = db.Column(db.String)
+    expireTime = db.Column(db.String)
+    createdAt = db.Column(db.DateTime)
+    updatedAt = db.Column(db.DateTime)
+
 
 
 
