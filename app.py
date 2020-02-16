@@ -353,6 +353,7 @@ def create_meal_order():
     # 登录成功
     return redirect(url_for('order'))
 
+
 # 查询订餐明细接口
 @app.route('/activity/detail/query', methods=['POST'])
 def query_meal_order():
@@ -482,6 +483,7 @@ def update_meal_order():
     # 更新成功
     return redirect(url_for('order'))
 
+
 #删除订餐明细接口
 @app.route('/activity/detail/delete', methods=['POST'])
 def delete_meal_order():
@@ -607,10 +609,11 @@ def order():
     for activityInfo in activityInfos:
         row = {"activityType": activityInfo.activityType,
                    "date": str(activityInfo.date) + "(" + constants.ISO_WEEK_DAY[activityInfo.date.isoweekday()] + ")",
-                   "ordered": "0", "activitySubType": constants.ACTIVITY_SUB_TYPE[activityInfo.activitySubType]}
+                   "ordered": "0", "activitySubType": constants.ACTIVITY_SUB_TYPE[activityInfo.activitySubType],
+                   "activityId": activityInfo.activityId}
         for activityDetail in activityDetails:
             if activityInfo.activityId == activityDetail.activityId:
-                row["activityId"] = activityInfo.activityId
+                #row["activityId"] = activityInfo.activityId
                 #row["activitySubType"] = constants.ACTIVITY_SUB_TYPE[activityInfo.activitySubType]
                 row["activityDetailId"] = activityDetail.activityDetailId
                 row["total"] = activityDetail.quantity
