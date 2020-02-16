@@ -143,7 +143,7 @@ def order_detail():
     # 组装返回
     activity = {
         "activityType": activity_type,
-        "date": date + "(" + get_week_day(date_obj) + ")",
+        "date": date + "（" + get_week_day(date_obj) + "）",
         "deliveryman": deliver_man,
         "totalPrice": str(total_price),
         "summaryList": summary_list,
