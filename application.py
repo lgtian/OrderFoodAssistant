@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, url_for, Response
+from flask import Flask, request, render_template, redirect, url_for, Response, session
 from service.activity_detail_service import create_activity_detail
 from service.activity_detail_service import query_activity_detail_by_eid_aid
 from service.activity_detail_service import query_all_activity_detail_by_eid
@@ -20,8 +20,10 @@ import collections
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://'+ DB_USER+':'+DB_PWD+'@'+ DB_HOST + ':' + str(DB_PORT)+'/OrderFoodAssistant'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://' + DB_USER + ':' + DB_PWD + '@' + DB_HOST + ':' + str(
+    DB_PORT) + '/OrderFoodAssistant'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
+app.config['SECRET_KEY'] = "this is a secret_key"
 db.init_app(app)
 
 
@@ -83,7 +85,7 @@ def order_detail():
     # 查询活动信息
     activity_infos = ActivityInfo.query.filter(ActivityInfo.group == employee.group,
                                                ActivityInfo.date == date,
-                                               ActivityInfo.activityType == activity_type).\
+                                               ActivityInfo.activityType == activity_type). \
         order_by(ActivityInfo.activityId).all()
 
     activity_id_info_dict = {}
@@ -101,7 +103,7 @@ def order_detail():
             deliver_man = activity_info.mealDeliver
 
     # 查询活动详情列表
-    activity_details = ActivityDetail.query.filter(ActivityDetail.activityId.in_(activity_id_info_dict.keys()))\
+    activity_details = ActivityDetail.query.filter(ActivityDetail.activityId.in_(activity_id_info_dict.keys())) \
         .order_by(ActivityDetail.activityId).all()
 
     member_dict = {}
@@ -120,7 +122,7 @@ def order_detail():
         else:
             summary = member_elem.get("summary")
             summary.append(gen_summary_elem(constants.ACTIVITY_SUB_TYPE[activity_info.activitySubType],
-                                             detail.quantity))
+                                            detail.quantity))
 
         member_dict[detail.employeeId] = member_elem
         activity_id_total_cnt_dict[activity_info.activityId] += detail.quantity
@@ -183,6 +185,7 @@ def login():
     # 登录成功
     response = redirect(url_for('login'))
     response.set_cookie('EID', employee_id, max_age=600)
+    session['user-id'] = employee_id
     return response
 
 
@@ -190,6 +193,7 @@ def login():
 def logout():
     response = redirect(url_for('login'))
     response.delete_cookie('EID')
+    session.pop('user-id')
     return response
 
 
@@ -376,7 +380,7 @@ def update_meal_order():
     return redirect(url_for('order'))
 
 
-#删除订餐明细接口
+# 删除订餐明细接口
 @app.route('/activity/detail/delete', methods=['POST'])
 def delete_meal_order():
     """
@@ -490,13 +494,13 @@ def order():
     orderList = []
     for activityInfo in activityInfos:
         row = {"activityType": activityInfo.activityType,
-                   "date": str(activityInfo.date) + "（" + constants.ISO_WEEK_DAY[activityInfo.date.isoweekday()] + "）",
-                   "ordered": "0", "activitySubType": constants.ACTIVITY_SUB_TYPE[activityInfo.activitySubType],
-                   "activityId": activityInfo.activityId}
+               "date": str(activityInfo.date) + "（" + constants.ISO_WEEK_DAY[activityInfo.date.isoweekday()] + "）",
+               "ordered": "0", "activitySubType": constants.ACTIVITY_SUB_TYPE[activityInfo.activitySubType],
+               "activityId": activityInfo.activityId}
         for activityDetail in activityDetails:
             if activityInfo.activityId == activityDetail.activityId:
-                #row["activityId"] = activityInfo.activityId
-                #row["activitySubType"] = constants.ACTIVITY_SUB_TYPE[activityInfo.activitySubType]
+                # row["activityId"] = activityInfo.activityId
+                # row["activitySubType"] = constants.ACTIVITY_SUB_TYPE[activityInfo.activitySubType]
                 row["activityDetailId"] = activityDetail.activityDetailId
                 row["total"] = activityDetail.quantity
                 row["ordered"] = "1"
