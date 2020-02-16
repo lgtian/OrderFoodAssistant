@@ -9,9 +9,9 @@
 {% endblock %}
 
 {% block page_content %}
-    <div class="view-statistics">
+    <div class="flex-column view-statistics view-statistics-all">
         <!-- 全部订单-->
-        <div class="activity-list">
+        <div class="flex-1 activity-list">
             {% if activity_list|length == 0 %}
                 <div class="activity-all-item-null">暂无订单信息~</div>
             {% endif %}
@@ -21,7 +21,8 @@
                         <div class="activity_info">{{ activity.title }}</div>
                         <div class="activity_order_info">{{ activity.summary }}</div>
                     </div>
-                    <a class="flex flex-y-center deliveryman" href="{{ url_for("order_detail", activityType=activity.activityType, date=activity.date) }}">
+                    <a class="flex flex-y-center deliveryman"
+                       href="{{ url_for("order_detail", activityType=activity.activityType, date=activity.date) }}">
                         {% if activity.mealDeliver %}
                             取餐人：{{ activity.mealDeliver }}
                         {% else %}
@@ -31,6 +32,9 @@
                     </a>
                 </div>
             {% endfor %}
+            {% if activity_list|length >6 %}
+                <div class="activity-item-load-all">没有更多咯~</div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
