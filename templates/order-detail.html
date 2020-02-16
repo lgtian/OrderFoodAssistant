@@ -26,7 +26,7 @@
                 <div class="member_item flex flex-y-center flex-x-between">
                     <div class="member_id flex flex-y-center">
                         {{ member.employeeId }}
-                        <img style="margin-left: 20px" src="{{ url_for('static', filename='order/assign.png') }}"
+                        <img class="delivery-man-icon" src="{{ url_for('static', filename='order/assign.png') }}"
                              onclick="openOrderDetailDialog({{ member.employeeId }})">
                     </div>
                     <div>{{ member.summary }}</div>

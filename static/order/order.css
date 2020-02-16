@@ -50,7 +50,7 @@ body {
 .activity-list {
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
-    padding-bottom: 5.5rem;
+    padding-bottom: 5rem;
     background-color: #ffffff;
 }
 
