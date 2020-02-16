@@ -16,7 +16,6 @@ from service.user_service import query_user_pwd, query_user, USER_GROUP_IDX
 from util.util import is_str_empty, join_dict_elems, get_week_day
 import service.activity_service
 from service.activity_detail_service import query_activity_detail_list, QUANTITY_IDX
-import collections
 
 app = Flask(__name__)
 
@@ -72,12 +71,12 @@ def order_detail():
 
     # 登录校验
     if is_str_empty(employee_id):
-        return render_template('login.html')
+        return redirect(url_for('login'))
 
     # 查询组信息
     employee = UserInfo.query.filter(UserInfo.employeeId == employee_id).first()
     if employee is None:
-        return render_template('login.html')
+        return redirect(url_for('login'))
 
     activity_type = request.values.get('activityType')
     date = request.values.get('date')
@@ -223,7 +222,7 @@ def create_meal_order():
 
     # 判断用户是否已登录
     if eid is None and employee_id is None:
-        return render_template('login.html')
+        return redirect(url_for('login'))
 
     created_by = employee_id
     # 获取订餐信息
@@ -308,7 +307,7 @@ def query_meal_order():
 
     # 判断用户是否已登录
     if eid is None and employee_id is None:
-        return render_template('login.html')
+        return redirect(url_for('login'))
 
     # 获取订餐活动的id信息
     activity_id = request.form.get('activityId')
@@ -351,7 +350,7 @@ def update_meal_order():
 
     # 判断用户是否已登录
     if eid is None and employee_id is None:
-        return render_template('login.html')
+        return redirect(url_for('login'))
 
     # 获取订餐信息
     quantity = request.form.get('quantity')
@@ -403,7 +402,7 @@ def delete_meal_order():
 
     # 判断用户是否已登录
     if eid is None and employee_id is None:
-        return render_template('login.html')
+        return redirect(url_for('login'))
 
     # 获取订餐信息
     activity_detail_id = request.form.get('activityDetailId')
@@ -466,11 +465,11 @@ def order():
     employee_id = request.cookies.get('EID')
     # 判断用户是否已登录
     if employee_id is None:
-        return render_template('login.html')
+        return redirect(url_for('login'))
 
     employee = UserInfo.query.filter(UserInfo.employeeId == employee_id).first()
     if employee is None:
-        return render_template('login.html')
+        return redirect(url_for('login'))
 
     # 计算活动开始时间和结束时间
     now = datetime.now()
@@ -537,17 +536,13 @@ def gather_activities():
     # employee_id = request.values.get('EID')
 
     # 登录校验
-    if employee_id is None:
+    if employee_id is None or is_str_empty(employee_id):
         return redirect(url_for('login'))
-
-    # 尚未登录
-    if is_str_empty(employee_id):
-        return render_template('login.html')
 
     # 查询组信息
     user_tuple = query_user(employee_id)
     if user_tuple is None:
-        return render_template('login.html', message='incorrect employeeId')
+        return redirect(url_for('login'))
 
     group = user_tuple[USER_GROUP_IDX]
 
@@ -659,17 +654,13 @@ def all_activities():
     end_date = request.values.get('endDate')
 
     # 登录校验
-    if employee_id is None:
+    if employee_id is None or is_str_empty(employee_id):
         return redirect(url_for('login'))
-
-    # 尚未登录
-    if is_str_empty(employee_id):
-        return render_template('login.html')
 
     # 查询组信息
     user_tuple = query_user(employee_id)
     if user_tuple is None:
-        return render_template('login.html', message='incorrect employeeId')
+        return redirect(url_for('login'))
 
     group = user_tuple[USER_GROUP_IDX]
 
