@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, url_for, Response, session
+from flask import Flask, request, render_template, redirect, url_for, Response
 from service.activity_detail_service import create_activity_detail
 from service.activity_detail_service import query_activity_detail_by_eid_aid
 from service.activity_detail_service import query_all_activity_detail_by_eid
@@ -185,7 +185,6 @@ def login():
     # 登录成功
     response = redirect(url_for('login'))
     response.set_cookie('EID', employee_id, max_age=600)
-    session['user-id'] = employee_id
     return response
 
 
@@ -193,7 +192,6 @@ def login():
 def logout():
     response = redirect(url_for('login'))
     response.delete_cookie('EID')
-    session.pop('user-id')
     return response
 
 
