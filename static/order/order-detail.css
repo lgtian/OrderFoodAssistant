@@ -6,6 +6,7 @@
 .view-order-detail .activity-title {
     padding: 2rem 1.6rem 1.1rem;
     font-size: 1.3rem;
+    font-weight: 300;
 }
 
 .view-order-detail .activity-title .deliveryman {

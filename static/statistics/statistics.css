@@ -15,7 +15,7 @@ body {
 .view-statistics .activity-list-title {
     padding: 1.5rem;
     font-size: 1.3rem;
-    font-weight: bold;
+    font-weight: 300;
     border-bottom: 1px solid #d7d8db;
 }
 
