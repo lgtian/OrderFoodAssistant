@@ -142,7 +142,7 @@ def order_detail():
         activity_total_price = total_cnt * int(activity_info.activitySubType)
         summary_list.append({
             "totalPrice": str(activity_total_price),
-            "desc": constants.ACTIVITY_SUB_TYPE[activity_info.activitySubType] + " x " + str(total_cnt)
+            "desc": constants.ACTIVITY_SUB_TYPE[activity_info.activitySubType] + " x" + str(total_cnt)
         })
         total_price += activity_total_price
 
@@ -744,7 +744,7 @@ def gen_summary_title(prefix, date):
 
 def gen_summary_elem(prefix, quantity):
     if quantity >= 0:
-        return prefix + " x " + str(quantity)
+        return prefix + " x" + str(quantity)
     else:
         return ''
 

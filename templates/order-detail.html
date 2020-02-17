@@ -47,13 +47,13 @@
 
         <div class="bottom-bar-statistic flex flex-y-center">
             <div class="bar-total">
-                总计：<span class="total-price">¥{{ activity.totalPrice }}</span>
+                总计：<span class="total-price">¥ {{ activity.totalPrice }}</span>
             </div>
             <div class="flex-1 flex bar-type">
                 {% for summary in activity.summaryList %}
                     <div class="flex-1 bar-type-item">
                         <div>{{ summary.desc }}</div>
-                        <div class="total-price bottom">¥{{ summary.totalPrice }}</div>
+                        <div class="total-price bottom">¥ {{ summary.totalPrice }}</div>
                     </div>
                 {% endfor %}
             </div>

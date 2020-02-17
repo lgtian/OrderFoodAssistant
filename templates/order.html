@@ -32,8 +32,7 @@
                         <div class="activity-info">
                             <div class="activity-date">{{ activity.date }}</div>
                             {% if activity.ordered == '1' %}
-                                <div class="activity-ordered-info">{{ activity.activitySubType }}
-                                    x {{ activity.total }}</div>
+                                <div class="activity-ordered-info">{{ activity.activitySubType }} x{{ activity.total }}</div>
                             {% else %}
                                 <div class="activity-unordered-info">{{ activity.activitySubType }}（未预定）</div>
                             {% endif %}
