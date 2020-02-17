@@ -14,16 +14,17 @@ body {
 
 .view-statistics .activity-list-title {
     padding: 1.5rem;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     font-weight: bold;
     border-bottom: 1px solid #d7d8db;
 }
 
 .view-statistics .activity-list-title .group_user {
-background-color: #A2A8B6;
+    background-color: #A2A8B6;
     border-radius: 20px;
     font-size: 1rem;
-    padding: 0.3rem 0.5rem;
+    font-weight: normal;
+    padding: 0.2rem 0.6rem;
     color: #ffffff;
     margin-left: 10px;
 }

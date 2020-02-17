@@ -47,6 +47,8 @@
 
 .view-order-detail .member_item .delivery-man-icon {
     margin-left: 1rem;
+    width: 2rem;
+    height: 2rem;
 }
 
 .view-order-detail .bottom-bar-statistic {
