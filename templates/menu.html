@@ -11,7 +11,10 @@
 
 {% block page_content %}
     <div class="view-menu">
-        <img class="menu-image" src="{{ imgUrl }}"/>
+        <div class="flex-column menu-container">
+            <img class="menu-image" src="{{ imgUrl }}"/>
+        </div>
+
         {{ navigation.bottom('menu') }}
     </div>
 {% endblock %}
