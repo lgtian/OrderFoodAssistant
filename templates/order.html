@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "navigation.html" as navigation %}
 
 {% block head %}
     {{ super() }}
@@ -52,17 +53,7 @@
             {% endif %}
         </div>
 
-        <!-- 底部tab按钮-->
-        <div class="bottom-tab-bar">
-            <div style="color:#84AFEF">
-                <div class="icon-order"></div>
-                订餐
-            </div>
-            <a style="color:#93959D; text-decoration: none" href="{{ url_for('gather_activities') }}">
-                <div class="icon-statistics"></div>
-                汇总
-            </a>
-        </div>
+        {{ navigation.bottom('order') }}
     </div>
 
     <div id="orderDialogView" class="view-dialog-order">

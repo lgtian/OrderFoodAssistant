@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% import "navigation.html" as navigation %}
+
+{% block head %}
+    {{ super() }}
+    {% block title %}
+        <title>查看菜单</title>
+    {% endblock %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='menu/menu.css') }}">
+{% endblock %}
+
+{% block page_content %}
+    <div class="view-menu">
+        <img class="menu-image" src="{{ imgUrl }}"/>
+        {{ navigation.bottom('menu') }}
+    </div>
+{% endblock %}

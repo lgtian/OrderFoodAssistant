@@ -26,6 +26,12 @@ app.config['SECRET_KEY'] = "this is a secret_key"
 db.init_app(app)
 
 
+@app.route('/menu')
+def menu():
+    imgUrl = 'https://res.cc.cmbimg.com/fsp/File/G20200214G1338672663G32312D32372D5C385C375C.DAT';
+    return render_template('menu.html', imgUrl=imgUrl)
+
+
 @app.route('/order_detail', methods=['GET', 'POST'])
 def order_detail():
     """
@@ -185,8 +191,8 @@ def login():
 
     # 登录成功
     response = redirect(url_for('login'))
-    response.set_cookie('EID', employee_id, max_age=2*24*3600)
-    response.set_cookie('UGP', user_tuple[USER_GROUP_IDX], max_age=2*24*3600)
+    response.set_cookie('EID', employee_id, max_age=2 * 24 * 3600)
+    response.set_cookie('UGP', user_tuple[USER_GROUP_IDX], max_age=2 * 24 * 3600)
     return response
 
 

@@ -1,0 +1,59 @@
+.bottom-tab-bar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 4.5rem;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    box-shadow: 1px 1px 6px #b1bfe0;
+}
+
+.bottom-tab-bar .bar-item {
+    color: #93959D;
+    text-decoration: none;
+}
+
+.bottom-tab-bar .bar-item.active {
+    color: #84AFEF;
+}
+
+.bottom-tab-bar .icon-item {
+    width: 2rem;
+    height: 2rem;
+}
+
+.bottom-tab-bar .icon-item.active {
+
+}
+
+.bottom-tab-bar .bar-item .icon-order {
+    background: url("order.png") no-repeat center center;
+    background-size: 100% 100%;
+}
+
+.bottom-tab-bar .bar-item.active .icon-order {
+    background: url("order-active.png") no-repeat center center;
+    background-size: 100% 100%;
+}
+
+.bottom-tab-bar .bar-item .icon-statistics {
+    background: url("statistics.png") no-repeat center center;
+    background-size: 100% 100%;
+}
+
+.bottom-tab-bar .bar-item.active .icon-statistics {
+    background: url("statistics-active.png") no-repeat center center;
+    background-size: 100% 100%;
+}
+
+.bottom-tab-bar .bar-item .icon-menu {
+    background: url("menu.png") no-repeat center center;
+    background-size: 100% 100%;
+}
+
+.bottom-tab-bar .bar-item.active .icon-menu {
+    background: url("menu-active.png") no-repeat center center;
+    background-size: 100% 100%;
+}

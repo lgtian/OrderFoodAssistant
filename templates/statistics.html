@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "navigation.html" as navigation %}
 
 {% block head %}
     {{ super() }}
@@ -10,7 +11,9 @@
 {% block page_content %}
     <div class="flex-column view-statistics">
         <!-- 今日订单-->
-        <div class="activity-list-title flex flex-y-center">今日订单<div class="group_user">{{ group_user }}</div></div>
+        <div class="activity-list-title flex flex-y-center">今日订单
+            <div class="group_user">{{ group_user }}</div>
+        </div>
         {% if today_list|length == 0 %}
             <div class="activity-item-null">暂无今日订单~</div>
         {% endif %}
@@ -34,7 +37,9 @@
 
         <!-- 未来订单-->
         <div class="activity-list-title flex flex-x-between flex-y-center">
-            <div class="flex flex-y-center">未来订单<div class="group_user">{{ group_user }}</div></div>
+            <div class="flex flex-y-center">未来订单
+                <div class="group_user">{{ group_user }}</div>
+            </div>
             <a class="statistics-view-all" href="{{ url_for('all_activities') }}">查看全部订单</a>
         </div>
         <div class="flex-1 activity-list">
@@ -63,16 +68,6 @@
             {% endif %}
         </div>
 
-        <!-- 底部tab按钮-->
-        <div class="bottom-tab-bar">
-            <a style="color:#93959D; text-decoration: none" href="{{ url_for('order') }}">
-                <div class="icon-order"></div>
-                订餐
-            </a>
-            <div style="color:#84AFEF">
-                <div class="icon-statistics"></div>
-                汇总
-            </div>
-        </div>
+        {{ navigation.bottom('statistics') }}
     </div>
 {% endblock %}

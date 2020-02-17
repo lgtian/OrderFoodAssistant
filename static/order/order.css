@@ -104,34 +104,6 @@ body {
     color: #AEAEAE;
 }
 
-.bottom-tab-bar {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    height: 4.5rem;
-    background-color: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    box-shadow: 1px 1px 6px #b1bfe0;
-}
-
-.bottom-tab-bar .icon-order {
-    width: 2rem;
-    height: 2rem;
-    background: url("order-active.png") no-repeat center center;
-    background-size: 100% 100%;
-    margin: auto;
-}
-
-.bottom-tab-bar .icon-statistics {
-    width: 2rem;
-    height: 2rem;
-    background: url("statistics.png") no-repeat center center;
-    background-size: 100% 100%;
-    margin: auto;
-}
-
 .view-dialog-order {
     display: none;
     left: 0;
