@@ -1,0 +1,22 @@
+{% macro bottomItem(title, active, href, icon) %}
+    {% if active %}
+        <div class="bar-item active">
+            <div class="icon-item {{ icon }}"></div>
+            {{ title }}
+        </div>
+    {% else %}
+        <a class="bar-item" href="{{ href }}">
+            <div class="icon-item {{ icon }}"></div>
+            {{ title }}
+        </a>
+    {% endif %}
+{% endmacro %}
+
+{% macro bottom(type) %}
+    <div class="bottom-tab-bar">
+        {{ bottomItem('订餐', type=='order', url_for('order'), 'icon-order') }}
+        {{ bottomItem('菜单', type=='menu', url_for('menu'), 'icon-menu') }}
+        {{ bottomItem('汇总', type=='statistics', url_for('gather_activities'), 'icon-statistics') }}
+    </div>
+{% endmacro %}
+
