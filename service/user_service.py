@@ -2,6 +2,8 @@ import pymysql
 from config.config import DB_HOST, DB_USER, DB_PWD, DB_PORT
 
 # 常量
+USER_NAME_IDX = 1
+USER_PWD_IDX = 2
 USER_GROUP_IDX = 3
 
 

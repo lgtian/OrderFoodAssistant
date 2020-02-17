@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, url_for, Response
+from flask import Flask, request, render_template, redirect, url_for
 from service.activity_detail_service import create_activity_detail
 from service.activity_detail_service import query_activity_detail_by_eid_aid
 from service.activity_detail_service import query_all_activity_detail_by_eid
@@ -12,7 +12,7 @@ from config.config import DB_HOST, DB_USER, DB_PWD, DB_PORT
 from datetime import datetime
 from datetime import timedelta
 from constant import constants
-from service.user_service import query_user_pwd, query_user, USER_GROUP_IDX
+from service.user_service import query_user, USER_GROUP_IDX, USER_PWD_IDX, USER_NAME_IDX
 from util.util import is_str_empty, join_dict_elems, get_week_day
 import service.activity_service
 from service.activity_detail_service import query_activity_detail_list, QUANTITY_IDX
@@ -67,7 +67,7 @@ def order_detail():
     }
     """
     employee_id = request.cookies.get('EID')
-    # employee_id = request.values.get('EID')K
+    group_user = request.cookies.get('UGP')
 
     # 登录校验
     if is_str_empty(employee_id):
@@ -113,8 +113,10 @@ def order_detail():
         # 对同一用户的多种活动进行组合
         member_elem = member_dict.get(detail.employeeId)
         if member_elem is None:
+            activity_user_tuple = query_user(detail.employeeId)
             member_elem = {
                 "employeeId": detail.employeeId,
+                "employeeName": activity_user_tuple[USER_NAME_IDX],
                 "summary": [gen_summary_elem(constants.ACTIVITY_SUB_TYPE[activity_info.activitySubType],
                                              detail.quantity)]
             }
@@ -149,7 +151,7 @@ def order_detail():
         "memberList": member_dict.values()
     }
 
-    return render_template('order-detail.html', activity=activity)
+    return render_template('order-detail.html', activity=activity, group_user=group_user)
 
 
 # LOGIN BY COOKIE
@@ -171,19 +173,20 @@ def login():
         return render_template('login.html', message='员编错误或未注册')
 
     # 登录校验
-    pwd_tuple = query_user_pwd(employee_id)
-    if pwd_tuple is None:
+    user_tuple = query_user(employee_id)
+    if user_tuple is None:
         return render_template('login.html', message='员编错误或未注册')
 
     # 获取数据库密码
-    db_password = pwd_tuple[0]
+    db_password = user_tuple[USER_PWD_IDX]
     # 密码判断
     if db_password != pwd:
         return render_template('login.html', message='密码错误')
 
     # 登录成功
     response = redirect(url_for('login'))
-    response.set_cookie('EID', employee_id, max_age=600)
+    response.set_cookie('EID', employee_id, max_age=2*24*3600)
+    response.set_cookie('UGP', user_tuple[USER_GROUP_IDX], max_age=2*24*3600)
     return response
 
 
@@ -533,7 +536,7 @@ def gather_activities():
     """
 
     employee_id = request.cookies.get('EID')
-    # employee_id = request.values.get('EID')
+    group_user = request.cookies.get('UGP')
 
     # 登录校验
     if employee_id is None or is_str_empty(employee_id):
@@ -554,7 +557,7 @@ def gather_activities():
     future_end = today_begin + timedelta(days=7)
     future_list = do_gather_activity(future_begin, future_end, group)
 
-    return render_template('statistics.html', today_list=today_list, week_list=future_list)
+    return render_template('statistics.html', today_list=today_list, week_list=future_list, group_user=group_user)
 
 
 def do_gather_activity(from_date, end_date, group):

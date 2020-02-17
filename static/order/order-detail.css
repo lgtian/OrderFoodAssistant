@@ -40,12 +40,13 @@
     background-color: #ffffff;
 }
 
-.view-order-detail .member_item .member_id {
-    width: 10rem;
+.view-order-detail .member_item .member_name {
+    min-width: 4rem;
+    max-width: 4rem;
 }
 
 .view-order-detail .member_item .delivery-man-icon {
-    margin-left: 1.2rem;
+    margin-left: 1rem;
 }
 
 .view-order-detail .bottom-bar-statistic {

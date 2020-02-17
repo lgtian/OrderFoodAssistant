@@ -11,7 +11,7 @@
 {% block page_content %}
     <div class="flex-column view-order-detail">
         <div class="activity-title">
-            {{ activity.activityType }} · {{ activity.date }}
+            <strong>{{ group_user }}</strong>· {{ activity.activityType }} · {{ activity.date }}
             <div class="deliveryman">
                 {% if activity.deliveryman %}
                     取餐人：{{ activity.deliveryman }}
@@ -27,8 +27,8 @@
             {% endif %}
             {% for member in activity.memberList %}
                 <div class="member_item flex flex-y-center">
-                    <div class="member_id flex flex-y-center">
-                        {{ member.employeeName }}
+                    <div class="flex flex-y-center flex-x-between">
+                        <div class="member_name">{{ member.employeeName }}</div>
                         <img class="delivery-man-icon" src="{{ url_for('static', filename='order/assign.png') }}"
                              onclick="openOrderDetailDialog({{ member }})">
                     </div>
