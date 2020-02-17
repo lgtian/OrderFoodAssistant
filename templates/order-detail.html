@@ -28,7 +28,7 @@
             {% for member in activity.memberList %}
                 <div class="member_item flex flex-y-center">
                     <div class="member_id flex flex-y-center">
-                        {{ member.employeeId }}
+                        {{ member.employeeName }}
                         <img class="delivery-man-icon" src="{{ url_for('static', filename='order/assign.png') }}"
                              onclick="openOrderDetailDialog({{ member }})">
                     </div>
