@@ -10,7 +10,7 @@
 {% block page_content %}
     <div class="flex-column view-statistics">
         <!-- 今日订单-->
-        <div class="activity-list-title"><strong>{{ group_user }}</strong> · 今日订单</div>
+        <div class="activity-list-title flex flex-y-center">今日订单<div class="group_user">{{ group_user }}</div></div>
         {% if today_list|length == 0 %}
             <div class="activity-item-null">暂无今日订单~</div>
         {% endif %}
@@ -34,7 +34,7 @@
 
         <!-- 未来订单-->
         <div class="activity-list-title flex flex-x-between flex-y-center">
-            <div><strong>{{ group_user }}</strong> · 未来订单</div>
+            <div class="flex flex-y-center">未来订单<div class="group_user">{{ group_user }}</div></div>
             <a class="statistics-view-all" href="{{ url_for('all_activities') }}">查看全部订单</a>
         </div>
         <div class="flex-1 activity-list">
