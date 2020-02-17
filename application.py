@@ -115,6 +115,7 @@ def order_detail():
         if member_elem is None:
             member_elem = {
                 "employeeId": detail.employeeId,
+                "employeeName": detail.name,
                 "summary": [gen_summary_elem(constants.ACTIVITY_SUB_TYPE[activity_info.activitySubType],
                                              detail.quantity)]
             }
