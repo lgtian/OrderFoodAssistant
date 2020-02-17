@@ -49,6 +49,7 @@ body {
 .view-statistics .statistics-view-all {
     text-decoration: none;
     color: #4F96F1;
+    font-size: 1.1rem;
     font-weight: normal;
 }
 
@@ -85,7 +86,7 @@ body {
 .view-statistics .activity_item .deliveryman {
     text-decoration: none;
     color: #B5B9C3;
-    font-size: 1.15rem;
+    font-size: 1.1rem;
 }
 
 .view-statistics .activity_item .deliveryman .arrow-right {
