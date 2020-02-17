@@ -5,7 +5,8 @@
 
 .view-order-detail .activity-title {
     padding: 2rem 1.6rem 1.1rem;
-    font-size: 1.1rem;
+    font-size: 1.3rem;
+    font-weight: bold;
 }
 
 .view-order-detail .activity-title .deliveryman {
