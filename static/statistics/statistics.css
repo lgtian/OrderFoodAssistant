@@ -82,6 +82,15 @@ body {
     font-size: 1rem;
 }
 
+.view-statistics .activity_item .participate-icon {
+    margin-top: 0.2rem;
+    margin-left: 0.35rem;
+    width: 1.2rem;
+    height: 1.2rem;
+    background: url("participate.png") no-repeat center center;
+    background-size: 100% 100%;
+}
+
 .view-statistics .activity_item .deliveryman {
     text-decoration: none;
     color: #B5B9C3;

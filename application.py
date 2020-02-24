@@ -15,7 +15,7 @@ from constant import constants
 from service.user_service import query_user, USER_GROUP_IDX, USER_PWD_IDX, USER_NAME_IDX
 from util.util import is_str_empty, join_dict_elems, get_week_day
 import service.activity_service
-from service.activity_detail_service import query_activity_detail_list, QUANTITY_IDX
+from service.activity_detail_service import query_activity_detail_list, QUANTITY_IDX, EMPLOYEE_ID_IDX
 
 app = Flask(__name__)
 
@@ -557,16 +557,16 @@ def gather_activities():
 
     today_begin = datetime.now().date()
     today_end = today_begin + timedelta(days=1)
-    today_list = do_gather_activity(today_begin, today_end, group)
+    today_list = do_gather_activity(today_begin, today_end, group, employee_id)
 
     future_begin = today_end
     future_end = today_begin + timedelta(days=7)
-    future_list = do_gather_activity(future_begin, future_end, group)
+    future_list = do_gather_activity(future_begin, future_end, group, employee_id)
 
     return render_template('statistics.html', today_list=today_list, week_list=future_list, group_user=group_user)
 
 
-def do_gather_activity(from_date, end_date, group):
+def do_gather_activity(from_date, end_date, group, employee_id):
     # 查询活动信息
     activity_tuple_list = service.activity_service.query_activity_list(from_date, end_date, group)
     if activity_tuple_list is None or len(activity_tuple_list) == 0:
@@ -586,9 +586,13 @@ def do_gather_activity(from_date, end_date, group):
 
         # 汇总当前订餐总数
         activity_subtype_cnt = 0
+        activity_detail_participated = 0
         if activity_detail_tuple_list is not None and len(activity_detail_tuple_list) > 0:
             for activity_detail_tuple in activity_detail_tuple_list:
                 activity_subtype_cnt += int(activity_detail_tuple[QUANTITY_IDX])
+                if employee_id == activity_detail_tuple[EMPLOYEE_ID_IDX]:
+                    activity_detail_participated = 1
+
 
         # 判断记录是否已有
         one_day_summary_dict = res_dict.get(title)
@@ -608,6 +612,8 @@ def do_gather_activity(from_date, end_date, group):
         one_day_summary_dict['date'] = activity_tuple[service.activity_service.DATE_IDX]
         # 设置类型
         one_day_summary_dict['activityType'] = activity_tuple[service.activity_service.ACTIVITY_TYPE_IDX]
+        # 设置当前用户是否参与
+        one_day_summary_dict['participated'] = activity_detail_participated
 
         res_dict[title] = one_day_summary_dict
 
@@ -624,6 +630,7 @@ def do_gather_activity(from_date, end_date, group):
                 'mealDeliver': tmp_dict.pop('mealDeliver'),
                 'date': datetime.strftime(tmp_dict.pop('date'), "%Y-%m-%d"),
                 'activityType': tmp_dict.pop('activityType'),
+                'participated': tmp_dict.pop('participated'),
                 'summary': join_dict_elems(tmp_dict, ' x', ', ')
             }
             res_list.append(format_dict)
@@ -692,9 +699,12 @@ def all_activities():
 
         # 汇总当前订餐总数
         activity_subtype_cnt = 0
+        activity_detail_participated = 0
         if activity_detail_tuple_list is not None and len(activity_detail_tuple_list) > 0:
             for activity_detail_tuple in activity_detail_tuple_list:
                 activity_subtype_cnt += int(activity_detail_tuple[QUANTITY_IDX])
+                if employee_id == activity_detail_tuple[EMPLOYEE_ID_IDX]:
+                    activity_detail_participated = 1
 
         # 判断记录是否已有
         one_day_summary_dict = res_dict.get(title)
@@ -715,6 +725,8 @@ def all_activities():
 
         # 设置类型
         one_day_summary_dict['activityType'] = activity_tuple[service.activity_service.ACTIVITY_TYPE_IDX]
+        # 设置当前用户是否参与
+        one_day_summary_dict['participated'] = activity_detail_participated
 
         res_dict[title] = one_day_summary_dict
 
@@ -731,6 +743,7 @@ def all_activities():
                 'mealDeliver': tmp_dict.pop('mealDeliver'),
                 'date': datetime.strftime(tmp_dict.pop('date'), "%Y-%m-%d"),
                 'activityType': tmp_dict.pop('activityType'),
+                'participated': tmp_dict.pop('participated'),
                 'summary': join_dict_elems(tmp_dict, ' x', ', ')
             }
             res_list.append(format_dict)

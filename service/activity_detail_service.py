@@ -4,6 +4,7 @@ from config.config import DB_HOST, DB_USER, DB_PWD, DB_PORT
 
 
 # 常量定义
+EMPLOYEE_ID_IDX = 2
 QUANTITY_IDX = 3
 
 
