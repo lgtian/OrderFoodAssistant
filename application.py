@@ -28,7 +28,7 @@ db.init_app(app)
 
 @app.route('/menu')
 def menu():
-    imgUrl = 'https://res.cc.cmbimg.com/fsp/File/G20200214G1338672663G32312D32372D5C385C375C.DAT';
+    imgUrl = 'https://res.cc.cmbimg.com/fsp/File/G20200224G1348451157G32312D32372D5C395C325C.DAT';
     return render_template('menu.html', imgUrl=imgUrl)
 
 
