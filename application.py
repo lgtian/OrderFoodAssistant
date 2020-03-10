@@ -28,7 +28,7 @@ db.init_app(app)
 
 @app.route('/menu')
 def menu():
-    imgUrl = 'https://res.cc.cmbimg.com/fsp/File/G20200224G1348451157G32312D32372D5C395C325C.DAT';
+    imgUrl = 'https://res.cc.cmbimg.com/fsp/File/G20200309G1418618212G32312D32372D5C375C395C.DAT';
     return render_template('menu.html', imgUrl=imgUrl)
 
 
@@ -574,6 +574,7 @@ def do_gather_activity(from_date, end_date, group, employee_id):
 
     # 汇总每天的信息
     res_dict = {}
+    activity_detail_participated = 0
     for activity_tuple in activity_tuple_list:
         activity_id = activity_tuple[service.activity_service.ACTIVITY_ID_IDX]
 
@@ -586,7 +587,6 @@ def do_gather_activity(from_date, end_date, group, employee_id):
 
         # 汇总当前订餐总数
         activity_subtype_cnt = 0
-        activity_detail_participated = 0
         if activity_detail_tuple_list is not None and len(activity_detail_tuple_list) > 0:
             for activity_detail_tuple in activity_detail_tuple_list:
                 activity_subtype_cnt += int(activity_detail_tuple[QUANTITY_IDX])
