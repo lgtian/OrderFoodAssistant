@@ -574,7 +574,6 @@ def do_gather_activity(from_date, end_date, group, employee_id):
 
     # 汇总每天的信息
     res_dict = {}
-    activity_detail_participated = 0
     for activity_tuple in activity_tuple_list:
         activity_id = activity_tuple[service.activity_service.ACTIVITY_ID_IDX]
 
@@ -587,6 +586,7 @@ def do_gather_activity(from_date, end_date, group, employee_id):
 
         # 汇总当前订餐总数
         activity_subtype_cnt = 0
+        activity_detail_participated = 0
         if activity_detail_tuple_list is not None and len(activity_detail_tuple_list) > 0:
             for activity_detail_tuple in activity_detail_tuple_list:
                 activity_subtype_cnt += int(activity_detail_tuple[QUANTITY_IDX])
@@ -598,6 +598,11 @@ def do_gather_activity(from_date, end_date, group, employee_id):
         one_day_summary_dict = res_dict.get(title)
         if one_day_summary_dict is None:
             one_day_summary_dict = {'title': title}
+
+        # 记录是否参与过，没有才更新
+        participated = one_day_summary_dict.get('participated')
+        if participated is None or participated == 0:
+            one_day_summary_dict['participated'] = activity_detail_participated
 
         # 记录subType及数量
         subtype_desc = constants.ACTIVITY_SUB_TYPE[activity_tuple[service.activity_service.ACTIVITY_SUBTYPE_IDX]]
@@ -612,8 +617,6 @@ def do_gather_activity(from_date, end_date, group, employee_id):
         one_day_summary_dict['date'] = activity_tuple[service.activity_service.DATE_IDX]
         # 设置类型
         one_day_summary_dict['activityType'] = activity_tuple[service.activity_service.ACTIVITY_TYPE_IDX]
-        # 设置当前用户是否参与
-        one_day_summary_dict['participated'] = activity_detail_participated
 
         res_dict[title] = one_day_summary_dict
 
@@ -711,6 +714,11 @@ def all_activities():
         if one_day_summary_dict is None:
             one_day_summary_dict = {'title': title}
 
+        # 记录是否参与过，没有才更新
+        participated = one_day_summary_dict.get('participated')
+        if participated is None or participated == 0:
+            one_day_summary_dict['participated'] = activity_detail_participated
+
         # 记录subType及数量
         subtype_desc = constants.ACTIVITY_SUB_TYPE[activity_tuple[service.activity_service.ACTIVITY_SUBTYPE_IDX]]
         one_day_summary_dict[subtype_desc] = activity_subtype_cnt
@@ -725,8 +733,6 @@ def all_activities():
 
         # 设置类型
         one_day_summary_dict['activityType'] = activity_tuple[service.activity_service.ACTIVITY_TYPE_IDX]
-        # 设置当前用户是否参与
-        one_day_summary_dict['participated'] = activity_detail_participated
 
         res_dict[title] = one_day_summary_dict
 
